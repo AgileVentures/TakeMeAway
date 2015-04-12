@@ -43,6 +43,7 @@ end
 
 group :test do
   gem "capybara-webkit", ">= 1.2.0"
+  gem "cucumber-rails", :require => false # Cucmber features
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
