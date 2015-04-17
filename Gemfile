@@ -5,7 +5,7 @@ ruby "2.2.1"
 gem "airbrake"
 gem "bourbon", "~> 4.2.0"
 gem "coffee-rails", "~> 4.1.0"
-gem "delayed_job_active_record"
+#gem "delayed_job_active_record"
 gem "email_validator"
 gem "flutie"
 gem "high_voltage"
@@ -50,6 +50,7 @@ group :test do
   gem "shoulda-matchers", require: false
   gem "timecop"
   gem "webmock"
+  gem "capybara"
 end
 
 group :staging, :production do
