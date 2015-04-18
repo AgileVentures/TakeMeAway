@@ -49,6 +49,7 @@ group :test do
   gem "shoulda-matchers", require: false
   gem "timecop"
   gem "webmock"
+  gem 'coveralls', '~> 0.7.9', require: false
 end
 
 group :staging, :production do
