@@ -43,12 +43,14 @@ end
 
 group :test do
   gem "capybara-webkit", ">= 1.2.0"
+  gem "cucumber-rails", :require => false # Cucmber features
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
   gem "shoulda-matchers", require: false
   gem "timecop"
   gem "webmock"
+  gem "capybara"
   gem 'coveralls', '~> 0.7.9', require: false
 end
 
