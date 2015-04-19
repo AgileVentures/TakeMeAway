@@ -6,7 +6,7 @@ RSpec.describe Order, type: :model do
 
     describe 'Fixtures' do
       it 'should have valid fixture factory' do
-        expect(FactoryGirl.create(:order)).to be_valid
+        expect(FactoryGirl.create(:order, user_id: user_id)).to be_valid
       end
     end
 
