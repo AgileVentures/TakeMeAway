@@ -5,10 +5,10 @@ ruby "2.2.1"
 gem "airbrake"
 gem "bourbon", "~> 4.2.0"
 gem "coffee-rails", "~> 4.1.0"
-gem "delayed_job_active_record"
+# gem "delayed_job_active_record"
 gem "email_validator"
 gem "flutie"
-gem "high_voltage"
+# gem "high_voltage"
 gem "i18n-tasks"
 gem "jquery-rails"
 gem "neat", "~> 1.7.0"
@@ -20,7 +20,7 @@ gem "rails", "4.2.1"
 gem "recipient_interceptor"
 gem "refills"
 gem "sass-rails", "~> 5.0"
-gem "simple_form"
+# gem "simple_form"
 gem "title"
 gem "uglifier"
 gem "unicorn"
@@ -43,12 +43,15 @@ end
 
 group :test do
   gem "capybara-webkit", ">= 1.2.0"
+  gem "cucumber-rails", :require => false # Cucmber features
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
   gem "shoulda-matchers", require: false
   gem "timecop"
   gem "webmock"
+  gem "capybara"
+  gem 'coveralls', '~> 0.7.9', require: false
 end
 
 group :staging, :production do
