@@ -1,32 +1,47 @@
 # Takemeaway
+[oo-sw]: http://opensource.org/osd
+[about-us]: http://www.agileventures.org/about-us
+[members]: http://www.agileventures.org/users/index
+[av-logo]: https://raw.githubusercontent.com/AgileVentures/agileventures-profile/master/av-logo-large.png
 
-## Getting Started
+[coveralls-badge]: https://coveralls.io/repos/AgileVentures/TakeMeAway/badge.svg?branch=develop
+[coveralls]: https://coveralls.io/r/AgileVentures/TakeMeAway?branch=develop
+[semaphore-badge]: https://semaphoreci.com/api/v1/projects/745bc31b-477d-44a0-b449-ef9ef7b0ecb2/399815/badge.svg
+[semaphore]: https://semaphoreci.com/agileventures/takemeaway
+[pivotal]: https://www.pivotaltracker.com/n/projects/1321640
 
-After you have cloned this repo, run this setup script to set up your machine
-with the necessary dependencies to run and test this app:
+[![Build Status][semaphore-badge]][semaphore]
+[![Coverage Status][coveralls-badge]][coveralls]
 
-    % ./bin/setup
+## Challenge
+Build an online restaurant system to manage take away orders.
 
-It assumes you have a machine equipped with Ruby, Postgres, etc. If not, set up
-your machine with [this script].
+The application will provide an interface for restaurant owners to create and manage menu items (dishes). Current plan involves building an API to interact with external system such as Customer facing web/mobile application, allowing them to view weekly/daily menus and place an order.
 
-[this script]: https://github.com/thoughtbot/laptop
 
-After setting up, you can run the application using [foreman]:
 
-    % foreman start
+## Contributing
+In the spirit of [open source software][oo-sw], **everyone** is encouraged to help
+improve this project.
 
-If you don't have `foreman`, see [Foreman's install instructions][foreman]. It
-is [purposefully excluded from the project's `Gemfile`][exclude].
 
-[foreman]: https://github.com/ddollar/foreman
-[exclude]: https://github.com/ddollar/foreman/pull/437#issuecomment-41110407
+Here are some ways *you* can contribute:
+* by [reporting][pivotal] bugs
+* by [suggesting new features][pivotal]
+* by writing code (**no patch is too small**: fix typos, add comments, clean up
+  inconsistent whitespace)
+* by [refactoring][pivotal] code
+* by closing [issues][pivotal]
 
-## Guidelines
+Eager to get started? Check out our [Project Setup](https://github.com/AgileVentures/TakeMeAway/wiki/Project-Setup)
+page
 
-Use the following guides for getting things done, programming well, and
-programming in style.
+## About AgileVentures
+<br>
+[<img src="https://raw.githubusercontent.com/AgileVentures/agileventures-profile/master/av-logo-large.png" alt="AgileVentures Logo" style="width: 320px;"/>][about-us]
 
-* [Protocol](http://github.com/thoughtbot/guides/blob/master/protocol)
-* [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
-* [Style](http://github.com/thoughtbot/guides/blob/master/style)
+Agile Ventures is a non-profit organization dedicated to crowdsourced learning and project development. We run a [project incubator](http://www.agileventures.org/projects) that stimulates and supports development of social innovations, [open source projects and free software][oo-sw]. But first and foremost, we are a [place for learning][about-us] and personal development with [members][members] from across the world with various levels of competence and experience in software development.
+
+We are proudly using Agile methods and Ruby on Rails as the framework to deliver well tested and solid software.
+
+The principal organization behind this project is AGILEVENTURES NONPROFIT LTD., a nonprofit organization registered in the UK, company number: 08929160
