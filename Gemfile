@@ -26,8 +26,8 @@ gem "uglifier"
 gem "unicorn"
 
 group :development do
-  gem "spring"
-  gem "spring-commands-rspec"
+ # gem "spring"
+ # gem "spring-commands-rspec"
   gem "web-console"
 end
 
@@ -39,6 +39,9 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "pry-rails"
   gem "rspec-rails", "~> 3.1.0"
+  gem 'faker'
+  gem 'jc-validates_timeliness' #Date and time validation plugin for ActiveModel and Rails
+
 end
 
 group :test do
@@ -47,7 +50,7 @@ group :test do
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
-  gem "shoulda-matchers", require: false
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers', require: false
   gem "timecop"
   gem "webmock"
   gem "capybara"
