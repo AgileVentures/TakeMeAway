@@ -2,7 +2,7 @@
 [oo-sw]: http://opensource.org/osd
 [about-us]: http://www.agileventures.org/about-us
 [members]: http://www.agileventures.org/users/index
-[av-logo]: https://raw.githubusercontent.com/AgileVentures/agileventures-profile/master/av-logo-large.png
+[av-logo]: https://raw.githubusercontent.com/AgileVentures/agileventures-profile/master/small_avatar.png
 
 [coveralls-badge]: https://coveralls.io/repos/AgileVentures/TakeMeAway/badge.svg?branch=develop
 [coveralls]: https://coveralls.io/r/AgileVentures/TakeMeAway?branch=develop
@@ -38,7 +38,7 @@ page
 
 ## About AgileVentures
 <br>
-[<img src="https://raw.githubusercontent.com/AgileVentures/agileventures-profile/master/av-logo-large.png" alt="AgileVentures Logo" style="width: 320px;"/>][about-us]
+[![AgileVenture][av-logo]][about-us]
 
 Agile Ventures is a non-profit organization dedicated to crowdsourced learning and project development. We run a [project incubator](http://www.agileventures.org/projects) that stimulates and supports development of social innovations, [open source projects and free software][oo-sw]. But first and foremost, we are a [place for learning][about-us] and personal development with [members][members] from across the world with various levels of competence and experience in software development.
 
