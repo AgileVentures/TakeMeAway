@@ -1,3 +1,4 @@
+--format documentation
 --color
 --format documentation
 --require rails_helper
