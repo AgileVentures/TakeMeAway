@@ -1,7 +1,7 @@
 # Takemeaway
 [oo-sw]: http://opensource.org/osd
 [about-us]: http://www.agileventures.org/about-us
-[members]: http://www.agileventures.org/users/index
+[members]: http://www.agileventures.org/users
 [av-logo]: https://raw.githubusercontent.com/AgileVentures/agileventures-profile/master/small_avatar.png
 
 [coveralls-badge]: https://coveralls.io/repos/AgileVentures/TakeMeAway/badge.svg?branch=develop
