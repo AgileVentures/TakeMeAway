@@ -9,8 +9,8 @@
 [semaphore-badge]: https://semaphoreci.com/api/v1/projects/745bc31b-477d-44a0-b449-ef9ef7b0ecb2/399815/badge.svg
 [semaphore]: https://semaphoreci.com/agileventures/takemeaway
 [codeclimate-badge]: https://codeclimate.com/github/AgileVentures/TakeMeAway/badges/gpa.svg
-[codeclimate]: https://semaphoreci.com/agileventures/takemeaway
-[pivotal]: https://codeclimate.com/github/AgileVentures/TakeMeAway
+[codeclimate]: https://codeclimate.com/github/AgileVentures/TakeMeAway
+[pivotal]: https://www.pivotaltracker.com/n/projects/1321640
 
 [![Build Status][semaphore-badge]][semaphore]
 [![Coverage Status][coveralls-badge]][coveralls]
