@@ -9,6 +9,10 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'Associations' do
+    it { is_expected.to have_many :orders }
+  end
+
   describe 'Database Schema' do
     it { is_expected.to have_db_column :name }
     it { is_expected.to have_db_column :email }
