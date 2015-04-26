@@ -14,19 +14,23 @@ Feature: As an admin
     When I visit the site
     Then I should be on the "login" page
 
-  Scenario: Login as admin
+  Scenario: Login as admin 
     Given I am on the "login" page
     And I fill in "Email" with "admin@tma.org"
     And I fill in "Password" with "password"
     And I click "Login" button
     Then I should be on the "ActiveAdmin root" page
+    When I click the "Dashboard" link
+    And I should see link "Clients"
+    And I should see link "Admins"
 
-  Scenario: Attempt to login as Client
+  Scenario: Login as Client
     Given I am on the "login" page
     And I fill in "Email" with "client@tma.org"
     And I fill in "Password" with "password"
     And I click "Login" button
-    Then show me the page
-    Then I should be on the "Login" page
-    And I should see "You are not..."
+    Then I should be on the "ActiveAdmin root" page
+    When I click the "Dashboard" link
+    And I should not see link "Clients"
+    And I should not see link "Admins"
 

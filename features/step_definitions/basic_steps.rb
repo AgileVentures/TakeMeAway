@@ -29,3 +29,11 @@ Then /^I should( not)? see "([^"]*)"$/ do |negative, string|
     expect(page).to_not have_text string
   end
 end
+
+Then /^I should( not)? see link "([^"]*)"$/ do |negative, link|
+  unless negative
+    expect(page).to have_link link
+  else
+    expect(page).to_not have_link link
+  end
+end
