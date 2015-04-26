@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'cancan/matchers'
 
 RSpec.describe User, type: :model do
   let(:user) { FactoryGirl.create(:user) }
@@ -70,4 +71,5 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
 end

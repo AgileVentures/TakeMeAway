@@ -14,7 +14,7 @@ Feature: As an admin
     When I visit the site
     Then I should be on the "login" page
 
-  Scenario: Login as admin 
+  Scenario: Login as admin
     Given I am on the "login" page
     And I fill in "Email" with "admin@tma.org"
     And I fill in "Password" with "password"
