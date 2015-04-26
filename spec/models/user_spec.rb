@@ -30,14 +30,26 @@ RSpec.describe User, type: :model do
     it { is_expected.to_not allow_value('a@a', 'a@1b,net', '!d@e.se', 'd@a!.s0').for(:email) }
   end
 
-  describe 'User types scopes' do
+  describe 'User types' do
     before do
       3.times { FactoryGirl.create(:user) }
       @clients = User.where.not(is_admin: true)
       @admin = FactoryGirl.create(:user, is_admin: true)
     end
 
-    context ':admins' do
+    context 'admin?' do
+      it { is_expected.to respond_to :admin?}
+
+      it 'returns true if admin' do
+        expect(@admin.admin?).to be true
+      end
+
+      it 'returns false if not admin' do
+        expect(@clients[0].admin?).to be false
+      end
+    end
+
+    context ':admins scope' do
       it 'returns an array of admins' do
         expect(User.admins).to match_array @admin
       end
@@ -48,7 +60,7 @@ RSpec.describe User, type: :model do
 
     end
 
-    context ':clients' do
+    context ':clients scope' do
       it 'returns an array of clients' do
         expect(User.clients).to match_array @clients
       end
@@ -56,7 +68,6 @@ RSpec.describe User, type: :model do
       it 'excludes admins' do
         expect(User.clients).to_not include @admin
       end
-
     end
 
   end

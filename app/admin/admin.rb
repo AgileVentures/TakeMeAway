@@ -1,8 +1,8 @@
-ActiveAdmin.register User, as: 'Clients' do
+ActiveAdmin.register User, as: 'Admins' do
   #scope :clients
   #scope :admins
   scope_to do
-    User.clients
+    User.admins
   end
   permit_params :email, :password, :password_confirmation
 
