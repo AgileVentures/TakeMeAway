@@ -10,4 +10,8 @@ class User < ActiveRecord::Base
 
   scope :clients, -> { where.not(is_admin: true) }
   scope :admins, -> { where(is_admin: true) }
+
+  def admin?
+    self.is_admin
+  end
 end
