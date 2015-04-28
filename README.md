@@ -8,10 +8,13 @@
 [coveralls]: https://coveralls.io/r/AgileVentures/TakeMeAway?branch=develop
 [semaphore-badge]: https://semaphoreci.com/api/v1/projects/745bc31b-477d-44a0-b449-ef9ef7b0ecb2/399815/badge.svg
 [semaphore]: https://semaphoreci.com/agileventures/takemeaway
+[codeclimate-badge]: https://codeclimate.com/github/AgileVentures/TakeMeAway/badges/gpa.svg
+[codeclimate]: https://codeclimate.com/github/AgileVentures/TakeMeAway
 [pivotal]: https://www.pivotaltracker.com/n/projects/1321640
 
 [![Build Status][semaphore-badge]][semaphore]
 [![Coverage Status][coveralls-badge]][coveralls]
+[![Coverage Status][codeclimate-badge]][codeclimate]
 
 ## Challenge
 Build an online restaurant system to manage take away orders.

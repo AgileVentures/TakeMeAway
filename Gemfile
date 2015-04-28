@@ -24,10 +24,13 @@ gem "sass-rails", "~> 5.0"
 gem "title"
 gem "uglifier"
 gem "unicorn"
+gem 'devise'
+gem 'activeadmin', github: 'activeadmin'
+gem 'cancancan', '~> 1.10.1'
 
 group :development do
- # gem "spring"
- # gem "spring-commands-rspec"
+  # gem "spring"
+  # gem "spring-commands-rspec"
   gem "web-console"
 end
 
