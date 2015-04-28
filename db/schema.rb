@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150425193458) do
+ActiveRecord::Schema.define(version: 20150428154703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,14 @@ ActiveRecord::Schema.define(version: 20150425193458) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
+  create_table "menu_categories_menus", id: false, force: :cascade do |t|
+    t.integer "menu_category_id"
+    t.integer "menu_id"
+  end
+
+  add_index "menu_categories_menus", ["menu_category_id"], name: "index_menu_categories_menus_on_menu_category_id", using: :btree
+  add_index "menu_categories_menus", ["menu_id"], name: "index_menu_categories_menus_on_menu_id", using: :btree
+
   create_table "menu_items", force: :cascade do |t|
     t.string   "name"
     t.decimal  "price"
@@ -45,6 +53,14 @@ ActiveRecord::Schema.define(version: 20150425193458) do
 
   add_index "menu_items_orders", ["menu_item_id"], name: "index_menu_items_orders_on_menu_item_id", using: :btree
   add_index "menu_items_orders", ["order_id"], name: "index_menu_items_orders_on_order_id", using: :btree
+
+  create_table "menus", force: :cascade do |t|
+    t.boolean  "show_category"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
