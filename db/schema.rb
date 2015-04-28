@@ -16,6 +16,28 @@ ActiveRecord::Schema.define(version: 20150419175648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "menu_categories", force: :cascade do |t|
+    t.string   "name",       limit: 45
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "menu_categories_menu_items", id: false, force: :cascade do |t|
+    t.integer "menu_category_id"
+    t.integer "menu_item_id"
+  end
+
+  add_index "menu_categories_menu_items", ["menu_category_id"], name: "index_menu_categories_menu_items_on_menu_category_id", using: :btree
+  add_index "menu_categories_menu_items", ["menu_item_id"], name: "index_menu_categories_menu_items_on_menu_item_id", using: :btree
+
+  create_table "menu_categories_menus", id: false, force: :cascade do |t|
+    t.integer "menu_category_id"
+    t.integer "menu_id"
+  end
+
+  add_index "menu_categories_menus", ["menu_category_id"], name: "index_menu_categories_menus_on_menu_category_id", using: :btree
+  add_index "menu_categories_menus", ["menu_id"], name: "index_menu_categories_menus_on_menu_id", using: :btree
+
   create_table "menu_items", force: :cascade do |t|
     t.string   "name"
     t.decimal  "price"

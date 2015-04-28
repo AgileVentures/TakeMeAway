@@ -1,14 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe MenuCategory, :type => :model do
-  context 'is valid when' do
-    it 'has required attributes' do
-      expect(build(:menu_category, name: 'Lunch')).to be_valid
+  
+  describe 'Fixtures' do
+    it 'should have valid fixture factory' do
+      expect(create(:menu_category)).to be_valid
     end
   end
-  context 'is invalid when' do
-    if 'has no name' do
-      expect(build(:menu_category, name: nil)).to_not be_valid
-    end
+  
+  describe 'Associations' do
+    it { is_expected.to have_and_belong_to_many :menus }
+    it { is_expected.to have_and_belong_to_many :menu_items }
   end
+  
+  describe 'Database schema' do
+    it { is_expected.to have_db_column :name }
+    #Timestamps
+    it { is_expected.to have_db_column :created_at }
+    it { is_expected.to have_db_column :updated_at }
+  end
+  
+  describe 'Validations' do
+    it { is_expected.to validate_presence_of :name }
+  end
+  
 end
