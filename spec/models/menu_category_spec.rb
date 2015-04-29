@@ -4,7 +4,7 @@ RSpec.describe MenuCategory, :type => :model do
   
   describe 'Fixtures' do
     it 'should have valid fixture factory' do
-      expect(create(:menu_category)).to be_valid
+      expect(FactoryGirl.create(:menu_category)).to be_valid
     end
   end
   
