@@ -44,6 +44,7 @@ group :development, :test do
   gem "rspec-rails", "~> 3.1.0"
   gem 'faker'
   gem 'jc-validates_timeliness' #Date and time validation plugin for ActiveModel and Rails
+  gem 'jbuilder'
 
 end
 
