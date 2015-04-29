@@ -8,8 +8,13 @@ require 'rails_helper'
 #   t.datetime "updated_at",    null: false
 
 describe 'GET /v1/menus/:id' do
+
+  before do
+    @menu = FactoryGirl.create(:menu)
+  end
+
   it 'returns a menu by :id' do
-    menu = FactoryGirl.create(:menu)
+    menu = @menu
     get "/v1/menus/#{menu.id}"
     expect(response_json).to eq({'menu' =>
                                      {

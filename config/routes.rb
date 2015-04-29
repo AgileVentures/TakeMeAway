@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   scope module: :api, defaults: {format: 'json'} do
     namespace :v1 do
+      post :sessions, controller: :sessions, action: :get_token
       resources :menus, only: [:show]
     end
   end
