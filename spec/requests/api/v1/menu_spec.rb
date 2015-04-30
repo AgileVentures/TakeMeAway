@@ -9,7 +9,27 @@ describe Api::V1::MenusController do
 
     it 'returns a menu index' do
       get "/v1/menus"
-      puts response_json
+      expect(response_json).to eq({'menus' =>
+                                       [{'menu' =>
+                                             {'id' => @menus[0].id,
+                                              'start_date' => @menus[0].start_date.strftime('%F'),
+                                              'end_date' => @menus[0].end_date.strftime('%F')},
+                                         'specials' =>
+                                             {'items' => 'no items'}},
+                                        {'menu' =>
+                                             {'id' => @menus[1].id,
+                                              'start_date' => @menus[1].start_date.strftime('%F'),
+                                              'end_date' => @menus[1].end_date.strftime('%F')},
+                                         'specials' =>
+                                             {'items' => 'no items'}},
+                                        {'menu' =>
+                                             {'id' => @menus[2].id,
+                                              'start_date' => @menus[2].start_date.strftime('%F'),
+                                              'end_date' => @menus[2].end_date.strftime('%F')},
+                                         'specials' =>
+                                             {'items' => 'no items'}
+                                        }]
+                                  })
     end
 
     it 'returns a menu by :id' do
