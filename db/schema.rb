@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150501055921) do
     t.integer "menu_item_id"
   end
 
+  add_index "menu_items_menus", ["menu_id", "menu_item_id"], name: "index_menu_items_menus_on_menu_id_and_menu_item_id", unique: true, using: :btree
   add_index "menu_items_menus", ["menu_id"], name: "index_menu_items_menus_on_menu_id", using: :btree
   add_index "menu_items_menus", ["menu_item_id"], name: "index_menu_items_menus_on_menu_item_id", using: :btree
 
