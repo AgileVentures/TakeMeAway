@@ -12,6 +12,7 @@ RSpec.describe MenuItem, type: :model do
     describe 'Associations' do
       # it { is_expected.to have_one :image}
       it { is_expected.to have_and_belong_to_many :orders }
+      it { is_expected.to have_and_belong_to_many :menus }
       it { is_expected.to have_and_belong_to_many :menu_categories }
     end
 
