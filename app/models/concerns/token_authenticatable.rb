@@ -1,7 +1,7 @@
 module TokenAuthenticatable
   extend ActiveSupport::Concern
 
-  module ClassMethods
+  class_methods do
     def find_by_authentication_token(authentication_token = nil)
       if authentication_token
         where(authentication_token: authentication_token).first
