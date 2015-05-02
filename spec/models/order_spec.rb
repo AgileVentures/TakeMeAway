@@ -6,13 +6,13 @@ RSpec.describe Order, type: :model do
 
     describe 'Fixtures' do
       it 'should have valid fixture factory' do
-        expect(FactoryGirl.create(:order, user_id: user_id)).to be_valid
+        expect(FactoryGirl.create(:order)).to be_valid
       end
     end
 
     describe 'Associations' do
       it { is_expected.to have_and_belong_to_many :menu_items }
-      #it { is_expected.to belong_to :user }
+      it { is_expected.to belong_to :user }
     end
 
     describe 'Database schema' do
@@ -29,8 +29,7 @@ RSpec.describe Order, type: :model do
     end
 
     describe 'Validations' do
-      it { is_expected.to validate_presence_of :user_id }
-
+      it { is_expected.to validate_presence_of :user }
 
       context 'for :pickup_time' do
         it { is_expected.to allow_value(Time.now).for :pickup_time }
