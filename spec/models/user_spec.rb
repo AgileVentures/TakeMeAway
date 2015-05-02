@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'cancan/matchers'
 
 RSpec.describe User, type: :model do
+  it_behaves_like 'token_authenticatable'
   let(:user) { FactoryGirl.create(:user) }
 
   describe 'Fixtures' do

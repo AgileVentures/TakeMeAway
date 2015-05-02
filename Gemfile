@@ -2,7 +2,6 @@ source "https://rubygems.org"
 
 ruby "2.2.1"
 
-gem "airbrake"
 gem "bourbon", "~> 4.2.0"
 gem "coffee-rails", "~> 4.1.0"
 # gem "delayed_job_active_record"
@@ -44,6 +43,7 @@ group :development, :test do
   gem "rspec-rails", "~> 3.1.0"
   gem 'faker'
   gem 'jc-validates_timeliness' #Date and time validation plugin for ActiveModel and Rails
+  gem 'jbuilder'
 
 end
 

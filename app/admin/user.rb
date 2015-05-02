@@ -11,7 +11,7 @@ ActiveAdmin.register User, as: 'Clients' do
     # id_column
     column :name
     column :email
-    column 'Member since', :created_at
+    column 'Joined at', :created_at
     actions
   end
 
