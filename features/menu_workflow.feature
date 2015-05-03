@@ -8,9 +8,15 @@ Feature:
       | name    | price |
       | Chicken | 20    |
       | Beef    | 30    |
-        #<data table here - 3 menu items>
     And I am logged in as admin
 
+  Scenario: Create a menu
+    Given I am on the "Menus" page
+    And I click "New Menu" button
+    Then show me the page
+    #And I fill in "<string>" with "<string>"
+
+  
 #  Scenario: Create menu category with menu items
 #    When I go to the menu categories admin page
 #    And I create a new menu category called 'Lunch'
