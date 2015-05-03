@@ -18,6 +18,7 @@ RSpec.describe Menu, :type => :model do
 
   describe 'Database schema' do
     it { is_expected.to have_db_column :show_category }
+    it { is_expected.to have_db_column :title }
     it { is_expected.to have_db_column :start_date }
     it { is_expected.to have_db_column :end_date }
     # Timestamps
@@ -27,6 +28,7 @@ RSpec.describe Menu, :type => :model do
   end
 
   describe 'Validations' do
+    it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :start_date }
     it { is_expected.to validate_presence_of :end_date }
   end
