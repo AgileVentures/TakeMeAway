@@ -42,3 +42,12 @@ Feature: As Admin,
     Then I should see an index of "Products"
     And I should see "Menu item was successfully destroyed."
     And I should see 1 record rows
+
+  Scenario: Update the MenuItem description
+    When I click the "edit" link for "Beef"
+    Then I should be on the edit page for "Beef"
+    When I fill in "Description" with "Lorem ipsum..."
+    And I click "Update Menu item" button
+    Then I should be on the product page for "Beef"
+    And I should see "Lorem ipsum..."
+
