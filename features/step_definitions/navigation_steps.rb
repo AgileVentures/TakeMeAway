@@ -24,3 +24,9 @@ end
 Given /^I am on the "([^"]*)" page$/ do |page|
   visit path_to(page)
 end
+
+
+Then(/^I should be on the product page for "([^"]*)"$/) do |item|
+  product = MenuItem.find_by(name: item)
+  expect(current_path).to eq admin_product_path(product)
+end

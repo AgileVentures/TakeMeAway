@@ -14,3 +14,18 @@ Feature: As Admin,
   Scenario: View index
     Then I should see an index of "Products"
     And I should see 2 record rows
+
+  Scenario: Create a new MenuItem
+    When I click the "New Product" link
+    And I fill in "Name" with "Pork"
+    And I fill in "Price" with "25"
+    And I click "Create Menu item" button
+    Then I should be on the product page for "Pork"
+
+  Scenario: Edit existing MenuItem
+
+
+  Scenario: View existing MenuItem
+
+
+  Scenario: Delete exiting MenuItem
