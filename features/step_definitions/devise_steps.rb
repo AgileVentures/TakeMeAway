@@ -12,17 +12,13 @@ Given /^I am not (?:signed|logged) in$/ do
   end
 end
 
-Given(/^the following users exist:$/) do |table|
-  table.hashes.each do |hash|
-    User.create!(hash)
-  end
-end
 
 Given /^I am logged in as admin$/ do
   params = {email: 'example@example.com', password: 'password'}
   create_admin(params)
   step %{I am on the "login" page}
-  step %{I fill in "Email" with "#{params[:name]}"}
+  step %{I fill in "Email" with "#{params[:email]}"}
   step %{I fill in "Password" with "#{params[:password]}"}
   step %{I click "Login" button}
+  step %{I should be on the "ActiveAdmin root" page}
 end
