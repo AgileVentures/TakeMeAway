@@ -30,3 +30,8 @@ Then(/^I should be on the product page for "([^"]*)"$/) do |item|
   product = MenuItem.find_by(name: item)
   expect(current_path).to eq admin_product_path(product)
 end
+
+Then(/^I should be on the edit page for "([^"]*)"$/) do |item|
+  product = MenuItem.find_by(name: item)
+  expect(current_path).to eq edit_admin_product_path(product)
+end
