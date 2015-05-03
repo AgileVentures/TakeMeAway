@@ -33,6 +33,12 @@ Feature: As Admin,
 
 
   Scenario: View existing MenuItem
+    When I click the "view" link for "Beef"
+    Then I should be on the view page for "Beef"
 
 
   Scenario: Delete exiting MenuItem
+    When I click the "delete" link for "Beef"
+    Then I should see an index of "Products"
+    And I should see "Menu item was successfully destroyed."
+    And I should see 1 record rows
