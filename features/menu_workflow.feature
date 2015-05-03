@@ -13,8 +13,8 @@ Feature:
   Scenario: Create a menu
     Given I am on the "Menus" page
     And I click the "New Menu" link
+    And I fill in "Title" with "Monday menu"
     Then show me the page
-    #And I fill in "<string>" with "<string>"
 
 
 #  Scenario: Create menu category with menu items

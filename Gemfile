@@ -26,6 +26,7 @@ gem "unicorn"
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
 gem 'cancancan', '~> 1.10.1'
+gem 'active_admin_datetimepicker'
 
 group :development do
   # gem "spring"
