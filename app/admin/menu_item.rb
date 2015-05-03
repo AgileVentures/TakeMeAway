@@ -1,10 +1,10 @@
 ActiveAdmin.register MenuItem, as: 'Products' do
 
-  permit_params :name, :price
+  permit_params :name, :price, :description
 
   index do
     selectable_column
-    id_column
+    #id_column
     column :name
     column :price
     actions
@@ -12,10 +12,12 @@ ActiveAdmin.register MenuItem, as: 'Products' do
 
   filter :name
   filter :price
+
   form do |f|
     f.inputs 'Product Details' do
       f.input :name
       f.input :price
+      f.input :description
     end
     f.actions
   end
