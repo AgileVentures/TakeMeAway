@@ -12,11 +12,11 @@ Feature:
 
   Scenario: Create a menu
     Given I am on the "Menus" page
-    And I click "New Menu" button
+    And I click the "New Menu" link
     Then show me the page
     #And I fill in "<string>" with "<string>"
 
-  
+
 #  Scenario: Create menu category with menu items
 #    When I go to the menu categories admin page
 #    And I create a new menu category called 'Lunch'
