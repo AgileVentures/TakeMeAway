@@ -36,6 +36,17 @@ ActionController::Base.allow_rescue = false
 Capybara.javascript_driver = :poltergeist
 Capybara.default_wait_time = 5
 
+options = {
+    inspector: true,
+    port: 3010
+}
+
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new app, options
+end
+
+
+
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
