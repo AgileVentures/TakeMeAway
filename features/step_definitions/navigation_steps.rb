@@ -9,6 +9,8 @@ def path_to(page_name, id = '')
       admin_dashboard_path
     when 'activeadmin root'
       admin_root_path
+    when 'products' then
+      admin_products_path
     else
       raise('path to specified is not listed in #path_to')
   end
