@@ -4,6 +4,12 @@ Given(/^the following MenuItems exits:$/) do |table|
   end
 end
 
+Given(/^the following Menus exits:$/) do |table|
+  table.hashes.each do |hash|
+    Menu.create!(hash)
+  end
+end
+
 Given(/^the following users exist:$/) do |table|
   table.hashes.each do |hash|
     User.create!(hash)

@@ -20,21 +20,21 @@ Feature: As Admin,
     And I fill in "Name" with "Pork"
     And I fill in "Price" with "25"
     And I click "Create Menu item" button
-    Then I should be on the product page for "Pork"
+    Then I should be on the view page for Menu Item "Pork"
     And I should see "Menu item was successfully created."
 
   Scenario: Edit existing MenuItem
     When I click the "edit" link for "Beef"
-    Then I should be on the edit page for "Beef"
+    Then I should be on the edit page for Menu Item "Beef"
     When I fill in "Price" with "35"
     And I click "Update Menu item" button
-    Then I should be on the product page for "Beef"
+    Then I should be on the view page for Menu Item "Beef"
     And I should see "Menu item was successfully updated."
 
 
   Scenario: View existing MenuItem
     When I click the "view" link for "Beef"
-    Then I should be on the view page for "Beef"
+    Then I should be on the view page for Menu Item "Beef"
 
 
   Scenario: Delete exiting MenuItem
@@ -45,9 +45,9 @@ Feature: As Admin,
 
   Scenario: Update the MenuItem description
     When I click the "edit" link for "Beef"
-    Then I should be on the edit page for "Beef"
+    Then I should be on the edit page for Menu Item "Beef"
     When I fill in "Description" with "Lorem ipsum..."
     And I click "Update Menu item" button
-    Then I should be on the product page for "Beef"
+    Then I should be on the view page for Menu Item "Beef"
     And I should see "Lorem ipsum..."
 

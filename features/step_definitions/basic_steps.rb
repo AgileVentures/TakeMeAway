@@ -22,6 +22,10 @@ When(/^I click the "([^"]*)" link$/) do |link|
   click_link link
 end
 
+When(/^I focus on input field with id "([^"]*)"$/) do |id|
+  page.execute_script "$('##{id}').focus();"
+end
+
 Then /^I should( not)? see "([^"]*)"$/ do |negative, string|
   unless negative
     expect(page).to have_text string

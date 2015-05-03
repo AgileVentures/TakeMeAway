@@ -28,17 +28,23 @@ Given /^I am on the "([^"]*)" page$/ do |page|
 end
 
 
-Then(/^I should be on the product page for "([^"]*)"$/) do |item|
-  product = MenuItem.find_by(name: item)
-  expect(current_path).to eq admin_product_path(product)
-end
-
-Then(/^I should be on the edit page for "([^"]*)"$/) do |item|
+Then(/^I should be on the edit page for Menu Item "([^"]*)"$/) do |item|
   product = MenuItem.find_by(name: item)
   expect(current_path).to eq edit_admin_product_path(product)
 end
 
-Then(/^I should be on the view page for "([^"]*)"$/) do |item|
+Then(/^I should be on the view page for Menu Item "([^"]*)"$/) do |item|
   product = MenuItem.find_by(name: item)
   expect(current_path).to eq admin_product_path(product)
 end
+
+Then(/^I should be on the edit page for Menu "([^"]*)"$/) do |item|
+  menu = Menu.find_by(title: item)
+  expect(current_path).to eq edit_admin_menu_path(menu)
+end
+
+Then(/^I should be on the view page for Menu "([^"]*)"$/) do |item|
+  menu = Menu.find_by(title: item)
+  expect(current_path).to eq admin_menu_path(menu)
+end
+
