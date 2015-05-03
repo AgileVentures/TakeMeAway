@@ -22,7 +22,8 @@ When(/^I click the "([^"]*)" link$/) do |link|
   click_link link
 end
 
-When(/^I focus on input field with id "([^"]*)"$/) do |id|
+When(/^I focus on input field with id "([^"]*)"$/) do |element|
+  id = element.downcase.tr!(' ', '_')
   page.execute_script "$('##{id}').focus();"
 end
 
@@ -40,4 +41,9 @@ Then /^I should( not)? see link "([^"]*)"$/ do |negative, link|
   else
     expect(page).to_not have_link link
   end
+end
+
+And(/^I select the date "([^"]*)" in datepicker for ([^"]*)$/) do |date, element|
+  id = element.downcase.tr!(' ', '_')
+  page.execute_script "$('input.date-time-picker##{id}').val('#{date}');"
 end
