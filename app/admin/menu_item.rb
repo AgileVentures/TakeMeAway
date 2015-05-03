@@ -1,6 +1,6 @@
 ActiveAdmin.register MenuItem, as: 'Products' do
 
-  permit_params :name, :price
+  permit_params :name, :price, :description
 
   index do
     selectable_column
