@@ -4,8 +4,8 @@ ActiveAdmin.register Menu do
   form do |f|
     f.inputs 'Menu Details' do
       f.input :title
-      f.input :start_date, as: :date_time_picker, datepicker_options: { format: '%Y-%m-%d'}
-      f.input :end_date, as: :date_time_picker, datepicker_options: { format: '%Y-%m-%d'}
+      f.input :start_date, as: :date_time_picker, datepicker_options: { format: 'Y-m-d'}
+      f.input :end_date, as: :date_time_picker, datepicker_options: { format: 'Y-m-d'}
     end
     f.actions
   end
