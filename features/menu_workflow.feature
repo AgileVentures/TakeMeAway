@@ -16,6 +16,7 @@ Feature:
 
     And I am logged in as admin
     And I am on the "Menus" page
+    And I click the "All" link
 
   Scenario: View index
     Then I should see an index of "Menus"

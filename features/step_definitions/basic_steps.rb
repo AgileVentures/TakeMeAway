@@ -45,7 +45,7 @@ end
 
 And(/^I select the date "([^"]*)" in datepicker for ([^"]*)$/) do |date, element|
   id = element.downcase.tr!(' ', '_')
-  page.execute_script "$('input.date-time-picker##{id}').val('#{date}');"
+  page.execute_script "$('input##{id}').val('#{date}');"
 end
 
 When(/^I select "([^"]*)" to "([^"]*)"$/) do |field, option|
