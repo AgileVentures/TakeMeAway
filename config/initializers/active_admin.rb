@@ -1,3 +1,10 @@
+class MyFooter < ActiveAdmin::Component
+  def build
+    super(id: 'footer')
+    para "Developed by #{link_to 'AgileVentures', 'http://www.agileventures.org', target: '_blank'} #{Date.today.year}. This site's source code is licensed under the #{link_to 'MIT License (MIT)', 'http://en.wikipedia.org/wiki/MIT_License', target: '_blank'}".html_safe
+  end
+end
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -5,6 +12,7 @@ ActiveAdmin.setup do |config|
   # for each of the active admin pages.
   #
   config.site_title = 'Take Me Away'
+  config.view_factory.footer = MyFooter
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -30,6 +38,7 @@ ActiveAdmin.setup do |config|
   # will namespace routes to /hello_world/*
   #
   # To set no namespace by default, use:
+  #
   #   config.default_namespace = false
   #
   # Default:
@@ -190,11 +199,11 @@ ActiveAdmin.setup do |config|
   #
   # If you wanted to add a static menu item to the default menu provided:
   #
-  #   config.namespace :admin do |admin|
-  #     admin.build_menu :default do |menu|
-  #       menu.add label: "My Great Website", url: "http://www.mygreatwebsite.com", html_options: { target: :blank }
-  #     end
-  #   end
+    # config.namespace :admin do |admin|
+    #   admin.build_menu :default do |menu|
+    #     menu.add label: 'AgileVentures', url: 'http://www.agileventures.org', html_options: { target: :blank }, priority: 0
+    #   end
+    # end
 
   # == Download Links
   #
