@@ -71,3 +71,15 @@ On failure
 }
 ```
 
+##### Orders
+
+Type: **POST**
+URL:
+```
+.../v1/order
+```
+
+Returns
+
+```
+```
