@@ -26,6 +26,7 @@ gem "unicorn"
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
 gem 'cancancan', '~> 1.10.1'
+gem 'active_admin_datetimepicker'
 
 group :development do
   # gem "spring"
@@ -44,7 +45,8 @@ group :development, :test do
   gem 'faker'
   gem 'jc-validates_timeliness' #Date and time validation plugin for ActiveModel and Rails
   gem 'jbuilder'
-
+  gem 'poltergeist' # Headless javascript driver
+  gem 'selenium-webdriver' # javascript driver used for debugging
 end
 
 group :test do

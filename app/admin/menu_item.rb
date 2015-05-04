@@ -22,4 +22,11 @@ ActiveAdmin.register MenuItem, as: 'Products' do
     f.actions
   end
 
+  show do
+    attributes_table do
+      row :price
+      row :description
+    end
+  end
+
 end

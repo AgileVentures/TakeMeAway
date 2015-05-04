@@ -5,6 +5,10 @@
 # files.
 
 require 'cucumber/rails'
+require 'webmock/cucumber'
+require 'capybara/poltergeist'
+
+WebMock.disable_net_connect!(:allow_localhost => true)
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -27,6 +31,21 @@ require 'cucumber/rails'
 # recommended as it will mask a lot of errors for you!
 #
 ActionController::Base.allow_rescue = false
+
+# Javascript Driver
+Capybara.javascript_driver = :poltergeist
+Capybara.default_wait_time = 5
+
+options = {
+    inspector: true,
+    port: 3010
+}
+
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new app, options
+end
+
+
 
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.

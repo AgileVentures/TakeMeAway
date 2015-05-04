@@ -11,6 +11,8 @@ def path_to(page_name, id = '')
       admin_root_path
     when 'products' then
       admin_products_path
+    when 'menus' then
+      admin_menus_path
     else
       raise('path to specified is not listed in #path_to')
   end
@@ -26,17 +28,23 @@ Given /^I am on the "([^"]*)" page$/ do |page|
 end
 
 
-Then(/^I should be on the product page for "([^"]*)"$/) do |item|
-  product = MenuItem.find_by(name: item)
-  expect(current_path).to eq admin_product_path(product)
-end
-
-Then(/^I should be on the edit page for "([^"]*)"$/) do |item|
+Then(/^I should be on the edit page for Menu Item "([^"]*)"$/) do |item|
   product = MenuItem.find_by(name: item)
   expect(current_path).to eq edit_admin_product_path(product)
 end
 
-Then(/^I should be on the view page for "([^"]*)"$/) do |item|
+Then(/^I should be on the view page for Menu Item "([^"]*)"$/) do |item|
   product = MenuItem.find_by(name: item)
   expect(current_path).to eq admin_product_path(product)
 end
+
+Then(/^I should be on the edit page for Menu "([^"]*)"$/) do |item|
+  menu = Menu.find_by(title: item)
+  expect(current_path).to eq edit_admin_menu_path(menu)
+end
+
+Then(/^I should be on the view page for Menu "([^"]*)"$/) do |item|
+  menu = Menu.find_by(title: item)
+  expect(current_path).to eq admin_menu_path(menu)
+end
+
