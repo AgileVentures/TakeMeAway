@@ -16,6 +16,7 @@ Feature:
 
     And I am logged in as admin
     And I am on the "Menus" page
+    And I click the "All" link
 
   Scenario: View index
     Then I should see an index of "Menus"
@@ -49,8 +50,9 @@ Feature:
 
   Scenario: Delete exiting Menu
     When I click the "delete" link for "Tuesday"
-    Then I should see an index of "Menus"
     And I should see "Menu was successfully destroyed."
+    And I click the "All" link
+    Then I should see an index of "Menus"
     And I should see 1 record rows
 
   Scenario: Add MenuItem to menu
