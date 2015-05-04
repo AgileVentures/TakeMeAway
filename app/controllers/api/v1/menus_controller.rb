@@ -2,7 +2,7 @@ class Api::V1::MenusController < ApiController
   before_action :authenticate_api_app
 
   def index
-    @menus = Menu.all
+    @menus = Menu.this_week
   end
 
   def show

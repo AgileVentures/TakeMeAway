@@ -42,6 +42,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "pry-rails"
   gem "rspec-rails", "~> 3.1.0"
+  gem 'timecop'
   gem 'faker'
   gem 'jc-validates_timeliness' #Date and time validation plugin for ActiveModel and Rails
   gem 'jbuilder'
@@ -56,7 +57,6 @@ group :test do
   gem "formulaic"
   gem "launchy"
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers', require: false
-  gem "timecop"
   gem "webmock"
   gem "capybara"
   gem 'coveralls', '~> 0.7.9', require: false
