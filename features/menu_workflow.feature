@@ -8,6 +8,12 @@ Feature:
       | title   | start_date | end_date   |
       | Monday  | 2015-01-01 | 2015-01-05 |
       | Tuesday | 2015-01-02 | 2015-01-11 |
+
+    And the following MenuItems exits:
+      | name    | price |
+      | Chicken | 20    |
+      | Beef    | 30    |
+
     And I am logged in as admin
     And I am on the "Menus" page
 
@@ -25,12 +31,6 @@ Feature:
     Then I should be on the view page for Menu "Monday menu"
     And I should see "Menu was successfully created"
 
-  Scenario: Delete exiting MenuItem
-    When I click the "delete" link for "Tuesday"
-    Then I should see an index of "Menus"
-    And I should see "Menu was successfully destroyed."
-    And I should see 1 record rows
-
   @javascript
   Scenario: Edit existing menu
     When I click the "edit" link for "Monday"
@@ -41,12 +41,34 @@ Feature:
     Then I should be on the view page for Menu "Wedensday"
     And I should see "Menu was successfully updated"
 
-  Scenario: View existing MenuItem
+  Scenario: View existing Menu
     When I click the "view" link for "Monday"
     Then I should be on the view page for Menu "Monday"
     And I should see "Monday"
-    And I should see "January 01, 2015"
-    And I should see "January 05, 2015"
+    And I should see "Monday 2015-01-01"
+
+  Scenario: Delete exiting Menu
+    When I click the "delete" link for "Tuesday"
+    Then I should see an index of "Menus"
+    And I should see "Menu was successfully destroyed."
+    And I should see 1 record rows
+
+  Scenario: Add MenuItem to menu
+    When I click the "edit" link for "Monday"
+    And I select "Menu Item" to "Chicken"
+    And I select "Menu Item" to "Beef"
+    And I click "Update Menu" button
+    Then "Chicken" should be added as an MenuItem to "Monday"
+    Then "Beef" should be added as an MenuItem to "Monday"
+
+  Scenario: Remove MenuItem from menu
+    Given "Chicken" has been added as an MenuItem to "Monday"
+    And  "Beef" has been added as an MenuItem to "Monday"
+    And I click the "edit" link for "Monday"
+    And I unselect "Chicken" from "Menu Item"
+    And I click "Update Menu" button
+    Then "Chicken" should not be an MenuItem to "Monday"
+
 
 
 
