@@ -6,7 +6,6 @@
 //
 // For example, to change the sidebar width:
 // $sidebar-width: 242px;
-
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
@@ -17,4 +16,12 @@
 //
 //   .status_tag { background: #6090DB; }
 
-
+.custom-select {
+  min-width: 200px;
+  border: 1px solid #c9d0d6;
+  border-radius: 3px;
+  font-size: 0.95em;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  outline: none;
+  padding: 8px 10px 7px;
+}

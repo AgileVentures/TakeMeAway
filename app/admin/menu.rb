@@ -2,6 +2,9 @@ ActiveAdmin.register Menu do
   permit_params :title, :start_date, :end_date,
                 menu_item_ids: []
 
+  scope 'Current week', :this_week, default: true
+  scope :all
+
   controller do
     def show
       params[:menu] = Menu.find(params[:id])
@@ -20,10 +23,10 @@ ActiveAdmin.register Menu do
   form do |f|
     f.inputs 'Menu Details' do
       f.input :title
-      f.input :start_date, as: :date_time_picker, datepicker_options: {format: 'Y-m-d'}
-      f.input :end_date, as: :date_time_picker, datepicker_options: {format: 'Y-m-d'}
+      f.input :start_date, as: :datepicker, datepicker_options: {format: 'Y-m-d'}
+      f.input :end_date, as: :datepicker, datepicker_options: {format: 'Y-m-d'}
       f.inputs 'Menu Items' do
-        f.input :menu_items, as: :select, input_html: {multiple: true}
+        f.input :menu_items, as: :select, input_html: {multiple: true, class: 'custom-select'}
       end
 
     end
