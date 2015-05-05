@@ -10,7 +10,6 @@ class Api::V1::OrdersController < ApiController
 
   def create
     attributes = order_params
-    binding.pry
     @order = Order.create(attributes)
     invalid_request unless @order.save
   end

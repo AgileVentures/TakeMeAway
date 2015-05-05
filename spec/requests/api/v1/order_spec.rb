@@ -19,9 +19,11 @@ describe Api::V1::OrdersController do
     end
 
     it 'creates an Order instance' do
+      puts response_json
       expect(response_json).to eq({'instance' =>
                                        {
-                                           'user_id' => user.id
+                                           'user' => user.id,
+                                           'status' => 'pending'
                                        }
                                   })
     end
