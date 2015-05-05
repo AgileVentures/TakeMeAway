@@ -47,5 +47,20 @@ module TakeMeAway
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
 
+    cors_options = {
+      debug: true,
+      logger: (-> { Rails.logger })
+    }
+
+    config.middleware.insert_before 0, 'Rack::Cors', cors_options do
+      allow do
+        origins '*'
+
+        resource '*',
+                 headers: :any,
+                 methods: [:get, :post, :delete, :put, :options, :head],
+                 max_age: 0
+      end
+    end
   end
 end
