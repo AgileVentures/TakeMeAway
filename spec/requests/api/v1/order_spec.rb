@@ -11,11 +11,19 @@ describe Api::V1::OrdersController do
   # t.datetime "updated_at",       null: false
 
   let(:user) { FactoryGirl.create(:user) }
-  let(:params) { {order: {user_id: user.id, status: 'pending', order_time: Time.zone.now, pickup_time: Time.zone.now + 1.hour}} }
-  let(:request) { }
+  let(:params) { {order:
+                      {user_id: user.id,
+                       status: 'pending',
+                       order_time: Time.zone.now,
+                       pickup_time: Time.zone.now + 1.hour,
+                      },
+                  menu_items: [menu_item.id]}
+  }
+  let(:menu_item) { FactoryGirl.create(:menu_item) }
 
   describe 'POST /v1/orders' do
     it 'creates an Order instance' do
+      #binding.pry
       expect { post '/v1/orders', params.to_json }.to change(Order, :count).by 1
     end
 
@@ -25,7 +33,11 @@ describe Api::V1::OrdersController do
       expect(response_json).to eq({'instance' =>
                                        {
                                            'user' => user.id,
-                                           'status' => 'pending'
+                                           'status' => 'pending',
+                                           'menu_items' =>
+                                               {'id' => menu_item.id,
+                                                'name' => menu_item.name,
+                                                'price' => menu_item.price.to_f}
                                        }
                                   })
     end
@@ -36,6 +48,7 @@ describe Api::V1::OrdersController do
   describe 'GET /v1/orders/:id' do
     before do
       @order = FactoryGirl.create(:order, user_id: user.id, status: 'pending', order_time: Time.zone.now, pickup_time: Time.zone.now + 1.hour)
+      @order.menu_items << menu_item
     end
 
     it 'returns Order by id' do
@@ -43,7 +56,11 @@ describe Api::V1::OrdersController do
       expect(response_json).to eq({'instance' =>
                                        {
                                            'user' => user.id,
-                                           'status' => 'pending'
+                                           'status' => 'pending',
+                                           'menu_items' =>
+                                               {'id' => menu_item.id,
+                                                'name' => menu_item.name,
+                                                'price' => menu_item.price.to_f}
                                        }
                                   })
     end
