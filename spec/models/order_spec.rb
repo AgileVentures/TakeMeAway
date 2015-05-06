@@ -32,7 +32,7 @@ RSpec.describe Order, type: :model do
       it { is_expected.to validate_presence_of :user }
 
       context 'for :pickup_time' do
-        it { is_expected.to allow_value(Time.now).for :pickup_time }
+        it { is_expected.to allow_value(Time.now + 1.hour).for :pickup_time }
         it { is_expected.not_to allow_value(Faker::Time.between(3.days.ago, 2.days.ago)).for :pickup_time }
       end
     end

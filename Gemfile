@@ -28,6 +28,7 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'cancancan', '~> 1.10.1'
 gem 'active_admin_datetimepicker'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'date_validator'
 
 group :development do
   # gem "spring"
@@ -64,4 +65,5 @@ group :test do
 end
 
 group :staging, :production do
+  gem 'rails_12factor'
 end
