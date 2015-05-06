@@ -56,7 +56,7 @@ module TakeMeAway
       allow do
         origins '*'
 
-        resource '*',
+        resource '/v1*',
                  headers: :any,
                  methods: [:get, :post, :delete, :put, :options, :head],
                  max_age: 0
