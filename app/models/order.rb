@@ -1,10 +1,9 @@
 class Order < ActiveRecord::Base
-  include ActiveModel::Validations
 
   has_and_belongs_to_many :menu_items
   belongs_to :user
 
   validates_presence_of :user
 
-  validates_date :pickup_time, on_or_after: lambda { Date.current }
+  validates :pickup_time, on_or_after: lambda { Date.current }
 end
