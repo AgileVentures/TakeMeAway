@@ -1,11 +1,15 @@
 json.instance do
   json.user @order.user_id
   json.status @order.status
-  json.menu_items do
-    @order.menu_items.each do |item|
+
+  if @order.menu_items
+    json.items @order.menu_items do |item|
       json.id item.id
-      json.name item.name
-      json.price item.price.to_f
+      json.item item.name
+      json.price item.price
     end
+  else
+    json.items '"no items"'
   end
+
 end
