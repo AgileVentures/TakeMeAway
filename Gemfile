@@ -27,6 +27,7 @@ gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
 gem 'cancancan', '~> 1.10.1'
 gem 'active_admin_datetimepicker'
+gem 'date_validator'
 
 group :development do
   # gem "spring"
