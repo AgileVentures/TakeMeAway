@@ -238,6 +238,7 @@ GEM
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     rack (1.6.0)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack-timeout (0.2.4)
@@ -404,6 +405,7 @@ DEPENDENCIES
   pg
   poltergeist
   pry-rails
+  rack-cors
   rack-timeout
   rails (= 4.2.1)
   recipient_interceptor
