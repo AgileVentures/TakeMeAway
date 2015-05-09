@@ -1,5 +1,5 @@
 class Api::V1::OrdersController < ApiController
-  before_action :convert_json_to_params, only: [:create]
+  before_action :convert_json_to_params, only: [:create, :update]
 
   # t.integer  "user_id"
   # t.string   "status"
@@ -19,7 +19,8 @@ class Api::V1::OrdersController < ApiController
 
 
   def update
-
+    @order = Order.find(params[:id])
+    invalid_request unless make_updates
   end
 
   def index
@@ -50,6 +51,16 @@ class Api::V1::OrdersController < ApiController
 
   def add_order_item(id)
     @order.menu_items << MenuItem.find(id)
+  end
+
+  def purge_order_items
+    @order.menu_items.delete_all
+  end
+
+  def make_updates
+    @order.update_attributes(order_params)
+    purge_order_items
+    order_items_params.each { |item| add_order_item(item) }
   end
 
 

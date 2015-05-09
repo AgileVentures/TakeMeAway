@@ -17,9 +17,9 @@ describe Api::V1::OrdersController do
                        order_time: Time.zone.now,
                        pickup_time: Time.zone.now + 1.hour,
                       },
-                  menu_items: [menu_item.id]}
-  }
+                  menu_items: [menu_item.id]} }
   let(:menu_item) { FactoryGirl.create(:menu_item) }
+  let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item') }
 
   describe 'POST /v1/orders' do
     it 'creates an Order instance' do
@@ -34,10 +34,10 @@ describe Api::V1::OrdersController do
                                        {
                                            'user' => user.id,
                                            'status' => 'pending',
-                                           'menu_items' =>
-                                               {'id' => menu_item.id,
-                                                'name' => menu_item.name,
-                                                'price' => menu_item.price.to_f}
+                                           'items' =>
+                                               [{'id' => menu_item.id,
+                                                'item' => menu_item.name,
+                                                'price' => menu_item.price.to_f}]
                                        }
                                   })
     end
@@ -57,10 +57,10 @@ describe Api::V1::OrdersController do
                                        {
                                            'user' => user.id,
                                            'status' => 'pending',
-                                           'menu_items' =>
-                                               {'id' => menu_item.id,
-                                                'name' => menu_item.name,
-                                                'price' => menu_item.price.to_f}
+                                           'items' =>
+                                               [{'id' => menu_item.id,
+                                                'item' => menu_item.name,
+                                                'price' => menu_item.price.to_f}]
                                        }
                                   })
     end
@@ -68,7 +68,18 @@ describe Api::V1::OrdersController do
 
   end
 
-  describe 'POST /v1/orders/user/:id' do
+  describe 'PATCH /v1/orders/user/:id' do
+    before do
+      @order = FactoryGirl.create(:order, user_id: user.id, status: 'pending', order_time: Time.zone.now, pickup_time: Time.zone.now + 1.hour)
+      @order.menu_items << menu_item
+
+    end
+
+    it 'updates an orders menu_item' do
+      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id}, menu_items: [menu_item2.id]}.to_json
+      puts response_json
+
+    end
 
   end
 end
