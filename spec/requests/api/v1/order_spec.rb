@@ -19,7 +19,7 @@ describe Api::V1::OrdersController do
                       },
                   menu_items: [menu_item.id]} }
   let(:menu_item) { FactoryGirl.create(:menu_item) }
-  let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item') }
+  let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item', price: 50) }
 
   describe 'POST /v1/orders' do
     it 'creates an Order instance' do
@@ -75,10 +75,22 @@ describe Api::V1::OrdersController do
 
     end
 
-    it 'updates an orders menu_item' do
+    it 'changing an item' do
       patch "/v1/orders/#{@order.id}", {order: {user_id: user.id}, menu_items: [menu_item2.id]}.to_json
       puts response_json
+      expect(response_json).to eq(
+                                   {'instance'=>{"user"=>user.id, "status"=>"pending", "items"=>[{"id"=>menu_item2.id, "item"=>"Second Item", "price"=>50.0}]}}
+                               )
+    end
 
+    it 'changing an pickup_time' do
+
+      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id, pickup_time: Time.zone.now + 2.hours}, menu_items: [menu_item.id]}.to_json
+      puts response_json
+       binding.pry
+      expect(response_json).to eq(
+                                   {'instance'=>{"user"=>user.id, "status"=>"pending", "pickup_time"=> Time.zone.now + 2.hours, "items"=>[{"id"=>menu_item.id, "item"=>menu_item.name, "price"=>menu_item.price.to_f}]}}
+                               )
     end
 
   end
