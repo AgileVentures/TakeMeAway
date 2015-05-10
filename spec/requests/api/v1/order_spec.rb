@@ -89,7 +89,7 @@ describe Api::V1::OrdersController do
       puts response_json
        binding.pry
       expect(response_json).to eq(
-                                   {'instance'=>{"user"=>user.id, "status"=>"pending", "pickup_time"=> Time.zone.now + 2.hours, "items"=>[{"id"=>menu_item.id, "item"=>menu_item.name, "price"=>menu_item.price.to_f}]}}
+                                   {'instance'=>{"user"=>user.id, "status"=>"pending", "pickup_time"=> (Time.zone.now + 2.hours).to_datetime , "items"=>[{"id"=>menu_item.id, "item"=>menu_item.name, "price"=>menu_item.price.to_f}]}}
                                )
     end
 
