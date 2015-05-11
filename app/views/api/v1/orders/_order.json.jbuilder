@@ -1,7 +1,7 @@
 json.instance do
   json.user order.user_id
   json.status order.status
-  json.pickup_time order.pickup_time
+  json.pickup_time order.pickup_time.to_datetime
 
   if order.menu_items
     json.items order.menu_items do |item|

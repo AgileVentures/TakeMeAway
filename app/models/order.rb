@@ -13,7 +13,7 @@ class Order < ActiveRecord::Base
   validates :pickup_time, date: { after: Proc.new { Time.now }, message: '%{value} didn\'t pass validation'}
 
   def convert_pickup_time
-    self.pickup_time.to_time
+    self.pickup_time.to_datetime
     self.save!
   end
 end
