@@ -60,7 +60,12 @@ class Api::V1::OrdersController < ApiController
   def make_updates
     @order.update_attributes(order_params)
     purge_order_items
-    order_items_params.each { |item| add_order_item(item) }
+    unless order_items_params.nil?
+      order_items_params.each { |item| add_order_item(item) }
+    else
+      true
+    end
+
   end
 
 

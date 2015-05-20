@@ -24,21 +24,19 @@ describe Api::V1::OrdersController do
 
   describe 'POST /v1/orders' do
     it 'creates an Order instance' do
-      #binding.pry
       expect { post '/v1/orders', params.to_json }.to change(Order, :count).by 1
     end
 
     it 'returns a response' do
       post '/v1/orders', params.to_json
-      #puts response_json
       expect(response_json).to eq({'instance' =>
                                        {
                                            'user' => user.id,
                                            'status' => 'pending',
                                            'items' =>
                                                [{'id' => menu_item.id,
-                                                'item' => menu_item.name,
-                                                'price' => menu_item.price.to_f}]
+                                                 'item' => menu_item.name,
+                                                 'price' => menu_item.price.to_f}]
                                        }
                                   })
     end
@@ -60,8 +58,8 @@ describe Api::V1::OrdersController do
                                            'status' => 'pending',
                                            'items' =>
                                                [{'id' => menu_item.id,
-                                                'item' => menu_item.name,
-                                                'price' => menu_item.price.to_f}]
+                                                 'item' => menu_item.name,
+                                                 'price' => menu_item.price.to_f}]
                                        }
                                   })
     end
@@ -78,31 +76,41 @@ describe Api::V1::OrdersController do
 
     it 'changing an item' do
       patch "/v1/orders/#{@order.id}", {order: {user_id: user.id}, menu_items: [menu_item2.id]}.to_json
-      puts response_json
-      expect(response_json).to eq(
-                                   {'instance'=>{"user"=>user.id, "status"=>"pending", "items"=>[{"id"=>menu_item2.id, "item"=>"Second Item", "price"=>50.0}]}}
-                               )
+      expect(response_json['instance'].except('pickup_time')).to eq(
+                                                                     {'user' => user.id,
+                                                                      'status' => 'pending',
+                                                                      'items' => [{'id' => menu_item2.id,
+                                                                                   'item' => 'Second Item',
+                                                                                   'price' => 50.0}]}
+                                                                 )
     end
 
     it 'changing an pickup_time' do
-      datetime = clean_datetime(Time.zone.now + 2.hours)
-      json_data = { order: {user_id: user.id, pickup_time: datetime},
-                    menu_items: [menu_item.id]
-                  }.to_json
+      time = (Time.now + 2.hours).strftime('%H:%M:%S')
+      json_data = {order: {user_id: user.id, pickup_time: time},
+                   menu_items: [menu_item.id]
+      }.to_json
 
       patch "/v1/orders/#{@order.id}", json_data
+      expect(response_json['instance']).to eq(
+                                               {
+                                                   'user' => user.id,
+                                                   'status' => 'pending',
+                                                   'pickup_time' => "#{time}",
+                                                   'items' => [{
+                                                                   'id' => menu_item.id,
+                                                                   'item' => menu_item.name,
+                                                                   'price' => menu_item.price.to_f
+                                                               }]
+                                               })
+    end
 
-      expect( response_json["instance"].except('pickup_time') ).to eq(
-        {
-          "user"=>user.id,
-          "status"=>"pending",
-          "items"=>[{
-            "id"=>menu_item.id,
-            "item"=>menu_item.name,
-            "price"=>menu_item.price.to_f
-          }]
-        })
-      expect( clean_datetime(response_json["instance"]["pickup_time"]) ).to eq datetime
+    it 'DELETE order set status to \'canceled\'' do
+      json_data = {order: {user_id: user.id, status: 'canceled'}
+      }.to_json
+
+      patch "/v1/orders/#{@order.id}", json_data
+      expect(response_json['instance']['status']).to eq 'canceled'
     end
 
   end
