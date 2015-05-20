@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ApplicationHelper
 
 describe Api::V1::OrdersController do
 
@@ -84,12 +85,24 @@ describe Api::V1::OrdersController do
     end
 
     it 'changing an pickup_time' do
+      datetime = clean_datetime(Time.zone.now + 2.hours)
+      json_data = { order: {user_id: user.id, pickup_time: datetime},
+                    menu_items: [menu_item.id]
+                  }.to_json
 
-      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id, pickup_time: Time.zone.now + 2.hours}, menu_items: [menu_item.id]}.to_json
-      puts response_json
-      expect(response_json).to eq(
-                                   {'instance'=>{"user"=>user.id, "status"=>"pending", "pickup_time"=> (Time.zone.now + 2.hours).to_datetime , "items"=>[{"id"=>menu_item.id, "item"=>menu_item.name, "price"=>menu_item.price.to_f}]}}
-                               )
+      patch "/v1/orders/#{@order.id}", json_data
+
+      expect( response_json["instance"].except('pickup_time') ).to eq(
+        {
+          "user"=>user.id,
+          "status"=>"pending",
+          "items"=>[{
+            "id"=>menu_item.id,
+            "item"=>menu_item.name,
+            "price"=>menu_item.price.to_f
+          }]
+        })
+      expect( clean_datetime(response_json["instance"]["pickup_time"]) ).to eq datetime
     end
 
   end
