@@ -3,6 +3,7 @@ FactoryGirl.define do
     name Faker::Commerce.product_name
     price Faker::Commerce.price
     description Faker::Lorem.sentence(3)
+    ingredients Faker::Lorem.sentence(3)
   end
 
 end

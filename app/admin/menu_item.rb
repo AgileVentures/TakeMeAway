@@ -1,6 +1,6 @@
 ActiveAdmin.register MenuItem, as: 'Products' do
 
-  permit_params :name, :price, :description
+  permit_params :name, :price, :description, :ingredients
 
   index do
     selectable_column
@@ -18,6 +18,7 @@ ActiveAdmin.register MenuItem, as: 'Products' do
       f.input :name
       f.input :price
       f.input :description
+      f.input :ingredients
     end
     f.actions
   end
@@ -26,6 +27,7 @@ ActiveAdmin.register MenuItem, as: 'Products' do
     attributes_table do
       row :price
       row :description
+      row :ingredients
     end
   end
 

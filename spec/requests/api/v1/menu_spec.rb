@@ -35,17 +35,20 @@ describe Api::V1::MenusController do
                                                     {
                                                         'item' => @menu_items[0].name,
                                                         'price' => @menu_items[0].price.to_f.to_s,
-                                                        'description' => @menu_items[0].description
+                                                        'description' => @menu_items[0].description,
+                                                        'ingredients' => @menu_items[0].ingredients
                                                     },
                                                     {
                                                         'item' => @menu_items[1].name,
                                                         'price' => @menu_items[1].price.to_f.to_s,
-                                                        'description' => @menu_items[1].description
+                                                        'description' => @menu_items[1].description,
+                                                        'ingredients' => @menu_items[1].ingredients
                                                     },
                                                     {
                                                         'item' => @menu_items[2].name,
                                                         'price' => @menu_items[2].price.to_f.to_s,
-                                                        'description' => @menu_items[2].description
+                                                        'description' => @menu_items[2].description,
+                                                        'ingredients' => @menu_items[2].ingredients
                                                     }
                                                 ]
                                            },
@@ -61,17 +64,20 @@ describe Api::V1::MenusController do
                                                     {
                                                         'item' => @menu_items[0].name,
                                                         'price' => @menu_items[0].price.to_f.to_s,
-                                                        'description' => @menu_items[0].description
+                                                        'description' => @menu_items[0].description,
+                                                        'ingredients' => @menu_items[0].ingredients
                                                     },
                                                     {
                                                         'item' => @menu_items[1].name,
                                                         'price' => @menu_items[1].price.to_f.to_s,
-                                                        'description' => @menu_items[1].description
+                                                        'description' => @menu_items[1].description,
+                                                        'ingredients' => @menu_items[1].ingredients
                                                     },
                                                     {
                                                         'item' => @menu_items[2].name,
                                                         'price' => @menu_items[2].price.to_f.to_s,
-                                                        'description' => @menu_items[2].description
+                                                        'description' => @menu_items[2].description,
+                                                        'ingredients' => @menu_items[2].ingredients
                                                     }
                                                 ]
                                            },
@@ -87,17 +93,20 @@ describe Api::V1::MenusController do
                                                     {
                                                         'item' => @menu_items[0].name,
                                                         'price' => @menu_items[0].price.to_f.to_s,
-                                                        'description' => @menu_items[0].description
+                                                        'description' => @menu_items[0].description,
+                                                        'ingredients' => @menu_items[0].ingredients
                                                     },
                                                     {
                                                         'item' => @menu_items[1].name,
                                                         'price' => @menu_items[1].price.to_f.to_s,
-                                                        'description' => @menu_items[1].description
+                                                        'description' => @menu_items[1].description,
+                                                        'ingredients' => @menu_items[1].ingredients
                                                     },
                                                     {
                                                         'item' => @menu_items[2].name,
                                                         'price' => @menu_items[2].price.to_f.to_s,
-                                                        'description' => @menu_items[2].description
+                                                        'description' => @menu_items[2].description,
+                                                        'ingredients' => @menu_items[2].ingredients
                                                     }
                                                 ]
                                            }
@@ -120,17 +129,20 @@ describe Api::V1::MenusController do
                                            {
                                                'item' => @menu_items[0].name,
                                                'price' => @menu_items[0].price.to_f.to_s,
-                                               'description' => @menu_items[0].description
+                                               'description' => @menu_items[0].description,
+                                               'ingredients' => @menu_items[0].ingredients
                                            },
                                            {
                                                'item' => @menu_items[1].name,
                                                'price' => @menu_items[1].price.to_f.to_s,
-                                               'description' => @menu_items[1].description
+                                               'description' => @menu_items[1].description,
+                                               'ingredients' => @menu_items[1].ingredients
                                            },
                                            {
                                                'item' => @menu_items[2].name,
                                                'price' => @menu_items[2].price.to_f.to_s,
-                                               'description' => @menu_items[2].description
+                                               'description' => @menu_items[2].description,
+                                               'ingredients' => @menu_items[2].ingredients
                                            }
                                        ]
                                   })
