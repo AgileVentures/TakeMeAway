@@ -33,7 +33,7 @@ ActiveAdmin.register Menu do
     f.actions
   end
 
-  show title: proc{ [ params[:menu].title, params[:menu].start_date.strftime('%F') ].join(' ') } do
+  show title: proc { [ params[:menu].title, params[:menu].start_date.strftime('%F') ].join(' ') } do
     attributes_table do
       h3 'Menu Items'
       table_for params[:menu].menu_items do
