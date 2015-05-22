@@ -10,6 +10,8 @@ class Order < ActiveRecord::Base
 
   validates :pickup_time, date: { after: Proc.new { Time.now }, message: '%{value} didn\'t pass validation'}
 
+  STATUS = %w(pending processed canceled)
+
   def total
     if self.menu_items.any?
       self.menu_items.sum(:price).to_f

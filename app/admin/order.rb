@@ -31,5 +31,16 @@ ActiveAdmin.register Order do
     actions
   end
 
+  form do |f|
+    f.semantic_errors
+    f.inputs 'Order' do
+      f.input :user_id, :label => 'Client', as: :select, collection: User.all.map{|u| [u.name, u.id]}
+      f.input :status, as: :select, collection: Order::STATUS
+      f.input :order_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
+      f.input :pickup_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
+    end
+    f.actions
+  end
+
 
 end
