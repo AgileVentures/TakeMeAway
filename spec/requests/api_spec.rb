@@ -43,6 +43,7 @@ describe ApiController, type: :controller do
         get :private_action
 
         expect(response.status).to eq 200
+        expect(assigns(:current_user)).to eq user
       end
 
       specify "with correct email and wrong token" do

@@ -60,6 +60,31 @@ describe Api::V1::SessionsController do
       end
 
     end
+
+    describe 'reset_token method' do
+      before :each do
+        expect_any_instance_of(ApiController).to receive(:authenticate_api_user).and_return(true)
+        expect_any_instance_of(ApiController).to receive(:current_user).and_return(@user)
+      end
+
+      it "successfull" do
+        old_token = @user.authentication_token
+        delete '/v1/sessions'
+        @user.reload
+
+        expect(response.status).to eq 200
+        expect(old_token).to_not eq @user.authentication_token
+      end
+
+      it "unsuccessful" do
+        expect(@user).to receive(:reset_authentication_token!).and_return(false)
+        delete '/v1/sessions'
+
+        expect(response.status).to eq 500
+      end
+
+
+    end
   end
 
 end
