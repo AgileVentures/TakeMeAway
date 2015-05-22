@@ -1,4 +1,5 @@
 module OrdersHelper
+
   def status_color(order)
     case order.status
       when 'pending'
@@ -9,4 +10,5 @@ module OrdersHelper
         :no
     end
   end
+
 end
