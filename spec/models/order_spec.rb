@@ -30,7 +30,9 @@ RSpec.describe Order, type: :model do
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of :user }
-    it { should ensure_inclusion_of(:status).in_array Order::STATUS }
+    it { is_expected.to validate_inclusion_of(:status).in_array Order::STATUS }
+    it { is_expected.not_to allow_value('whatever').for :status }
+
 
     context 'for :pickup_time' do
       it { is_expected.to allow_value(Time.now + 1.hour).for :pickup_time }
