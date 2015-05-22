@@ -23,13 +23,13 @@ describe Api::V1::SessionsController do
 
       it 'invalid password returns error message' do
         post '/v1/sessions', "email=#{@admin.email}&password=bogus"
-        expect(response_json).to eq({ 'message' => 'Error with your login or password' })
+        expect(response_json).to eq({ 'message' => 'Email or password is incorrect' })
         expect(response.status).to eq 401
       end
 
       it 'invalid email returns error message' do
         post '/v1/sessions', "email=bogus&password=#{@admin.password}"
-        expect(response_json).to eq({ 'message' => 'Error with your login or password' })
+        expect(response_json).to eq({ 'message' => 'Email or password is incorrect' })
         expect(response.status).to eq 401
       end
 
@@ -49,13 +49,13 @@ describe Api::V1::SessionsController do
 
       it 'invalid password returns error message' do
         post '/v1/sessions', "email=#{@user.email}&password=bogus"
-        expect(response_json).to eq({ 'message' => 'Error with your login or password' })
+        expect(response_json).to eq({ 'message' => 'Email or password is incorrect' })
         expect(response.status).to eq 401
       end
 
       it 'invalid email returns error message' do
         post '/v1/sessions', "email=bogus&password=#{@user.password}"
-        expect(response_json).to eq({ 'message' => 'Error with your login or password' })
+        expect(response_json).to eq({ 'message' => 'Email or password is incorrect' })
         expect(response.status).to eq 401
       end
 

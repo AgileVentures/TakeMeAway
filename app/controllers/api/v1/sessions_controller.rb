@@ -7,10 +7,11 @@ class Api::V1::SessionsController < ApiController
     invalid_login_attempt unless @user && @user.valid_password?(params[:password])
   end
 
+
   protected
 
   def invalid_login_attempt
-    render json: { message: 'Error with your login or password' }, status: 401
+    render json: { message: 'Email or password is incorrect' }, status: 401
   end
 
 
