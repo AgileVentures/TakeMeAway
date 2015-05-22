@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20150518194320) do
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "status"
+    t.string   "status",           default: "pending", null: false
     t.datetime "order_time"
     t.datetime "pickup_time"
     t.datetime "fulfillment_time"
