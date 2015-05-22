@@ -125,7 +125,7 @@ describe Api::V1::MenusController do
                                   'items' => [
                                     {
                                       'id' => @menu_items[0].id,
-                                      'name' => @menu_items[2].name,
+                                      'name' => @menu_items[0].name,
                                       'price' => @menu_items[0].price.to_f.to_s,
                                       'description' => @menu_items[0].description,
                                       'ingredients' => @menu_items[0].ingredients
