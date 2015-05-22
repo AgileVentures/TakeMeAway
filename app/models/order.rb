@@ -9,4 +9,10 @@ class Order < ActiveRecord::Base
   #PATCHING with validator from 'date_validator' with a quick fix for validation message
 
   validates :pickup_time, date: { after: Proc.new { Time.now }, message: '%{value} didn\'t pass validation'}
+
+  def total
+    if self.menu_items.any?
+      self.menu_items.sum(:price).to_f
+    end
+  end
 end
