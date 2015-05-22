@@ -7,7 +7,8 @@ class ApiController < ApplicationController
     email = request.headers['email']
     token = request.headers['token']
 
-    unauthorised unless User.find_for_authentication(email: email, token: token)
+    user = User.find_for_database_authentication(email: email)
+    unauthorised unless (user && user.authentication_token == token)
   end
 
 private

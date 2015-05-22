@@ -17,8 +17,4 @@ class User < ActiveRecord::Base
   def admin?
     self.is_admin
   end
-
-  def self.find_for_authentication conditions={}
-    where("email ILIKE ?", conditions[:email]).where("authentication_token LIKE ?", conditions[:token]).first
-  end
 end
