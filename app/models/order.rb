@@ -13,11 +13,18 @@ class Order < ActiveRecord::Base
   validates :pickup_time, date: { after: Proc.new { Time.now }, message: '%{value} didn\'t pass validation'}
   validates :status, inclusion: Order::STATUS
 
+  scope :canceled, lambda { where(status: 'canceled') }
+  scope :pending, lambda { where(status: 'pending') }
+  scope :processed, lambda { where(status: 'processed') }
 
 
   def total
     if self.menu_items.any?
       self.menu_items.sum(:price).to_f
     end
+  end
+
+  def set_status(state)
+    self.update_attribute(:status, state)
   end
 end

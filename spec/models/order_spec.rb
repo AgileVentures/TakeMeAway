@@ -68,4 +68,49 @@ RSpec.describe Order, type: :model do
 
   end
 
+  describe 'scopes' do
+    let(:order) { FactoryGirl.create(:order) }
+    let(:order2) { FactoryGirl.create(:order) }
+
+    describe '#canceled' do
+      it 'returns orders with status \'canceled\'' do
+        order.update_attribute(:status, 'canceled')
+        expect(Order.canceled).to include order
+      end
+
+      it 'excludes orders with status other then \'canceled\'' do
+        order2.update_attribute(:status, 'pending')
+        expect(Order.canceled).to_not include order2
+      end
+    end
+
+    describe '#pending' do
+      it 'returns orders with status \'pending\'' do
+        order.update_attribute(:status, 'pending')
+        expect(Order.pending).to include order
+      end
+
+      it 'excludes orders with status other then \'pending\'' do
+        order2.update_attribute(:status, 'processed')
+        expect(Order.pending).to_not include order2
+        order2.update_attribute(:status, 'canceled')
+        expect(Order.pending).to_not include order2
+      end
+    end
+
+    describe '#processed' do
+      it 'returns orders with status \'processed\'' do
+        order.update_attribute(:status, 'processed')
+        expect(Order.processed).to include order
+      end
+
+      it 'excludes orders with status other then \'processed\'' do
+        order2.update_attribute(:status, 'pending')
+        expect(Order.processed).to_not include order2
+        order2.update_attribute(:status, 'canceled')
+        expect(Order.processed).to_not include order2
+      end
+    end
+  end
+
 end
