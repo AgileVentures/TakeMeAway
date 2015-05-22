@@ -30,9 +30,11 @@ RSpec.describe Order, type: :model do
 
   describe 'Validations' do
     it { is_expected.to validate_presence_of :user }
-    it { is_expected.to validate_inclusion_of(:status).in_array Order::STATUS }
-    it { is_expected.not_to allow_value('whatever').for :status }
 
+    context 'for :status' do
+      it { is_expected.to validate_inclusion_of(:status).in_array Order::STATUS }
+      it { is_expected.not_to allow_value('whatever').for :status }
+    end
 
     context 'for :pickup_time' do
       it { is_expected.to allow_value(Time.now + 1.hour).for :pickup_time }
@@ -41,25 +43,29 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'class methods' do
-    let(:menu_item1) { FactoryGirl.create(:menu_item, price: 50) }
-    let(:menu_item2) { FactoryGirl.create(:menu_item, price: 60) }
+    context '#total' do
+      let(:menu_item1) { FactoryGirl.create(:menu_item, price: 50) }
+      let(:menu_item2) { FactoryGirl.create(:menu_item, price: 60) }
 
-    before(:each) do
-      m_items = [menu_item1, menu_item2]
-      m_items.each do |item|
-        order.menu_items << item
-        order.save!
+      before(:each) do
+        m_items = [menu_item1, menu_item2]
+        m_items.each do |item|
+          order.menu_items << item
+          order.save!
+        end
       end
+
+      it '#total returns sum of all menu_items if present' do
+        expect(order.total).to eq 110
+      end
+
+      it '#total returns nil if no menu_items present' do
+        new_order = FactoryGirl.create(:order)
+        expect(new_order.total).to eq nil
+      end
+
     end
 
-    it '#total returns sum of all menu_items if present' do
-      expect(order.total).to eq 110
-    end
-
-    it '#total returns nil if no menu_items present' do
-      new_order = FactoryGirl.create(:order)
-      expect(new_order.total).to eq nil
-    end
   end
 
 end
