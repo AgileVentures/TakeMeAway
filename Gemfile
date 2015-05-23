@@ -14,7 +14,6 @@ gem "neat", "~> 1.7.0"
 gem "newrelic_rpm", ">= 3.9.8"
 gem "normalize-rails", "~> 3.0.0"
 gem "pg"
-gem "rack-timeout"
 gem "rails", "4.2.1"
 gem "recipient_interceptor"
 gem "refills"
@@ -67,3 +66,8 @@ end
 group :staging, :production do
   gem 'rails_12factor'
 end
+
+group :development, :staging, :production do
+  gem "rack-timeout"
+end
+
