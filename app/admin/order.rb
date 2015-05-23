@@ -49,7 +49,10 @@ ActiveAdmin.register Order do
 
   index do
     selectable_column
-    column 'user' do |order|
+    column 'Order' do |order|
+      "Order ##{order.id}"
+    end
+    column 'User' do |order|
       link_to order.user.name, admin_client_path(order.user_id)
     end
     column :order_time

@@ -50,3 +50,8 @@ Then(/^I should be on the view page for Menu "([^"]*)"$/) do |item|
   expect(current_path).to eq admin_menu_path(menu)
 end
 
+Then(/^I should be on the view page for Order "([^"]*)"$/) do |item|
+  id = item.partition('#').last
+  order = Order.find(id)
+  expect(current_path).to eq admin_order_path(order)
+end
