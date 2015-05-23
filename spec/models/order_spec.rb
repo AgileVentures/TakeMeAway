@@ -25,7 +25,11 @@ RSpec.describe Order, type: :model do
     #Timestamps
     it { is_expected.to have_db_column :created_at }
     it { is_expected.to have_db_column :updated_at }
+  end
 
+  describe 'Nested attributes' do
+    it { is_expected.to accept_nested_attributes_for :menu_items }
+    it { is_expected.to accept_nested_attributes_for :user }
   end
 
   describe 'Validations' do

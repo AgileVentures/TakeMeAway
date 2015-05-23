@@ -3,6 +3,10 @@ class Order < ActiveRecord::Base
   has_and_belongs_to_many :menu_items
   belongs_to :user
 
+  accepts_nested_attributes_for :menu_items
+  accepts_nested_attributes_for :user
+
+
   STATUS = %w(pending processed canceled)
 
   validates_presence_of :user

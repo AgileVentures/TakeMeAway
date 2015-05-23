@@ -13,6 +13,8 @@ def path_to(page_name, id = '')
       admin_products_path
     when 'menus' then
       admin_menus_path
+    when 'orders' then
+      admin_orders_path
     else
       raise('path to specified is not listed in #path_to')
   end
