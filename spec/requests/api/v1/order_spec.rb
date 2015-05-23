@@ -29,15 +29,12 @@ describe Api::V1::OrdersController do
 
     it 'returns a response' do
       post '/v1/orders', params.to_json
-      expect(response_json).to eq({'instance' =>
-                                       {
-                                           'user' => user.id,
-                                           'status' => 'pending',
-                                           'items' =>
-                                               [{'id' => menu_item.id,
-                                                 'item' => menu_item.name,
-                                                 'price' => menu_item.price.to_f}]
-                                       }
+      expect(response_json).to eq({'user' => user.id,
+                                   'status' => 'pending',
+                                   'items' =>
+                                       [{'id' => menu_item.id,
+                                         'item' => menu_item.name,
+                                         'price' => menu_item.price.to_f}]
                                   })
     end
 
@@ -52,16 +49,14 @@ describe Api::V1::OrdersController do
 
     it 'returns Order by id' do
       get "/v1/orders/#{@order.id}"
-      expect(response_json).to eq({'instance' =>
-                                       {
-                                           'user' => user.id,
-                                           'status' => 'pending',
-                                           'items' =>
-                                               [{'id' => menu_item.id,
-                                                 'item' => menu_item.name,
-                                                 'price' => menu_item.price.to_f}]
-                                       }
-                                  })
+      expect(response_json).to eq({'user' => user.id,
+                                   'status' => 'pending',
+                                   'items' =>
+                                       [{'id' => menu_item.id,
+                                         'item' => menu_item.name,
+                                         'price' => menu_item.price.to_f}]
+                                  }
+                               )
     end
 
 
@@ -76,13 +71,12 @@ describe Api::V1::OrdersController do
 
     it 'changing an item' do
       patch "/v1/orders/#{@order.id}", {order: {user_id: user.id}, menu_items: [menu_item2.id]}.to_json
-      expect(response_json['instance'].except('pickup_time')).to eq(
-                                                                     {'user' => user.id,
-                                                                      'status' => 'pending',
-                                                                      'items' => [{'id' => menu_item2.id,
-                                                                                   'item' => 'Second Item',
-                                                                                   'price' => 50.0}]}
-                                                                 )
+      expect(response_json.except('pickup_time')).to eq({'user' => user.id,
+                                                         'status' => 'pending',
+                                                         'items' => [{'id' => menu_item2.id,
+                                                                      'item' => 'Second Item',
+                                                                      'price' => 50.0}]}
+                                                     )
     end
 
     it 'changing an pickup_time' do
@@ -92,17 +86,15 @@ describe Api::V1::OrdersController do
       }.to_json
 
       patch "/v1/orders/#{@order.id}", json_data
-      expect(response_json['instance']).to eq(
-                                               {
-                                                   'user' => user.id,
-                                                   'status' => 'pending',
-                                                   'pickup_time' => "#{time}",
-                                                   'items' => [{
-                                                                   'id' => menu_item.id,
-                                                                   'item' => menu_item.name,
-                                                                   'price' => menu_item.price.to_f
-                                                               }]
-                                               })
+      expect(response_json).to eq({'user' => user.id,
+                                   'status' => 'pending',
+                                   'pickup_time' => "#{time}",
+                                   'items' => [{
+                                                   'id' => menu_item.id,
+                                                   'item' => menu_item.name,
+                                                   'price' => menu_item.price.to_f
+                                               }]
+                                  })
     end
 
     it 'DELETE order set status to \'canceled\'' do
@@ -110,7 +102,7 @@ describe Api::V1::OrdersController do
       }.to_json
 
       patch "/v1/orders/#{@order.id}", json_data
-      expect(response_json['instance']['status']).to eq 'canceled'
+      expect(response_json['status']).to eq 'canceled'
     end
 
   end
