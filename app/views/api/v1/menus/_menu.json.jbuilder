@@ -14,6 +14,7 @@ json.cache! menu do
       json.item item.name
       json.price item.price
       json.description item.description
+      json.ingredients item.ingredients
     end
   else
     json.items '"no items"'

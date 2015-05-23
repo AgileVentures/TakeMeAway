@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post :sessions, controller: :sessions, action: :get_token
       resources :menus, only: [:show, :index]
-      resources :orders, only: [:show, :create, :update]
+      resources :orders
     end
   end
 
