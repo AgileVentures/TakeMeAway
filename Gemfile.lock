@@ -93,7 +93,11 @@ GEM
       json
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
     cliver (0.3.2)
+    cocaine (0.5.7)
+      climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -226,6 +230,13 @@ GEM
       mini_portile (~> 0.6.0)
     normalize-rails (3.0.2)
     orm_adapter (0.5.0)
+    paperclip (4.2.1)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.5.3)
+      mime-types
+    paperclip_database (2.3.1)
+      paperclip (>= 2.3.0)
     pg (0.18.1)
     poltergeist (1.6.0)
       capybara (~> 2.1)
@@ -238,8 +249,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-rails (0.3.4)
-      pry (>= 0.9.10)
+    pry-byebug (3.1.0)
+      byebug (~> 4.0)
+      pry (~> 0.10)
     rack (1.6.0)
     rack-cors (0.4.0)
     rack-test (0.6.3)
@@ -388,7 +400,6 @@ DEPENDENCIES
   awesome_print
   bourbon (~> 4.2.0)
   bundler-audit
-  byebug
   cancancan (~> 1.10.1)
   capybara
   capybara-webkit (>= 1.2.0)
@@ -412,9 +423,11 @@ DEPENDENCIES
   neat (~> 1.7.0)
   newrelic_rpm (>= 3.9.8)
   normalize-rails (~> 3.0.0)
+  paperclip
+  paperclip_database
   pg
   poltergeist
-  pry-rails
+  pry-byebug
   rack-cors
   rack-timeout
   rails (= 4.2.1)
