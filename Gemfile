@@ -25,6 +25,7 @@ gem "uglifier"
 gem "unicorn"
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
+gem 'active_skin'
 gem 'cancancan', '~> 1.10.1'
 gem 'active_admin_datetimepicker'
 gem 'rack-cors', :require => 'rack/cors'
