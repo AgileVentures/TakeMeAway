@@ -13,6 +13,8 @@ def path_to(page_name, id = '')
       admin_products_path
     when 'menus' then
       admin_menus_path
+    when 'orders' then
+      admin_orders_path
     else
       raise('path to specified is not listed in #path_to')
   end
@@ -48,3 +50,8 @@ Then(/^I should be on the view page for Menu "([^"]*)"$/) do |item|
   expect(current_path).to eq admin_menu_path(menu)
 end
 
+Then(/^I should be on the view page for Order "([^"]*)"$/) do |item|
+  id = item.partition('#').last
+  order = Order.find(id)
+  expect(current_path).to eq admin_order_path(order)
+end

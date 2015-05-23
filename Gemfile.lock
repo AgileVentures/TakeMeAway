@@ -47,6 +47,7 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
     active_admin_datetimepicker (0.1.0)
       xdan-datetimepicker-rails (~> 2.4)
+    active_skin (0.0.8)
     activejob (4.2.1)
       activesupport (= 4.2.1)
       globalid (>= 0.3.0)
@@ -382,6 +383,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_admin_datetimepicker
+  active_skin
   activeadmin!
   awesome_print
   bourbon (~> 4.2.0)

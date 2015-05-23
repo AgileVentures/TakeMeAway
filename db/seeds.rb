@@ -8,3 +8,10 @@
 
 User.create(email: 'admin@tma.org', password: 'password', name: 'Admin', is_admin: true, authentication_token: '2-pvxogfa5ah8jtoGb7D')
 User.create(email: 'client@tma.org', password: 'password', name: 'Client', is_admin: false)
+
+
+MenuItem.create(FactoryGirl.attributes_for(:menu_item))
+MenuItem.create(FactoryGirl.attributes_for(:menu_item))
+order = Order.create(FactoryGirl.attributes_for(:order, user_id: User.last.id))
+menu_items = MenuItem.all
+order.menu_items << menu_items

@@ -72,3 +72,16 @@ On failure
     "message": "Error with your login or password"
 }
 ```
+
+##### Orders
+
+Type: **POST**
+URL:
+```
+.../v1/order
+```
+
+Returns
+
+```
+```

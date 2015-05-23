@@ -1,5 +1,6 @@
 Before('@javascript') do
   Capybara.current_driver = :poltergeist
+
 end
 
 After('@javascript') do

@@ -37,8 +37,10 @@ Capybara.javascript_driver = :poltergeist
 Capybara.default_wait_time = 5
 
 options = {
+    timeout: 5,
     inspector: true,
-    port: 3010
+    port: 3010,
+    debug: true
 }
 
 Capybara.register_driver :poltergeist_debug do |app|

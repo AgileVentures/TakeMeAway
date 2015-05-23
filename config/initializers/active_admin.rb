@@ -1,7 +1,7 @@
 class MyFooter < ActiveAdmin::Component
   def build
     super(id: 'footer')
-    para "Developed by #{link_to 'AgileVentures', 'http://www.agileventures.org', target: '_blank'} #{Date.today.year}. This site's source code is licensed under the #{link_to 'MIT License (MIT)', 'http://en.wikipedia.org/wiki/MIT_License', target: '_blank'}".html_safe
+    para "Developed by #{link_to 'AgileVentures', 'http://www.agileventures.org', target: '_blank'} #{Date.today.year}. This is an Open Source application and the #{link_to 'source code', 'https://github.com/AgileVentures/TakeMeAway', target: '_blank'} is licensed under the #{link_to 'MIT License (MIT)', 'http://en.wikipedia.org/wiki/MIT_License', target: '_blank'}".html_safe
   end
 end
 

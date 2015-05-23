@@ -16,6 +16,21 @@ Given(/^the following users exist:$/) do |table|
   end
 end
 
+And(/^the following Orders exits:$/) do |table|
+  table.hashes.each do |hash|
+    params = Rack::Utils.parse_nested_query(hash.to_query)
+    order_params = params['order']
+    user_params = params['user']
+    menu_items_params = params['menu_items']
+    user = User.find_by(name: user_params['user'])
+    order_params.merge!('user_id' => user.id)
+
+    order = Order.new(order_params)
+    order.menu_items << MenuItem.find(menu_items_params['menu_item_id'])
+    order.save(validate: false)
+  end
+end
+
 
 And(/^"([^"]*)" should( not)? be (?:an|added as an) MenuItem to "([^"]*)"$/) do |child, negative, parent|
   menu = Menu.find_by(title: parent)
@@ -34,3 +49,4 @@ Given(/^"([^"]*)" has been added as an MenuItem to "([^"]*)"$/) do |child, paren
   menu_item = MenuItem.find_by(name: child)
   menu.menu_items << menu_item
 end
+

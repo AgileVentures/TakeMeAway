@@ -11,10 +11,31 @@
 @import "active_admin/base";
 @import "active_admin_datetimepicker";
 
+$skinActiveColor: rgba(51,51,51,.5);
+$skinHeaderBck: rgba(51,51,51,1);
+$panelHeaderBck: rgba(51,51,51,1);
+$bodyBackgroundColor: #E7F1EC;
+$skinLogo: url("tmp_logo.png") no-repeat 0 0;
+
+@import "active_skin";
+
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+body.active_admin {
+  background: whitesmoke;
+  font-family: "Source Sans Pro", sans-serif;
+  padding-bottom: 80px;
+}
+#header {
+  background: $bodyBackgroundColor;
+  border: none;
+  text-shadow: none;
+  height: 40px;
+  padding: 0;
+}
 
 .custom-select {
   min-width: 200px;
@@ -25,3 +46,14 @@
   outline: none;
   padding: 8px 10px 7px;
 }
+
+#header h1.site_title {
+  background-color: #fff;
+  background: $skinLogo;
+  padding-left: 130px;
+  color: $skinTextColor;
+  text-indent: -999999px;
+  background-size: 40px 40px !important;
+}
+
+
