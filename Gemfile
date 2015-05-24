@@ -30,8 +30,8 @@ gem 'active_admin_datetimepicker'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'date_validator'
 gem 'jbuilder'
-gem 'paperclip'
-gem 'paperclip_database'
+gem 'attachinary'
+gem 'cloudinary'
 
 group :development do
   # gem "spring"

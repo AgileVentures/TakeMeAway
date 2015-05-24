@@ -1,6 +1,6 @@
 ActiveAdmin.register MenuItem, as: 'Products' do
 
-  permit_params :name, :price, :description, :ingredients, image_attributes: [:file]
+  permit_params :name, :price, :description, :ingredients, :image
 
   index do
     selectable_column
@@ -19,9 +19,9 @@ ActiveAdmin.register MenuItem, as: 'Products' do
       f.input :price
       f.input :description
       f.input :ingredients
-    end
-    f.inputs 'Image', for: [:image, f.object.image || f.object.build_image] do |image_form|
-      image_form.input :file, hint: !f.object.image.new_record? ? image_tag(f.object.image.file.url(:medium)) : content_tag(:span, "Upload JPG/PNG/GIF image")
+      # f.input :image, as: :file, hint: f.object.image.present? ? cl_image_tag(f.object.image.path, { size: '300x300', crop: :fit }) : content_tag(:span, "Upload JPG/PNG/GIF image")
+      f.input :image, :as => :formtastic_attachinary
+      # TODO: Either try using javascript file upload, or remove it completely.
     end
     f.actions
   end
@@ -33,7 +33,7 @@ ActiveAdmin.register MenuItem, as: 'Products' do
       row :description
       row :ingredients
       row :image do
-        product.image ? image_tag(product.image.file.url(:medium)) : content_tag(:span, "No photo yet")
+        product.image.present? ? cl_image_tag(product.image.path, { size: '300x300', crop: :fit }) : content_tag(:span, "No photo yet")
       end
     end
   end
