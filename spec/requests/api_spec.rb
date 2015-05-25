@@ -25,13 +25,15 @@ describe ApiController, type: :controller do
       end
     end
 
-    specify "public actions" do
+    specify "public actions do not require authentication" do
       expect_any_instance_of(ApiController).to_not receive(:authenticate_api_user)
+      expect_any_instance_of(DummyController).to receive(:public_action).and_call_original
       get :public_action
     end
 
     specify "restricted actions require authentication" do
-      expect_any_instance_of(ApiController).to receive(:authenticate_api_user)
+      expect_any_instance_of(ApiController).to receive(:authenticate_api_user).and_call_original
+      expect_any_instance_of(DummyController).to_not receive(:private_action)
       get :private_action
     end
 

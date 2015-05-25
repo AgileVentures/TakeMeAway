@@ -7,14 +7,14 @@ class Api::V1::SessionsController < ApiController
   def get_token
     @user = User.find_for_database_authentication(email: params[:email])
     if (@user && @user.valid_password?(params[:password]))
-      @user.reset_authentication_token!
+      @user.ensure_authentication_token
     else
       invalid_login_attempt
     end
   end
 
   #logout:
-  # curl -X DELETE http://localhost:3000/v1/sessions --header "email=client@tma.org&token=1KUGcRXFaGzxW_UfsCsL"
+  # curl -X DELETE http://localhost:3000/v1/sessions -H "email: user@tma.org" -H "token: c-LXmsFavPiCEBRvchxe"
   def clear_token
     if self.current_user.clear_authentication_token!
       render json: { message: 'Token successfully cleared' }, status: 200

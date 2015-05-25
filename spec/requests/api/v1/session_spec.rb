@@ -8,11 +8,9 @@ describe Api::V1::SessionsController do
       @user = FactoryGirl.create(:user)
     end
 
-    describe 'admin login' do
-      it 'valid credentials returns user & new token' do
-        old_token = @admin.authentication_token
+    describe 'admin login: get_token action' do
+      it 'valid credentials returns user & token' do
         post '/v1/sessions', "email=#{@admin.email}&password=#{@admin.password}"
-        @admin.reload
 
         expect(response_json).to eq({'user' => {
                                         'email' => @admin.email,
@@ -22,7 +20,7 @@ describe Api::V1::SessionsController do
                                          'token' => @admin.authentication_token
                                      }
                                     })
-        expect(old_token).to_not eq @admin.authentication_token
+        expect(@admin.authentication_token).to_not be nil
       end
 
       it 'invalid password returns error message' do
@@ -39,11 +37,9 @@ describe Api::V1::SessionsController do
 
     end
 
-    describe 'client login' do
-      it 'valid credentials returns user & new token' do
-        old_token = @user.authentication_token
+    describe 'client login: get_token action' do
+      it 'valid credentials returns user & token' do
         post '/v1/sessions', "email=#{@user.email}&password=#{@user.password}"
-        @user.reload
 
         expect(response_json).to eq({'user' => {
                                         'email' => @user.email
@@ -52,7 +48,7 @@ describe Api::V1::SessionsController do
                                          'token' => @user.authentication_token
                                      }
                                     })
-        expect(old_token).to_not eq @user.authentication_token
+        expect(@user.authentication_token).to_not be nil
       end
 
       it 'invalid password returns error message' do
@@ -69,12 +65,12 @@ describe Api::V1::SessionsController do
 
     end
 
-    describe 'clear_token method' do
+    describe 'logout: clear_token action' do
       before :each do
         authenticate_user @user
       end
 
-      it "successfull" do
+      it "is successful" do
         delete '/v1/sessions'
         @user.reload
 
@@ -83,7 +79,7 @@ describe Api::V1::SessionsController do
         expect(@user.authentication_token).to be nil
       end
 
-      it "unsuccessful" do
+      it "is unsuccessful" do
         expect(@user).to receive(:clear_authentication_token!).and_return(false)
         delete '/v1/sessions'
 

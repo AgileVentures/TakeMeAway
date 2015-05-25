@@ -4,7 +4,7 @@ Request: `curl -X POST http://localhost:3000/v1/users --data "name=John&email=us
 Response valid: `{"user":{"email":"user@tma.org"},"authentication_token":{"token":"weREXP7z3TeaRqyznzrt"}}`
 Response invalid: `{"message":["Email has already been taken"]}`
 
-Log_in: (generates new token)
+Log_in: (generates new token if missing)
 >`session#get_token` - will return email and token based on provided credentials (email and password)
 Request: `curl -X POST http://localhost:3000/v1/sessions --data "email=user@tma.org&password=password"`
 Response valid: `{"user":{"email":"user@tma.org"},"authentication_token":{"token":"zJ894PziZMP3yCdaZSSw"}}`

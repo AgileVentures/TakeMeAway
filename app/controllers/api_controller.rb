@@ -24,8 +24,8 @@ class ApiController < ApplicationController
     render json: {message: msg}, status: 500
   end
 
-  def render_unauthorised
-    render json: { message: 'Access Forbidden' }, status: 403
+  def render_unauthorised msg='Access Forbidden'
+    render json: { message: msg }, status: 403
   end
 end
 
