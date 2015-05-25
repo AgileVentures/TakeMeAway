@@ -9,7 +9,7 @@ class Api::V1::UsersController < ApiController
     end
   end
 
-private
+  private
 
   def params_permit
     params.permit(:name, :email, :password, :password_confirmation)

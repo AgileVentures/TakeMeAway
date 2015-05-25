@@ -35,7 +35,15 @@ describe ApiController, type: :controller do
       get :private_action
     end
 
+    it "should have a 'current_user' getter and setter" do
+      expect(DummyController.instance_methods).to include(:current_user, :current_user=)
+    end
+
     describe "authenticate_api_user method" do
+      it "should be defined" do
+        expect(DummyController.instance_methods).to include(:authenticate_api_user)
+      end
+
       specify "with correct email and token" do
         request.headers['email'] = user.email
         request.headers['token'] = user.authentication_token
@@ -54,6 +62,7 @@ describe ApiController, type: :controller do
 
         expect(response_json["message"]).to_not be_blank
         expect(response.status).to eq 403
+        expect(assigns(:current_user)).to eq nil
       end
 
       specify "with wrong email and token" do
@@ -64,6 +73,31 @@ describe ApiController, type: :controller do
 
         expect(response_json["message"]).to_not be_blank
         expect(response.status).to eq 403
+        expect(assigns(:current_user)).to eq nil
+      end
+    end
+
+    describe "render_server_error method" do
+      it "should be defined" do
+        expect(DummyController.private_instance_methods).to include(:render_server_error)
+      end
+
+      it "should call render with message and status" do
+        expect_any_instance_of(DummyController).to receive(:render).with(json: {message: "Error test"}, status: 500)
+
+        DummyController.new.send(:render_server_error, "Error test")
+      end
+    end
+
+    describe "render_unauthorised" do
+      it "should be defined" do
+        expect(DummyController.private_instance_methods).to include(:render_unauthorised)
+      end
+
+      it "should call render with message and status" do
+        expect_any_instance_of(DummyController).to receive(:render).with(json: { message: 'Access Forbidden' }, status: 403)
+
+        DummyController.new.send(:render_unauthorised)
       end
     end
   end

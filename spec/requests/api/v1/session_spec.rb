@@ -63,8 +63,7 @@ describe Api::V1::SessionsController do
 
     describe 'reset_token method' do
       before :each do
-        expect_any_instance_of(ApiController).to receive(:authenticate_api_user).and_return(true)
-        expect_any_instance_of(ApiController).to receive(:current_user).and_return(@user)
+        authenticate_user @user
       end
 
       it "successfull" do
