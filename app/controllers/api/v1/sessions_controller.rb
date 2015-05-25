@@ -16,7 +16,7 @@ class Api::V1::SessionsController < ApiController
   #logout:
   # curl -X DELETE http://localhost:3000/v1/sessions -H "email: user@tma.org" -H "token: c-LXmsFavPiCEBRvchxe"
   def clear_token
-    if self.current_user.clear_authentication_token!
+    if current_user.clear_authentication_token!
       render json: { message: 'Token successfully cleared' }, status: 200
     else
       render_server_error "Token reset failed"
