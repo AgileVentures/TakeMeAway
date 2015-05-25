@@ -75,16 +75,16 @@ Response invalid: `{"message":"Email or password is incorrect"}`
 
 Log_out: optional (it is just clearing the stored token)
 >`session#clear_token` - will reset the token based on the authorised user (current_user). Can be called on logout with/without waiting for the response.
-Request: `curl -X DELETE http://localhost:3000/v1/sessions -H "email: user@tma.org" -H "token: c-LXmsFavPiCEBRvchxe"`
+Request: `curl -X DELETE http://localhost:3000/v1/sessions -H "token: c-LXmsFavPiCEBRvchxe"`
 Response valid: `{"message":"Token successfully cleared"}`
-Response invalid: `{"message":"Token reset failed"}`
+Response invalid: `{"message":"Token clear failed"}`
 
 Every authorised request:
 >Should have correct headers:
-`curl -X GET http://localhost:3000/v1/private_action -H "email: user@tma.org" -H "token: c-LXmsFavPiCEBRvchxe"`
+`curl -X GET http://localhost:3000/v1/private_action -H "token: c-LXmsFavPiCEBRvchxe"`
 Otherwise Response invalid: `{"message":"Access Forbidden"}`
 
-`authenticate_api_user` method will check that the request has correct headers['email'] and headers['token'] to authorize actions. It is not creating sessions, it is checking the email and token directly from db.
+`authenticate_api_user` method will check that the request has correct headers['token'] to authorize actions. It is not creating sessions, it is checking token directly from db.
 Use on restricted controller actions with:  `before_action :authenticate_api_user, only: [:restricted_action]`
 Once authorized, controllers and views have access to instance var: `current_user` (AR object)
 If authentication fails, the api will return: `{"message":"Access Forbidden"}`

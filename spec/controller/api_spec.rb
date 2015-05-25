@@ -46,20 +46,18 @@ describe ApiController, type: :controller do
         expect(DummyController.instance_methods).to include(:authenticate_api_user)
       end
 
-      specify "with correct email and token" do
-        request.headers['email'] = user.email
+      specify "with correct token" do
         request.headers['token'] = user.authentication_token
-        expect(User).to receive(:find_for_database_authentication).with({email: user.email}).and_return(user)
+        expect(User).to receive(:find_for_database_authentication).with({authentication_token: user.authentication_token}).and_return(user)
         get :private_action
 
         expect(response.status).to eq 200
         expect(assigns(:current_user)).to eq user
       end
 
-      specify "with correct email and wrong token" do
-        request.headers['email'] = user.email
-        request.headers['token'] = ""
-        expect(User).to receive(:find_for_database_authentication).with({email: user.email}).and_return(user)
+      specify "with correct wrong token" do
+        request.headers['token'] = "fake"
+        expect(User).to receive(:find_for_database_authentication).with({authentication_token: "fake"}).and_return(nil)
         get :private_action
 
         expect(response_json["message"]).to_not be_blank
@@ -67,16 +65,6 @@ describe ApiController, type: :controller do
         expect(assigns(:current_user)).to eq nil
       end
 
-      specify "with wrong email and token" do
-        request.headers['email'] = ""
-        request.headers['token'] = ""
-        expect(User).to receive(:find_for_database_authentication).with({email: ""}).and_return(nil)
-        get :private_action
-
-        expect(response_json["message"]).to_not be_blank
-        expect(response.status).to eq 403
-        expect(assigns(:current_user)).to eq nil
-      end
     end
 
     describe "render_server_error method" do

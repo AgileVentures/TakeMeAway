@@ -19,7 +19,7 @@ class Api::V1::SessionsController < ApiController
     if current_user.clear_authentication_token!
       render json: { message: 'Token successfully cleared' }, status: 200
     else
-      render_server_error "Token reset failed"
+      render_server_error "Token clear failed"
     end
   end
 
