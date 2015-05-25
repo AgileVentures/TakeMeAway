@@ -1,16 +1,23 @@
 class Api::V1::SessionsController < ApiController
-  before_action :authenticate_api_user, only: [:reset_token]
-  # curl http://localhost:3000/v1/sessions --data "email=client@tma.org&password=password"
-  # curl http://localhost:3000/v1/sessions --data "email=admin@tma.org&password=password"
+  before_action :authenticate_api_user, only: [:clear_token]
 
+  #login:
+  # curl -X POST http://localhost:3000/v1/sessions --data "email=client@tma.org&password=password"
+  # curl -X POST http://localhost:3000/v1/sessions --data "email=admin@tma.org&password=password"
   def get_token
     @user = User.find_for_database_authentication(email: params[:email])
-    invalid_login_attempt unless @user && @user.valid_password?(params[:password])
+    if (@user && @user.valid_password?(params[:password]))
+      @user.reset_authentication_token!
+    else
+      invalid_login_attempt
+    end
   end
 
-  def reset_token
-    if self.current_user.reset_authentication_token!
-      render json: { message: 'Token successfuly reset' }, status: 200
+  #logout:
+  # curl -X DELETE http://localhost:3000/v1/sessions --header "email=client@tma.org&token=1KUGcRXFaGzxW_UfsCsL"
+  def clear_token
+    if self.current_user.clear_authentication_token!
+      render json: { message: 'Token successfully cleared' }, status: 200
     else
       render_server_error "Token reset failed"
     end

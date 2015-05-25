@@ -9,8 +9,11 @@ describe Api::V1::SessionsController do
     end
 
     describe 'admin login' do
-      it 'valid credentials returns user & token' do
+      it 'valid credentials returns user & new token' do
+        old_token = @admin.authentication_token
         post '/v1/sessions', "email=#{@admin.email}&password=#{@admin.password}"
+        @admin.reload
+
         expect(response_json).to eq({'user' => {
                                         'email' => @admin.email,
                                         'is_admin' => "#{@admin.is_admin}"
@@ -19,6 +22,7 @@ describe Api::V1::SessionsController do
                                          'token' => @admin.authentication_token
                                      }
                                     })
+        expect(old_token).to_not eq @admin.authentication_token
       end
 
       it 'invalid password returns error message' do
@@ -36,8 +40,11 @@ describe Api::V1::SessionsController do
     end
 
     describe 'client login' do
-      it 'valid credentials returns user & token' do
+      it 'valid credentials returns user & new token' do
+        old_token = @user.authentication_token
         post '/v1/sessions', "email=#{@user.email}&password=#{@user.password}"
+        @user.reload
+
         expect(response_json).to eq({'user' => {
                                         'email' => @user.email
                                     },
@@ -45,6 +52,7 @@ describe Api::V1::SessionsController do
                                          'token' => @user.authentication_token
                                      }
                                     })
+        expect(old_token).to_not eq @user.authentication_token
       end
 
       it 'invalid password returns error message' do
@@ -61,25 +69,26 @@ describe Api::V1::SessionsController do
 
     end
 
-    describe 'reset_token method' do
+    describe 'clear_token method' do
       before :each do
         authenticate_user @user
       end
 
       it "successfull" do
-        old_token = @user.authentication_token
         delete '/v1/sessions'
         @user.reload
 
         expect(response.status).to eq 200
-        expect(old_token).to_not eq @user.authentication_token
+        expect(response_json['message']).to_not be nil
+        expect(@user.authentication_token).to be nil
       end
 
       it "unsuccessful" do
-        expect(@user).to receive(:reset_authentication_token!).and_return(false)
+        expect(@user).to receive(:clear_authentication_token!).and_return(false)
         delete '/v1/sessions'
 
         expect(response.status).to eq 500
+        expect(response_json['message']).to_not be nil
       end
 
 

@@ -1,11 +1,10 @@
 class User < ActiveRecord::Base
   include TokenAuthenticatable
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  # :token_authenticatable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable,
-         :trackable, :validatable,
-         :token_authenticatable
+         :trackable, :validatable
   has_many :orders
   validates :name, presence: true
 

@@ -3,9 +3,9 @@ class ApiController < ApplicationController
 
   attr_accessor :current_user
 
+  #caller needs to inclde 'email' and 'token' in request headers
+  #i e 'email: user@tma.org', 'token: 2-pvxogfa5ah8jtoGb7D"
   def authenticate_api_user
-    #caller needs to inclde 'email' and 'token' in request headers
-    #i e token, 2-pvxogfa5ah8jtoGb7D <- for seeded admin
     email = request.headers['email']
     token = request.headers['token']
 

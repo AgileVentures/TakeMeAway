@@ -21,6 +21,11 @@ module TokenAuthenticatable
     save
   end
 
+  def clear_authentication_token!
+    self.authentication_token = nil
+    save
+  end
+
   private
 
   def generate_authentication_token
