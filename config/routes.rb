@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       delete :sessions, controller: :sessions, action: :clear_token
       resources :menus, only: [:show, :index]
       resources :orders
+      resources :users, only: [:create]
     end
   end
 
