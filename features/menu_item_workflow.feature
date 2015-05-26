@@ -17,33 +17,38 @@ Feature: As Admin,
     And I should see "20"
     And I should see 2 record rows
 
+  @cloudinary
   Scenario: Create a new MenuItem
     When I click the "New Product" link
     And I fill in "Name" with "Pork"
     And I fill in "Price" with "25"
-    When I fill in "Description" with "Lorem ipsum..."
-    When I fill in "Ingredients" with "pork, onions..."
+    And I fill in "Description" with "Lorem ipsum..."
+    And I fill in "Ingredients" with "pork, onions..."
+    And I attach "pork.jpg" to field "menu_item[image]"
     And I click "Create Menu item" button
     Then I should be on the view page for Menu Item "Pork"
     And I should see "25"
     And I should see "Lorem ipsum..."
     And I should see "pork, onions..."
+    And I should see the image for Menu Item "Pork"
     And I should see "Menu item was successfully created."
 
+  @cloudinary
   Scenario: Edit existing MenuItem
     When I click the "edit" link for "Beef"
     Then I should be on the edit page for Menu Item "Beef"
     And I fill in "Name" with "Pork"
-    When I fill in "Price" with "25"
-    When I fill in "Description" with "Lorem ipsum..."
-    When I fill in "Ingredients" with "pork, onions..."
+    And I fill in "Price" with "25"
+    And I fill in "Description" with "Lorem ipsum..."
+    And I fill in "Ingredients" with "pork, onions..."
+    And I attach "pork.jpg" to field "menu_item[image]"
     And I click "Update Menu item" button
     Then I should be on the view page for Menu Item "Pork"
     And I should see "25"
     And I should see "Lorem ipsum..."
     And I should see "pork, onions..."
+    And I should see the image for Menu Item "Pork"
     And I should see "Menu item was successfully updated."
-
 
   Scenario: View existing MenuItem
     When I click the "view" link for "Beef"
@@ -51,7 +56,6 @@ Feature: As Admin,
     And I should see "tasty"
     And I should see "salt"
     Then I should be on the view page for Menu Item "Beef"
-
 
   Scenario: Delete exiting MenuItem
     When I click the "delete" link for "Beef"
