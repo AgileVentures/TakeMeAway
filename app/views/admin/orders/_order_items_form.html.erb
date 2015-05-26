@@ -27,7 +27,7 @@
 
     <div class="panel-plain">
       <div class="panel_contents">
-        <%= semantic_form_for [:admin, OrderItem.new], remote: true do |f| %>
+        <%= semantic_form_for [:admin, resource.order_items.new], remote: true do |f| %>
             <%= f.inputs 'Add Item' do %>
                 <% f.input :order_id, as: :hidden, input_html: { value: resource.id } %>
                 <% f.input :menu_item, as: :select, collection: MenuItem.all.pluck(:name, :id) %>
