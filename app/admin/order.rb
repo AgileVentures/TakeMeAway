@@ -1,4 +1,5 @@
 ActiveAdmin.register Order do
+
   controller do
     helper :orders
 
@@ -13,7 +14,6 @@ ActiveAdmin.register Order do
     def permitted_params
       params.permit order: [:id, :user_id, :status, :order_time, :pickup_time, :fulfillment_time],
                     order_item: [:id, :order_id, :menu_item_id, :quantity]
-      #params.permit!
     end
 
   end
