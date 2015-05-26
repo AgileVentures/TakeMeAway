@@ -40,7 +40,7 @@ class Api::V1::OrdersController < ApiController
   end
 
   def order_items_params
-    @json_params[:menu_items]
+    @json_params[:order_items]
   end
 
   def add_order_item(id, q)

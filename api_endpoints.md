@@ -89,7 +89,7 @@ Request format:
     "order_time": "2015-05-26T10:43:53.338Z",
     "pickup_time": "2015-05-26T11:43:53.338Z"
   },
-  "menu_items": [
+  "order_items": [
     {
       "menu_item": 2,
       "quantity": 1
