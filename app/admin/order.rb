@@ -60,7 +60,7 @@ ActiveAdmin.register Order do
       status_tag(order.status, status_color(order))
     end
     column 'Order items' do |order|
-      (order.menu_items.map { |p| p.name }).join(', ').html_safe
+      (order.order_items.map { |p| p.menu_item.name }).join(', ').html_safe
     end
     actions class: 'btn' do |order|
       [(link_to 'Change status', {action: 'change_status', id: order}, method: :put unless order.status == 'canceled'),
@@ -92,9 +92,13 @@ ActiveAdmin.register Order do
       end
       row :pickup_time
       h3 'Order Items'
-      table_for params[:order].menu_items do
-        column :name
-        column :price
+      table_for params[:order].order_items do
+        column :name do |item|
+          item.menu_item.name
+        end
+        column :price do |item|
+          item.menu_item.price
+        end
       end
     end
   end

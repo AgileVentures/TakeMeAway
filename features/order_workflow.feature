@@ -16,7 +16,7 @@ Feature: As an admin
       | 2  | Beef    | 30    |
 
     And the following Orders exits:
-      | order[id] | user[user] | order[pickup_time] | order[order_time] | menu_items[menu_item_id] |
+      | order[id] | user[user] | order[pickup_time] | order[order_time] | order_items[menu_item_id] |
       | 1         | Client1    | 2015-01-01         | 2015-01-01        | 1                        |
       | 2         | Client2    | 2015-01-02         | 2015-01-02        | 2                        |
 
