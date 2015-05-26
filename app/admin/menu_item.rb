@@ -19,9 +19,7 @@ ActiveAdmin.register MenuItem, as: 'Products' do
       f.input :price
       f.input :description
       f.input :ingredients
-      # f.input :image, as: :file, hint: f.object.image.present? ? cl_image_tag(f.object.image.path, { size: '300x300', crop: :fit }) : content_tag(:span, "Upload JPG/PNG/GIF image")
       f.input :image, :as => :formtastic_attachinary
-      # TODO: Either try using javascript file upload, or remove it completely.
     end
     f.actions
   end
