@@ -16,6 +16,8 @@ RSpec.describe OrderItem, type: :model do
   describe 'Validations' do
     it { is_expected.to validate_presence_of :quantity }
     it { is_expected.to validate_numericality_of :quantity }
+    it { is_expected.to validate_presence_of :order }
+    it { is_expected.to validate_presence_of :menu_item }
   end
 
 
