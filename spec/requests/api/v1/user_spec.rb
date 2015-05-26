@@ -8,6 +8,7 @@ describe Api::V1::UsersController do
       post '/v1/users', "name=#{user.name}&email=#{user.email}&password=#{user.password}&password_confirmation=#{user.password}"
 
       expect(response.status).to eq 200
+      expect(response_json["user"]["name"]).to eq user.name
       expect(response_json["user"]["email"]).to eq user.email
       expect(response_json["authentication_token"]["token"]).to_not be_blank
     end

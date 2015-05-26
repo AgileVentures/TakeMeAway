@@ -1,5 +1,6 @@
 json.cache! user do
   json.user do
+    json.name user.name
     json.email user.email
     if user.admin?
       json.is_admin 'true'
