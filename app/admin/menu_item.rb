@@ -33,7 +33,7 @@ ActiveAdmin.register MenuItem, as: 'Products' do
       row :description
       row :ingredients
       row :image do
-        product.image.present? ? cl_image_tag(product.image.path, { size: '300x300', crop: :fit }) : content_tag(:span, "No photo yet")
+        product.image.present? ? cl_image_tag(product.image.path, { width: 300, height: 300, crop: :fit }) : content_tag(:span, "No photo yet")
       end
     end
   end
