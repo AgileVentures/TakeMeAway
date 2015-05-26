@@ -46,7 +46,12 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Capybara::DSL
+
+  #test helpers
+  config.include ResponseJSON
+  config.include Authenticate
 end
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
