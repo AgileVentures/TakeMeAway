@@ -12,6 +12,8 @@ if menu.menu_items
     json.price item.price
     json.description item.description
     json.ingredients item.ingredients
+    json.image_thumb cl_image_path item.image.path, { width: 100, height: 100, crop: :thumb }
+    json.image_medium cl_image_path item.image.path, { width: 300, height: 300, crop: :fit }
   end
 else
   json.items '"no items"'

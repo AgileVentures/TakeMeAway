@@ -68,7 +68,11 @@ GEM
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.0)
+    attachinary (1.3.0)
+      cloudinary (~> 1.0.69)
+      rails (>= 3.2)
     awesome_print (1.6.1)
+    aws_cf_signer (0.1.3)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -94,6 +98,9 @@ GEM
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     cliver (0.3.2)
+    cloudinary (1.0.85)
+      aws_cf_signer
+      rest-client
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -238,8 +245,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-rails (0.3.4)
-      pry (>= 0.9.10)
+    pry-byebug (3.1.0)
+      byebug (~> 4.0)
+      pry (~> 0.10)
     rack (1.6.0)
     rack-cors (0.4.0)
     rack-test (0.6.3)
@@ -385,13 +393,14 @@ DEPENDENCIES
   active_admin_datetimepicker
   active_skin
   activeadmin!
+  attachinary
   awesome_print
   bourbon (~> 4.2.0)
   bundler-audit
-  byebug
   cancancan (~> 1.10.1)
   capybara
   capybara-webkit (>= 1.2.0)
+  cloudinary
   coffee-rails (~> 4.1.0)
   coveralls (~> 0.7.9)
   cucumber-rails
@@ -414,7 +423,7 @@ DEPENDENCIES
   normalize-rails (~> 3.0.0)
   pg
   poltergeist
-  pry-rails
+  pry-byebug
   rack-cors
   rack-timeout
   rails (= 4.2.1)

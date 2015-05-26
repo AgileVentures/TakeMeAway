@@ -30,6 +30,8 @@ gem 'active_admin_datetimepicker'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'date_validator'
 gem 'jbuilder'
+gem 'attachinary'
+gem 'cloudinary'
 
 group :development do
   # gem "spring"
@@ -40,10 +42,9 @@ end
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit", require: false
-  gem "byebug"
+  gem "pry-byebug"
   gem "dotenv-rails"
   gem "factory_girl_rails"
-  gem "pry-rails"
   gem "rspec-rails", "~> 3.1.0"
   gem 'timecop'
   gem 'faker'

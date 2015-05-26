@@ -11,7 +11,6 @@ class Api::V1::OrdersController < ApiController
 
   def create
     attributes = order_params
-    #binding.pry
     @order = Order.create(attributes)
     order_items_params.each { |item| add_order_item(item) }
     invalid_request unless @order.save
@@ -24,7 +23,6 @@ class Api::V1::OrdersController < ApiController
   end
 
   def index
-
   end
 
   def show

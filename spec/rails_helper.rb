@@ -58,3 +58,11 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+# Cloudinary Config for Testing
+Cloudinary.config do |config|
+  config.cloud_name = 'sample'
+  config.api_key = 'test_apikey'
+  config.api_secret = 'test_apisecret'
+end
+
