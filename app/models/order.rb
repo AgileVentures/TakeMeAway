@@ -21,8 +21,10 @@ class Order < ActiveRecord::Base
 
 
   def total
-    if self.menu_items.any?
-      self.menu_items.sum(:price).to_f
+    if self.order_items.any?
+      @total = 0
+      self.order_items.each {|item| @total += item.menu_item.price.to_f }
+      @total
     end
   end
 
