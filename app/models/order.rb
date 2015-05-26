@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   has_many :order_items #, through: :menu_items
   belongs_to :user
 
- # accepts_nested_attributes_for :menu_items
+  accepts_nested_attributes_for :order_items
   accepts_nested_attributes_for :user
 
 

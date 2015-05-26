@@ -44,7 +44,7 @@ describe Api::V1::OrdersController do
   describe 'GET /v1/orders/:id' do
     before do
       @order = FactoryGirl.create(:order, user_id: user.id, status: 'pending', order_time: Time.zone.now, pickup_time: Time.zone.now + 1.hour)
-      @order.menu_items << menu_item
+      @order.order_items.create(menu_item:menu_item, quantity: 1)
     end
 
     it 'returns Order by id' do
@@ -65,7 +65,7 @@ describe Api::V1::OrdersController do
   describe 'PATCH /v1/orders/user/:id' do
     before do
       @order = FactoryGirl.create(:order, user_id: user.id, status: 'pending', order_time: Time.zone.now, pickup_time: Time.zone.now + 1.hour)
-      @order.menu_items << menu_item
+      @order.order_items.create(menu_item:menu_item, quantity: 1)
 
     end
 

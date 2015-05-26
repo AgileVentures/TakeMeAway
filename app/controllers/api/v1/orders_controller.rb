@@ -50,11 +50,11 @@ class Api::V1::OrdersController < ApiController
   end
 
   def add_order_item(id)
-    @order.menu_items << MenuItem.find(id)
+    @order.order_items.create(menu_item: MenuItem.find(id), quantity: 1)
   end
 
   def purge_order_items
-    @order.menu_items.delete_all
+    @order.order_items.delete_all
   end
 
   def make_updates

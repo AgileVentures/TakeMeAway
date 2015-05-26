@@ -81,11 +81,9 @@ ActiveRecord::Schema.define(version: 20150526060428) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer  "menu_item_id"
-    t.integer  "order_id"
-    t.integer  "quantity"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer "menu_item_id"
+    t.integer "order_id"
+    t.integer "quantity"
   end
 
   add_index "order_items", ["menu_item_id"], name: "index_order_items_on_menu_item_id", using: :btree
