@@ -11,20 +11,14 @@ class Api::V1::OrdersController < ApiController
 
   def create
     attributes = order_params
-    #binding.pry
     @order = Order.create(attributes)
-    order_items_params.each { |item| add_order_item(item) }
+    order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
     invalid_request unless @order.save
   end
-
 
   def update
     @order = Order.find(params[:id])
     invalid_request unless make_updates
-  end
-
-  def index
-
   end
 
   def show
@@ -49,8 +43,8 @@ class Api::V1::OrdersController < ApiController
     @json_params[:menu_items]
   end
 
-  def add_order_item(id)
-    @order.order_items.create(menu_item: MenuItem.find(id), quantity: 1)
+  def add_order_item(id, q)
+    @order.order_items.create(menu_item: MenuItem.find(id), quantity: q)
   end
 
   def purge_order_items
@@ -61,12 +55,9 @@ class Api::V1::OrdersController < ApiController
     @order.update_attributes(order_params)
     purge_order_items
     unless order_items_params.nil?
-      order_items_params.each { |item| add_order_item(item) }
+      order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
     else
       true
     end
-
   end
-
-
 end
