@@ -6,6 +6,16 @@ ActiveAdmin.register Order do
       params[:order] = Order.find(params[:id])
     end
 
+    def update
+      super
+    end
+
+    def permitted_params
+      params.permit order: [:id, :user_id, :status, :order_time, :pickup_time, :fulfillment_time],
+                    order_item: [:id, :order_id, :menu_item_id, :quantity]
+      #params.permit!
+    end
+
   end
 
   scope 'Canceled', :canceled
@@ -41,67 +51,71 @@ ActiveAdmin.register Order do
   #   t.datetime "updated_at",       null: false
   # end
 
-  permit_params do
-    permitted = [:user_id, :status, :order_time, :pickup_time, :fulfillment_time]
-    #permitted << :total if resource.menu_items.any?
-    #permitted
-  end
+  #permit_params do
+  #  permitted = [:user_id, :status, :order_time, :pickup_time, :fulfillment_time, order_item: [:order_id, :menu_item_id, :quantity]]
+  #end
 
-  index do
-    selectable_column
-    column 'Order' do |order|
-      "Order ##{order.id}"
-    end
-    column 'User' do |order|
-      link_to order.user.name, admin_client_path(order.user_id)
-    end
-    column :order_time
-    column :status do |order|
+
+
+index do
+  selectable_column
+  column 'Order' do |order|
+    "Order ##{order.id}"
+  end
+  column 'User' do |order|
+    link_to order.user.name, admin_client_path(order.user_id)
+  end
+  column :order_time
+  column :status do |order|
+    status_tag(order.status, status_color(order))
+  end
+  column 'Order items' do |order|
+    (order.order_items.map { |p| p.menu_item.name }).join(', ').html_safe
+  end
+  actions class: 'btn' do |order|
+    [(link_to 'Change status', {action: 'change_status', id: order}, method: :put unless order.status == 'canceled'),
+     (link_to 'Cancel', {action: 'cancel', id: order}, method: :put unless order.status == 'canceled')].join(' ').html_safe
+  end
+end
+
+form do |f|
+  f.semantic_errors
+  f.inputs 'Order' do
+    f.input :user_id, label: 'Client', as: :select, collection: User.all.map { |u| [u.name, u.id] }
+    f.input :status, as: :select, collection: Order::STATUS
+    f.input :order_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
+    f.input :pickup_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
+    f.input :total
+    #f.inputs 'Order Items' do
+
+    #  f.input :order_items, as: :select, input_html: {multiple: true, class: 'custom-select'}
+    # end
+
+  end
+  f.actions
+  render partial: '/admin/orders/order_items_form'
+end
+
+show do
+  attributes_table do
+    row('user') { |order| link_to order.user.name, admin_client_path(order.user_id) }
+    row('email') { |order| order.user.email }
+    row :status do |order|
       status_tag(order.status, status_color(order))
     end
-    column 'Order items' do |order|
-      (order.order_items.map { |p| p.menu_item.name }).join(', ').html_safe
-    end
-    actions class: 'btn' do |order|
-      [(link_to 'Change status', {action: 'change_status', id: order}, method: :put unless order.status == 'canceled'),
-      (link_to 'Cancel', {action: 'cancel', id: order}, method: :put unless order.status == 'canceled')].join(' ').html_safe
+    row :pickup_time
+    h3 'Order Items'
+    table_for params[:order].order_items do
+      column :name do |item|
+        item.menu_item.name
+      end
+      column :price do |item|
+        item.menu_item.price
+      end
+      column :quantity
     end
   end
-
-  form do |f|
-    f.semantic_errors
-    f.inputs 'Order' do
-      f.input :user_id, label: 'Client', as: :select, collection: User.all.map { |u| [u.name, u.id] }
-      f.input :status, as: :select, collection: Order::STATUS
-      f.input :order_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
-      f.input :pickup_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
-      f.input :total
-      f.inputs 'Menu Items' do
-        f.input :menu_items, as: :select, input_html: {multiple: true, class: 'custom-select'}
-      end
-    end
-    f.actions
-  end
-
-  show do
-    attributes_table do
-      row('user') { |order| link_to order.user.name, admin_client_path(order.user_id) }
-      row('email') { |order| order.user.email }
-      row :status do |order|
-        status_tag(order.status, status_color(order))
-      end
-      row :pickup_time
-      h3 'Order Items'
-      table_for params[:order].order_items do
-        column :name do |item|
-          item.menu_item.name
-        end
-        column :price do |item|
-          item.menu_item.price
-        end
-      end
-    end
-  end
+end
 
 end
 
