@@ -53,6 +53,25 @@ URL:
 ```
 .../v1/order
 ```
+Request format:
+
+```
+{
+  "order": {
+    "user_id": 3,
+    "order_time": "2015-05-26T10:43:53.338Z",
+    "pickup_time": "2015-05-26T11:43:53.338Z"
+  },
+  "order_items": [
+    {
+      "menu_item": 2,
+      "quantity": 1
+    }
+  ]
+}
+```
+
+
 
 Returns
 

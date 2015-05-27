@@ -55,3 +55,9 @@ Then(/^I should be on the view page for Order "([^"]*)"$/) do |item|
   order = Order.find(id)
   expect(current_path).to eq admin_order_path(order)
 end
+
+Then(/^I should be on the edit page for Order "([^"]*)"$/) do |item|
+  id = item.partition('#').last
+  order = Order.find(id)
+  expect(current_path).to eq edit_admin_order_path(order)
+end

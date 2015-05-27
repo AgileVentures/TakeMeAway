@@ -11,7 +11,8 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to have_and_belong_to_many :menu_items }
+    it { is_expected.to have_many :menu_items }
+    it { is_expected.to have_many :order_items}
     it { is_expected.to belong_to :user }
   end
 
@@ -28,7 +29,7 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'Nested attributes' do
-    it { is_expected.to accept_nested_attributes_for :menu_items }
+    it { is_expected.to accept_nested_attributes_for :order_items }
     it { is_expected.to accept_nested_attributes_for :user }
   end
 
@@ -54,16 +55,15 @@ RSpec.describe Order, type: :model do
       before(:each) do
         m_items = [menu_item1, menu_item2]
         m_items.each do |item|
-          order.menu_items << item
-          order.save!
+          order.order_items.create(menu_item: item, quantity: 1)
         end
       end
 
-      it '#total returns sum of all menu_items if present' do
+      it '#total returns sum of all order_items if present' do
         expect(order.total).to eq 110
       end
 
-      it '#total returns nil if no menu_items present' do
+      it '#total returns nil if no order_items present' do
         new_order = FactoryGirl.create(:order)
         expect(new_order.total).to eq nil
       end

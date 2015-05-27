@@ -21,13 +21,13 @@ And(/^the following Orders exits:$/) do |table|
     params = Rack::Utils.parse_nested_query(hash.to_query)
     order_params = params['order']
     user_params = params['user']
-    menu_items_params = params['menu_items']
+    menu_items_params = params['order_items']
     user = User.find_by(name: user_params['user'])
     order_params.merge!('user_id' => user.id)
 
     order = Order.new(order_params)
-    order.menu_items << MenuItem.find(menu_items_params['menu_item_id'])
     order.save(validate: false)
+    order.order_items.create(menu_item: MenuItem.find(menu_items_params['menu_item_id']), quantity: 1)
   end
 end
 

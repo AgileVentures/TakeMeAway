@@ -16,7 +16,7 @@ Feature: As an admin
       | 2  | Beef    | 30    |
 
     And the following Orders exits:
-      | order[id] | user[user] | order[pickup_time] | order[order_time] | menu_items[menu_item_id] |
+      | order[id] | user[user] | order[pickup_time] | order[order_time] | order_items[menu_item_id] |
       | 1         | Client1    | 2015-01-01         | 2015-01-01        | 1                        |
       | 2         | Client2    | 2015-01-02         | 2015-01-02        | 2                        |
 
@@ -49,6 +49,19 @@ Feature: As an admin
     Then I should see 1 record rows
     And I should see "Order #2"
     And I should not see "Order #1"
+    
+#  @javascript
+#  Scenario: Edit order
+#    When I click the "Edit" link for "Order #2"
+#    Then I should be on the edit page for Order "Order #2"
+#    And I select "Order Item" to "Chicken"
+#    And I fill in "Quantity" with "2"
+#    And I click "Create Order item" button
+#    Then I should be on the view page for Order "Oreder #2"
+#    And I should see "Chicken"
+#    And I should see "2"
+    
+    
 
 
 

@@ -79,14 +79,6 @@ ActiveRecord::Schema.define(version: 20150527075954) do
   add_index "menu_items_menus", ["menu_id"], name: "index_menu_items_menus_on_menu_id", using: :btree
   add_index "menu_items_menus", ["menu_item_id"], name: "index_menu_items_menus_on_menu_item_id", using: :btree
 
-  create_table "menu_items_orders", force: :cascade do |t|
-    t.integer "order_id"
-    t.integer "menu_item_id"
-  end
-
-  add_index "menu_items_orders", ["menu_item_id"], name: "index_menu_items_orders_on_menu_item_id", using: :btree
-  add_index "menu_items_orders", ["order_id"], name: "index_menu_items_orders_on_order_id", using: :btree
-
   create_table "menus", force: :cascade do |t|
     t.boolean  "show_category"
     t.date     "start_date"
@@ -95,6 +87,15 @@ ActiveRecord::Schema.define(version: 20150527075954) do
     t.datetime "updated_at",    null: false
     t.string   "title"
   end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "menu_item_id"
+    t.integer "order_id"
+    t.integer "quantity"
+  end
+
+  add_index "order_items", ["menu_item_id"], name: "index_order_items_on_menu_item_id", using: :btree
+  add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
@@ -127,4 +128,6 @@ ActiveRecord::Schema.define(version: 20150527075954) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "order_items", "menu_items"
+  add_foreign_key "order_items", "orders"
 end

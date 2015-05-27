@@ -13,5 +13,6 @@ User.create(email: 'client@tma.org', password: 'password', name: 'Client', is_ad
 MenuItem.create(FactoryGirl.attributes_for(:menu_item))
 MenuItem.create(FactoryGirl.attributes_for(:menu_item))
 order = Order.create(FactoryGirl.attributes_for(:order, user_id: User.last.id))
-menu_items = MenuItem.all
-order.menu_items << menu_items
+MenuItem.all.each do |item|
+  order.order_items.create(menu_item: item, quantity: 1)
+end
