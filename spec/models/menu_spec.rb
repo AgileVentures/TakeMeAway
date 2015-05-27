@@ -10,7 +10,9 @@ RSpec.describe Menu, :type => :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to have_and_belong_to_many :menu_items }
+    it { is_expected.to have_many :menu_items_menus }
+    it { is_expected.to have_many(:menu_items).through :menu_items_menus }
+
     it 'join table should have unique index' do
       ActiveRecord::Migration.index_exists?(:menu_items_menus, [:menu_id, :menu_item_id], unique: true)
     end

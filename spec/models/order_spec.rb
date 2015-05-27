@@ -11,7 +11,7 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to have_many :menu_items }
+    it { is_expected.to have_many(:menu_items).through :order_items }
     it { is_expected.to have_many :order_items}
     it { is_expected.to belong_to :user }
   end
