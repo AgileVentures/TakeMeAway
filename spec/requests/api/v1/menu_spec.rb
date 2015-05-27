@@ -8,7 +8,7 @@ describe Api::V1::MenusController do
       @menu_items = FactoryGirl.create_list(:menu_item, 3)
       @menus.each do |menu|
         @menu_items.each do |menu_item|
-          menu.menu_items << menu_item
+          menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
         end
       end
 

@@ -19,5 +19,4 @@ RSpec.describe MenuItemsMenu, type: :model do
     it { is_expected.to validate_presence_of :menu }
     it { is_expected.to validate_presence_of :menu_item }
   end
-
 end
