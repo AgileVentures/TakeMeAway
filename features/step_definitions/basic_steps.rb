@@ -68,3 +68,14 @@ When(/^I unselect "([^"]*)" from "([^"]*)"$/) do |option, field|
   find(:select, id).find(:option, option).unselect_option
 end
 
+When(/^I attach "([^"]*)" to field "([^"]*)"$/) do |file_name, field|
+  path = Rails.root.join('features', 'upload-files', file_name)
+  attach_file(field, path)
+end
+
+Then(/^I should see the image for Menu Item "([^"]*)"$/) do |name|
+  image = MenuItem.find_by(name: name).image
+  image_src = page.find("tr.row-image img")["src"]
+  expected_src = "http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v#{image.version}/#{image.public_id}.#{image.format}"
+  expect(image_src).to eq expected_src
+end

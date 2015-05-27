@@ -6,5 +6,4 @@ class Menu < ActiveRecord::Base
   validates :end_date, presence: true
 
   scope :this_week, lambda { where(start_date:Date.today.all_week).order('start_date') }
-
 end

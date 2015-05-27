@@ -14,6 +14,7 @@ RSpec.describe MenuItem, type: :model do
       # it { is_expected.to have_and_belong_to_many :orders }
       it { is_expected.to have_and_belong_to_many :menus }
       it { is_expected.to have_and_belong_to_many :menu_categories }
+      it { is_expected.to have_many :image_files }
     end
 
     describe 'Database schema' do
@@ -24,7 +25,6 @@ RSpec.describe MenuItem, type: :model do
       # Timestamps
       it { is_expected.to have_db_column :created_at }
       it { is_expected.to have_db_column :updated_at }
-
     end
 
     describe 'Validations' do

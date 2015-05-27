@@ -11,6 +11,8 @@ describe Api::V1::MenusController do
           menu.menu_items << menu_item
         end
       end
+
+      allow_any_instance_of(MenuItem).to receive_message_chain(:image, :path) { "v1/1.jpg" }
     end
 
     after do
@@ -33,21 +35,27 @@ describe Api::V1::MenusController do
                                         'name' => @menu_items[0].name,
                                         'price' => @menu_items[0].price.to_f.to_s,
                                         'description' => @menu_items[0].description,
-                                        'ingredients' => @menu_items[0].ingredients
+                                        'ingredients' => @menu_items[0].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       },
                                       {
                                         'id' => @menu_items[1].id,
                                         'name' => @menu_items[1].name,
                                         'price' => @menu_items[1].price.to_f.to_s,
                                         'description' => @menu_items[1].description,
-                                        'ingredients' => @menu_items[1].ingredients
+                                        'ingredients' => @menu_items[1].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       },
                                       {
                                         'id' => @menu_items[2].id,
                                         'name' => @menu_items[2].name,
                                         'price' => @menu_items[2].price.to_f.to_s,
                                         'description' => @menu_items[2].description,
-                                        'ingredients' => @menu_items[2].ingredients
+                                        'ingredients' => @menu_items[2].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       }
                                     ]
                                   }, {
@@ -63,21 +71,27 @@ describe Api::V1::MenusController do
                                         'name' => @menu_items[0].name,
                                         'price' => @menu_items[0].price.to_f.to_s,
                                         'description' => @menu_items[0].description,
-                                        'ingredients' => @menu_items[0].ingredients
+                                        'ingredients' => @menu_items[0].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       },
                                       {
                                         'id' => @menu_items[1].id,
                                         'name' => @menu_items[1].name,
                                         'price' => @menu_items[1].price.to_f.to_s,
                                         'description' => @menu_items[1].description,
-                                        'ingredients' => @menu_items[1].ingredients
+                                        'ingredients' => @menu_items[1].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       },
                                       {
                                         'id' => @menu_items[2].id,
                                         'name' => @menu_items[2].name,
                                         'price' => @menu_items[2].price.to_f.to_s,
                                         'description' => @menu_items[2].description,
-                                        'ingredients' => @menu_items[2].ingredients
+                                        'ingredients' => @menu_items[2].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       }
                                     ]
                                   }, {
@@ -93,21 +107,27 @@ describe Api::V1::MenusController do
                                         'name' => @menu_items[0].name,
                                         'price' => @menu_items[0].price.to_f.to_s,
                                         'description' => @menu_items[0].description,
-                                        'ingredients' => @menu_items[0].ingredients
+                                        'ingredients' => @menu_items[0].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       },
                                       {
                                         'id' => @menu_items[1].id,
                                         'name' => @menu_items[1].name,
                                         'price' => @menu_items[1].price.to_f.to_s,
                                         'description' => @menu_items[1].description,
-                                        'ingredients' => @menu_items[1].ingredients
+                                        'ingredients' => @menu_items[1].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       },
                                       {
                                         'id' => @menu_items[2].id,
                                         'name' => @menu_items[2].name,
                                         'price' => @menu_items[2].price.to_f.to_s,
                                         'description' => @menu_items[2].description,
-                                        'ingredients' => @menu_items[2].ingredients
+                                        'ingredients' => @menu_items[2].ingredients,
+                                        'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                        'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                       }
                                     ]
                                   }])
@@ -128,19 +148,25 @@ describe Api::V1::MenusController do
                                       'name' => @menu_items[0].name,
                                       'price' => @menu_items[0].price.to_f.to_s,
                                       'description' => @menu_items[0].description,
-                                      'ingredients' => @menu_items[0].ingredients
+                                      'ingredients' => @menu_items[0].ingredients,
+                                      'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                      'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                     }, {
                                       'id' => @menu_items[1].id,
                                       'name' => @menu_items[1].name,
                                       'price' => @menu_items[1].price.to_f.to_s,
                                       'description' => @menu_items[1].description,
-                                      'ingredients' => @menu_items[1].ingredients
+                                      'ingredients' => @menu_items[1].ingredients,
+                                      'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                      'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                     }, {
                                       'id' => @menu_items[2].id,
                                       'name' => @menu_items[2].name,
                                       'price' => @menu_items[2].price.to_f.to_s,
                                       'description' => @menu_items[2].description,
-                                      'ingredients' => @menu_items[2].ingredients
+                                      'ingredients' => @menu_items[2].ingredients,
+                                      'image_medium' => 'http://res.cloudinary.com/sample/image/upload/c_fit,h_300,w_300/v1/1.jpg',
+                                      'image_thumb' => 'http://res.cloudinary.com/sample/image/upload/c_thumb,h_100,w_100/v1/1.jpg'
                                     }
                                   ]
                                  )

@@ -19,5 +19,12 @@ describe Api::V1::UsersController do
       expect(response.status).to eq 400
       expect(response_json["message"]).to_not be_blank
     end
+
+    it "password_confirmation is required" do
+      post '/v1/users', "name=#{user.name}&email=#{user.email}&password=#{user.password}"
+
+      expect(response.status).to eq 400
+      expect(response_json["message"]).to_not be_blank
+    end
   end
 end
