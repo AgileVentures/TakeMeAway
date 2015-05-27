@@ -70,3 +70,6 @@ Guardfile
 
 .vagrant/
 tags
+
+#cloudinary settingd
+config/cloudinary.yml
