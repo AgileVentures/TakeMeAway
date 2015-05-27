@@ -12,12 +12,7 @@ end
 When(/^I click the "([^"]*)" link for "([^"]*)"$/) do |link, item|
   page.all('table tr').each do |tr|
     next unless tr.has_text?(item)
-
-    puts tr.text
-
     within(tr) do
-      #binding.pry
-      #click_link link.humanize
       find(:link, "#{link.humanize}").click
     end
   end
