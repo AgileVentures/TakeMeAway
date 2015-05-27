@@ -13,10 +13,12 @@ When(/^I click the "([^"]*)" link for "([^"]*)"$/) do |link, item|
   page.all('table tr').each do |tr|
     next unless tr.has_text?(item)
 
-    # Do stuff with trs that meet the href requirement
-    #puts tr.text
+    puts tr.text
+
     within(tr) do
-      click_link link.humanize
+      #binding.pry
+      #click_link link.humanize
+      find(:link, "#{link.humanize}").click
     end
   end
 end

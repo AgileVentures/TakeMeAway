@@ -52,6 +52,8 @@ When(/^I select "([^"]*)" to "([^"]*)"$/) do |field, option|
   case field
     when 'Menu Item' then
       id = 'menu_menu_item_ids'
+    when 'Order Item' then
+      id = 'order_item_menu_item_id'
   end
   find(:select, id).find(:option, option).select_option
 end
@@ -60,6 +62,8 @@ When(/^I unselect "([^"]*)" from "([^"]*)"$/) do |option, field|
   case field
     when 'Menu Item' then
       id = 'menu_menu_item_ids'
+    when 'Order Item' then
+      id = 'order_item_menu_item_id'
   end
   find(:select, id).find(:option, option).unselect_option
 end
