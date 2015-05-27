@@ -4,6 +4,7 @@
 #= require jquery.fileupload
 #= require cloudinary/jquery.cloudinary
 #= require attachinary
+#= require cocoon
 
 $ ->
   $('.attachinary-input').attachinary()
