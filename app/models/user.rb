@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
   after_create :ensure_authentication_token
 
-  scope :clients, -> { where.not(is_admin: true) }
+  scope :clients, -> { where(is_admin: [false, nil]) }
   scope :admins, -> { where(is_admin: true) }
 
   def admin?
