@@ -39,5 +39,16 @@ RSpec.describe MenuItemsMenu, type: :model do
         expect{@menu_item_instance.increment_stock(1)}.to change{@menu_item_instance.daily_stock}.by(1)
       end
     end
+
+    describe '#active?' do
+      it 'returns true if positive stock' do
+        expect(@menu_item_instance.active?).to be_truthy
+      end
+
+      it 'returns true if 0 stock' do
+        @menu_item_instance.decrement_stock(20)
+        expect(@menu_item_instance.active?).to_not be_truthy
+      end
+    end
   end
 end

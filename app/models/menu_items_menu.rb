@@ -13,4 +13,8 @@ class MenuItemsMenu < ActiveRecord::Base
   def increment_stock(qty)
     self.increment!(:daily_stock, qty)
   end
+
+  def active?
+    self.daily_stock > 0
+  end
 end
