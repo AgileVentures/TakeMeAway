@@ -5,4 +5,12 @@ class MenuItemsMenu < ActiveRecord::Base
   validates :daily_stock, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :menu_item, presence: true
   validates :menu, presence: true
+
+  def decrement_stock(qty)
+    self.decrement!(:daily_stock, qty)
+  end
+
+  def increment_stock(qty)
+    self.increment!(:daily_stock, qty)
+  end
 end

@@ -19,4 +19,28 @@ RSpec.describe MenuItemsMenu, type: :model do
     it { is_expected.to validate_presence_of :menu }
     it { is_expected.to validate_presence_of :menu_item }
   end
+
+  describe 'instance methods' do
+    let(:menu) { FactoryGirl.create(:menu) }
+    let(:menu_item) { FactoryGirl.create(:menu_item) }
+    before(:each) do
+
+      menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
+      @menu_item_instance = menu.menu_items_menus.first
+    end
+    describe '#decrement_stock' do
+      it 'reduces daily stock' do
+        @menu_item_instance.decrement_stock(1)
+        expect(@menu_item_instance.daily_stock).to eq 19
+        #expect(@menu_item_instance.decrement_stock(1)).to change{@menu_item_instance.daily_stock}.from(20).to(19)
+      end
+    end
+
+    describe '#increment_stock' do
+      it 'increases daily stock' do
+        @menu_item_instance.increment_stock(1)
+        expect(@menu_item_instance.daily_stock).to eq 21
+      end
+    end
+  end
 end
