@@ -1,4 +1,6 @@
 class Api::V1::OrdersController < ApiController
+  require 'stock_inventory'
+
   before_action :convert_json_to_params, only: [:create, :update]
 
   # t.integer  "user_id"
@@ -43,16 +45,29 @@ class Api::V1::OrdersController < ApiController
     @json_params[:order_items]
   end
 
-  def add_order_item(id, q)
-    @order.order_items.create(menu_item: MenuItem.find(id), quantity: q)
+  def menu_params
+    @json_params[:order][:menu_id]
+  end
+
+  def add_order_item(id, qty)
+    @order.order_items.create(menu_item: MenuItem.find(id), quantity: qty)
+    stock_service(id, qty)
   end
 
   def purge_order_items
     @order.order_items.delete_all
   end
 
+
+  def stock_service(menu_item_id, qty)
+    menu_item = MenuItem.find(menu_item_id)
+    resource = menu_item.menus.find(menu_params).menu_items_menus.find(menu_item_id)
+    StockInventory.decrement_inventory(resource, qty)
+  end
+
   def make_updates
     @order.update_attributes(order_params)
+
     purge_order_items
     unless order_items_params.nil?
       order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
@@ -60,4 +75,5 @@ class Api::V1::OrdersController < ApiController
       true
     end
   end
+
 end

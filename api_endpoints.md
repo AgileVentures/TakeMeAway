@@ -59,6 +59,7 @@ Request format:
 {
   "order": {
     "user_id": 3,
+    "menu_id": 2,
     "order_time": "2015-05-26T10:43:53.338Z",
     "pickup_time": "2015-05-26T11:43:53.338Z"
   },
