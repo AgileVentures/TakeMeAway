@@ -30,16 +30,13 @@ RSpec.describe MenuItemsMenu, type: :model do
     end
     describe '#decrement_stock' do
       it 'reduces daily stock' do
-        @menu_item_instance.decrement_stock(1)
-        expect(@menu_item_instance.daily_stock).to eq 19
-        #expect(@menu_item_instance.decrement_stock(1)).to change{@menu_item_instance.daily_stock}.from(20).to(19)
+        expect{@menu_item_instance.decrement_stock(1)}.to change{@menu_item_instance.daily_stock}.from(20).to(19)
       end
     end
 
     describe '#increment_stock' do
       it 'increases daily stock' do
-        @menu_item_instance.increment_stock(1)
-        expect(@menu_item_instance.daily_stock).to eq 21
+        expect{@menu_item_instance.increment_stock(1)}.to change{@menu_item_instance.daily_stock}.by(1)
       end
     end
   end
