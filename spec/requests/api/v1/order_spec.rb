@@ -44,7 +44,7 @@ describe Api::V1::OrdersController do
 
     it 'decrements MenuItemMenu by quantity' do
       post '/v1/orders', params.to_json
-      menu_item_instance = menu.menu_items_menus.find(menu_item.id)
+      menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: menu_item.id)
       expect(menu_item_instance.daily_stock).to eq 19
     end
 
@@ -91,7 +91,7 @@ describe Api::V1::OrdersController do
     end
 
     it 'changing an item' do
-      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id}, order_items: [{menu_item: menu_item.id, quantity: 1}, {menu_item: menu_item2.id, quantity: 1}]}.to_json
+      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id, menu_id: menu.id}, order_items: [{menu_item: menu_item.id, quantity: 1}, {menu_item: menu_item2.id, quantity: 1}]}.to_json
       expect(response_json.except('pickup_time')).to eq({'user' => user.id,
                                                          'status' => 'pending',
                                                          'items' => [{'id' => menu_item.id,
@@ -104,7 +104,7 @@ describe Api::V1::OrdersController do
     end
 
     it 'adding order_item creates new instance of OrderItem' do
-      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id},
+      patch "/v1/orders/#{@order.id}", {order: {user_id: user.id, menu_id: menu.id},
                                         order_items:
                                             [{menu_item: menu_item.id, quantity: 1},
                                              {menu_item: menu_item2.id, quantity: 1}
@@ -115,7 +115,7 @@ describe Api::V1::OrdersController do
 
     it 'changing an pickup_time' do
       time = (Time.now + 2.hours).strftime('%H:%M:%S')
-      json_data = {order: {user_id: user.id, pickup_time: time},
+      json_data = {order: {user_id: user.id, menu_id: menu.id, pickup_time: time},
                    order_items:
                        [{menu_item: menu_item.id, quantity: 1}]
       }.to_json

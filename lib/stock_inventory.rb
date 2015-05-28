@@ -1,6 +1,6 @@
 module StockInventory
   def self.decrement_inventory(resource, qty)
-    binding.pry
+    # binding.pry
     resource.decrement_stock(qty)
   end
 
