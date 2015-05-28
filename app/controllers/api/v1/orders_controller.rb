@@ -51,10 +51,13 @@ class Api::V1::OrdersController < ApiController
 
   def add_order_item(id, qty)
     @order.order_items.create(menu_item: MenuItem.find(id), quantity: qty)
-    stock_service(id, qty)
+    stock_service(id, -qty)
   end
 
   def purge_order_items
+    @order.order_items.each do |item|
+      stock_service(item.menu_item_id, item.quantity)
+    end
     @order.order_items.delete_all
   end
 
@@ -62,15 +65,19 @@ class Api::V1::OrdersController < ApiController
   def stock_service(menu_item_id, qty)
     menu_item = MenuItem.find(menu_item_id)
     resource = menu_item.menus.find(menu_params).menu_items_menus.find_by(menu_item_id: menu_item_id)
-    StockInventory.decrement_inventory(resource, qty)
+
+    if qty < 0
+      StockInventory.decrement_inventory(resource, -qty)
+    else
+      StockInventory.increment_inventory(resource, qty)
+    end
   end
 
   def make_updates
     @order.update_attributes(order_params)
 
     purge_order_items
-    unless order_items_params.nil?
-      # binding.pry
+    if order_items_params
       order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
     else
       true

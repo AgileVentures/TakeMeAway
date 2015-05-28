@@ -37,28 +37,43 @@ describe Api::V1::OrdersController do
   end
 
   describe 'POST /v1/orders' do
-    it 'creates an Order instance' do
-      expect { post '/v1/orders', params.to_json }.to change(Order, :count).by 1
+    context 'Receives valid query parameters' do
+      it 'creates an Order instance' do
+        expect { post '/v1/orders', params.to_json }.to change(Order, :count).by 1
+      end
+
+      it 'creates instance of OrderItem' do
+        expect { post '/v1/orders', params.to_json }.to change(OrderItem, :count).by 1
+      end
+
+      it 'returns a response' do
+        post '/v1/orders', params.to_json
+        expect(response_json).to eq('user' => user.id,
+                                    'status' => 'pending',
+                                    'items' =>
+                                         [{ 'id' => menu_item.id,
+                                            'item' => menu_item.name,
+                                            'price' => menu_item.price.to_f }])
+      end
+
+      it 'decrements MenuItemMenu by quantity after creating the order' do
+        post '/v1/orders', params.to_json
+
+        menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: menu_item.id)
+        expect(menu_item_instance.daily_stock).to eq 19
+      end
     end
 
-    it 'creates instance of OrderItem' do
-      expect { post '/v1/orders', params.to_json }.to change(OrderItem, :count).by 1
-    end
+    context 'Receives invalid parameters' do
+      it 'returns an error message' do
+        post '/v1/orders', {
+          order: { user_id: user.id, menu_id: menu.id },
+          order_items: []
+        }.to_json
 
-    it 'decrements MenuItemMenu by quantity' do
-      post '/v1/orders', params.to_json
-      menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: menu_item.id)
-      expect(menu_item_instance.daily_stock).to eq 19
-    end
-
-    it 'returns a response' do
-      post '/v1/orders', params.to_json
-      expect(response_json).to eq('user' => user.id,
-                                  'status' => 'pending',
-                                  'items' =>
-                                       [{ 'id' => menu_item.id,
-                                          'item' => menu_item.name,
-                                          'price' => menu_item.price.to_f }])
+        expect(response_json).to eq('message' => 'Error')
+        expect(response.status).to eq 401
+      end
     end
   end
 
@@ -83,11 +98,9 @@ describe Api::V1::OrdersController do
   end
 
   describe 'PATCH /v1/orders/user/:id' do
-    before do
-      @order = FactoryGirl.create(:order, user_id: user.id, status: 'pending',
-                                          order_time: Time.zone.now,
-                                          pickup_time: Time.zone.now + 1.hour)
-      @order.order_items.create(menu_item: menu_item, quantity: 1)
+    before(:each) do
+      post '/v1/orders', params.to_json
+      @order = Order.first
     end
 
     it 'changing an item' do
@@ -109,6 +122,19 @@ describe Api::V1::OrdersController do
                                                           'price' => 50.0
                                                         }]
                                                        )
+    end
+
+    it 'decrements MenuItemMenu by quantity' do
+      patch "/v1/orders/#{@order.id}", {
+        order: { user_id: user.id, menu_id: menu.id },
+        order_items: [{ menu_item: menu_item.id, quantity: 1 },
+                      { menu_item: menu_item2.id, quantity: 1 }]
+      }.to_json
+
+      @order.order_items.each do |item|
+        menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: item.menu_item_id)
+        expect(menu_item_instance.daily_stock).to eq 19
+      end
     end
 
     it 'adding order_item creates new instance of OrderItem' do
@@ -139,11 +165,24 @@ describe Api::V1::OrdersController do
                                   }])
     end
 
-    it 'DELETE order set status to \'canceled\'' do
-      json_data = { order: { user_id: user.id, status: 'canceled' } }.to_json
+    context 'DELETE - Cancel an Order' do
+      before(:each) do
+        json_data = { order: {
+          user_id: user.id, menu_id: menu.id, status: 'canceled' } }.to_json
 
-      patch "/v1/orders/#{@order.id}", json_data
-      expect(response_json['status']).to eq 'canceled'
+        patch "/v1/orders/#{@order.id}", json_data
+      end
+
+      it 'set status to \'canceled\'' do
+        expect(response_json['status']).to eq 'canceled'
+      end
+
+      it 'update the stock accordingly when an order is cancelled' do
+        @order.order_items.each do |item|
+          menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: item.menu_item_id)
+          expect(menu_item_instance.daily_stock).to eq 20
+        end
+      end
     end
   end
 end
