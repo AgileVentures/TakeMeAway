@@ -65,7 +65,6 @@ class Api::V1::OrdersController < ApiController
   def stock_service(menu_item_id, qty)
     menu_item = MenuItem.find(menu_item_id)
     resource = menu_item.menus.find(menu_params).menu_items_menus.find_by(menu_item_id: menu_item_id)
-
     if qty < 0
       StockInventory.decrement_inventory(resource, -qty)
     else
@@ -75,7 +74,6 @@ class Api::V1::OrdersController < ApiController
 
   def make_updates
     @order.update_attributes(order_params)
-
     purge_order_items
     if order_items_params
       order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }

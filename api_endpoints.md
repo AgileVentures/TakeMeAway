@@ -27,6 +27,7 @@ Returns
       "items": [
         {
           "id": 1,
+          'status' => 'active',
           "item": "Kyckling",
           "price": "20.0",
           "description": "Lorem ipsum"
@@ -34,6 +35,7 @@ Returns
         },
         {
           "id": 2,
+          'status' => 'active',
           "item": "Biff",
           "price": "15.0",
           "description": "Lorem ipsum..."
@@ -44,7 +46,7 @@ Returns
   ]
 }
 ```
-
+**Note the item status that can return `active` or `inactive` depending on current stock level.**
 
 ##### Orders
 
