@@ -1,5 +1,4 @@
 module OrdersHelper
-
   def status_color(order)
     case order.status
       when 'pending'
@@ -11,8 +10,7 @@ module OrdersHelper
     end
   end
 
-  def order_item(item)
-    OrderItem.find_by_id(item.id)
-  end
-
+  # def order_item(item)
+  #   OrderItem.find_by_id(item.id)
+  # end
 end

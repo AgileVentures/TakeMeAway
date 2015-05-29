@@ -67,9 +67,15 @@ RSpec.describe Order, type: :model do
         new_order = FactoryGirl.create(:order)
         expect(new_order.total).to eq nil
       end
-
     end
 
+    context '#set_status' do
+      it 'assigns a status to an order' do
+        expect(order.status).to eq 'pending'
+        order.set_status('processed')
+        expect(order.status).to eq 'processed'
+      end
+    end
   end
 
   describe 'scopes' do
