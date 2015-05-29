@@ -21,8 +21,6 @@ describe Api::V1::MenusController do
 
     it 'returns a menu index' do
       get '/v1/menus'
-      puts puts JSON.pretty_generate(response_json)
-
       expect(response_json).to eq('date_range' => '2015-05-04..2015-05-10',
                                   'menus' => [{
                                                   'id' => @menus[0].id,
@@ -145,10 +143,7 @@ describe Api::V1::MenusController do
     end
 
     it 'returns inactive status on menu_items without stock' do
-      @menus[0].menu_items_menus.find(@menu_items[0].id).update_attribute(:daily_stock, 0)
-      puts @menus[0].menu_items_menus.find(@menu_items[0].id).menu_item.name
-      puts @menus[0].menu_items_menus.find(@menu_items[0].id).menu_item.id
-      binding.pry
+      @menus[0].menu_items_menus.find_by(menu_item: @menu_items[0].id).update_attribute(:daily_stock, 0)
       get '/v1/menus'
       expect(response_json['menus']).to include ({
                                                   'id' => @menus[0].id,
@@ -160,7 +155,7 @@ describe Api::V1::MenusController do
                                                   'items' => [
                                                       {
                                                           'id' => @menu_items[0].id,
-                                                          'status' => 'active',
+                                                          'status' => 'inactive',
                                                           'name' => @menu_items[0].name,
                                                           'price' => @menu_items[0].price.to_f.to_s,
                                                           'description' => @menu_items[0].description,
@@ -170,7 +165,7 @@ describe Api::V1::MenusController do
                                                       },
                                                       {
                                                           'id' => @menu_items[1].id,
-                                                          'status' => 'inactive',
+                                                          'status' => 'active',
                                                           'name' => @menu_items[1].name,
                                                           'price' => @menu_items[1].price.to_f.to_s,
                                                           'description' => @menu_items[1].description,
