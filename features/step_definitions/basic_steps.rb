@@ -64,6 +64,10 @@ When(/^I unselect "([^"]*)" from "([^"]*)"$/) do |option, field|
       id = 'menu_menu_item_ids'
     when 'Order Item' then
       id = 'order_item_menu_item_id'
+    when 'first Menu Item' then
+      id = 'menu_menu_items_menus_attributes_0_menu_item_id'
+    when 'second Menu Item' then
+      id = 'menu_menu_items_menus_attributes_1_menu_item_id'
   end
   find(:select, id).find(:option, option).unselect_option
 end

@@ -11,7 +11,7 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to have_many :menu_items }
+    it { is_expected.to have_many(:menu_items).through :order_items }
     it { is_expected.to have_many :order_items}
     it { is_expected.to belong_to :user }
   end
@@ -67,9 +67,15 @@ RSpec.describe Order, type: :model do
         new_order = FactoryGirl.create(:order)
         expect(new_order.total).to eq nil
       end
-
     end
 
+    context '#set_status' do
+      it 'assigns a status to an order' do
+        expect(order.status).to eq 'pending'
+        order.set_status('processed')
+        expect(order.status).to eq 'processed'
+      end
+    end
   end
 
   describe 'scopes' do

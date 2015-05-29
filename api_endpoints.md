@@ -27,6 +27,7 @@ Returns
       "items": [
         {
           "id": 1,
+          'status' => 'active',
           "item": "Kyckling",
           "price": "20.0",
           "description": "Lorem ipsum"
@@ -34,6 +35,7 @@ Returns
         },
         {
           "id": 2,
+          'status' => 'active',
           "item": "Biff",
           "price": "15.0",
           "description": "Lorem ipsum..."
@@ -44,7 +46,7 @@ Returns
   ]
 }
 ```
-
+**Note the item status that can return `active` or `inactive` depending on current stock level.**
 
 ##### Orders
 
@@ -59,6 +61,7 @@ Request format:
 {
   "order": {
     "user_id": 3,
+    "menu_id": 2,
     "order_time": "2015-05-26T10:43:53.338Z",
     "pickup_time": "2015-05-26T11:43:53.338Z"
   },
