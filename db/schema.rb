@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 20150527185325) do
 
   add_index "attachinary_files", ["attachinariable_type", "attachinariable_id", "scope"], name: "by_scoped_parent", using: :btree
 
+  create_table "images", force: :cascade do |t|
+    t.integer  "menu_item_id"
+    t.string   "style"
+    t.binary   "file_contents"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "menu_categories", force: :cascade do |t|
     t.string   "name",       limit: 45
     t.datetime "created_at",            null: false
@@ -64,10 +72,14 @@ ActiveRecord::Schema.define(version: 20150527185325) do
   create_table "menu_items", force: :cascade do |t|
     t.string   "name"
     t.decimal  "price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.text     "description"
     t.string   "ingredients"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "menu_items_menus", force: :cascade do |t|
