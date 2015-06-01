@@ -15,7 +15,12 @@ class Api::V1::OrdersController < ApiController
     attributes = order_params
     @order = Order.create(attributes)
     order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
-    invalid_request unless @order.save
+    if @order.save
+      OrderNotifier.kitchen(@order).deliver
+      # add order notifier email to customer when ready
+    else
+      invalid_request unless @order.save
+    end
   end
 
   def update
