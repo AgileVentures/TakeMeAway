@@ -152,6 +152,9 @@ GEM
       json
       thread
       thread_safe
+    email_spec (1.6.0)
+      launchy (~> 2.1)
+      mail (~> 2.2)
     email_validator (1.5.0)
       activemodel
     erubis (2.7.0)
@@ -408,6 +411,7 @@ DEPENDENCIES
   date_validator
   devise
   dotenv-rails
+  email_spec
   email_validator
   factory_girl_rails
   faker
