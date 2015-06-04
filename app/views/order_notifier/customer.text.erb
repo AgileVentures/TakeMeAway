@@ -6,6 +6,6 @@ Your order for take-away food was received.
 
 It will be ready by your pick-up time of <%=@order.pickup_time -%>.
 
-You ordered these <%= @order.order_items.length -%> items:
+You ordered the following <%= 'item'.pluralize(@order.order_items.length) -%>:
 
 <%= render @order.order_items -%>

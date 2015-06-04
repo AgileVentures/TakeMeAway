@@ -29,8 +29,8 @@ RSpec.describe OrderNotifier, :type => :mailer do
       expect(mail).to have_body_text(order.user.name)
     end
     
-    it 'should have four items in the order' do
-      expect(mail).to have_body_text('4 items')
+    it 'should have one or more items in the order' do
+      expect(order.menu_items).not_to be_empty
     end
 
   end
@@ -59,7 +59,7 @@ RSpec.describe OrderNotifier, :type => :mailer do
       expect(mail).to have_body_text(order.user.email)
     end
     
-    it 'should have multiple items for the order' do
+    it 'should have one or more items in the order' do
       expect(order.menu_items).not_to be_empty
     end
   end

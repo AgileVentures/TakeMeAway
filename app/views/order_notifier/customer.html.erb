@@ -7,7 +7,7 @@
   <br><br>
   It will be ready by your pick-up time of <%=@order.pickup_time -%>
   <br><br>
-  You ordered these <%=@order.order_items.length -%> items:
+  You ordered the following <%= 'item'.pluralize(@order.order_items.length) -%>:
 </p>
 
 <table border="1", style="border-collapse:collapse">
