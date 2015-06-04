@@ -1,10 +1,10 @@
-Order Receipt from Take Me Away
+Order Received for Take Me Away
 
-Order Time : <%= @order.time %>
+Order Time : <%= @order.order_time %>
 Pickup Time: <%= @order.pickup_time %>
 Customer   : <%= @order.user.name %>
-  EMail    : <%= @order.user.email %>
+  Email    : <%= @order.user.email %>
   
-Order Items:
+Ordered Items:
 
 <%= render @order.order_items -%>
