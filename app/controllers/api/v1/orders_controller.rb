@@ -19,7 +19,7 @@ class Api::V1::OrdersController < ApiController
       OrderNotifier.kitchen(@order).deliver_now
       OrderNotifier.customer(@order).deliver_now
     else
-      invalid_request unless @order.save
+      invalid_request
     end
   end
 
