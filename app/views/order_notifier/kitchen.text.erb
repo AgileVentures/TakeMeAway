@@ -1,3 +1,10 @@
-OrderNotifier#kitchen
+Order Received for Take Me Away
 
-<%= @greeting %>, find me in app/views/order_notifier/kitchen.text.erb
+Order Time : <%= @order.order_time %>
+Pickup Time: <%= @order.pickup_time %>
+Customer   : <%= @order.user.name %>
+  Email    : <%= @order.user.email %>
+  
+Ordered Items:
+
+<%= render @order.order_items -%>

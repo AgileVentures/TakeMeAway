@@ -38,8 +38,6 @@
 # vim artifacts
 **.swp
 
-# Ignore application configuration
-#/config/application.yml
 .env
 
 # Versioning
@@ -73,3 +71,6 @@ tags
 
 #cloudinary settingd
 config/cloudinary.yml
+
+# Ignore application configuration
+/config/application.yml

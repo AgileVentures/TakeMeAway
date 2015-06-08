@@ -1,5 +1,22 @@
-<h1>OrderNotifier#kitchen</h1>
+<h1>Order Recieved for Take Me Away</h1>
 
 <p>
-  <%= @greeting %>, find me in app/views/order_notifier/kitchen.html.erb
+  <br>
+  Order Time : <%= @order.order_time %>
+  <br>
+  Pickup Time: <%= @order.pickup_time %>
+  <br>
+  Customer   : <%= @order.user.name %>
+  <br>
+    Email    : <%= @order.user.email %>
+  <br>
+    Number of Items: <%= @order.order_items.count %>
 </p>
+
+<table border="1", style="border-collapse:collapse">
+  <tr>
+    <th>Quantity</th>
+    <th>Description</th>
+  </tr>
+  <%= render @order.order_items -%>
+</table>
