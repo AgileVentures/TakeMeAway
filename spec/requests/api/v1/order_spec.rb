@@ -26,8 +26,10 @@ describe Api::V1::OrdersController do
   let(:menu_item) { FactoryGirl.create(:menu_item) }
   let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item', price: 50) }
   let(:menu) { FactoryGirl.create(:menu) }
-
+  let(:user) { FactoryGirl.create(:user) }
   before(:each) do
+    authenticate_user user
+
     menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
     menu.menu_items_menus.create(menu_item: menu_item2, daily_stock: 20)
   end

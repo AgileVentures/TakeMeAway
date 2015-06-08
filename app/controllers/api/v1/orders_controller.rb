@@ -13,9 +13,6 @@ class Api::V1::OrdersController < ApiController
   # t.datetime "updated_at",       null: false
 
   def create
-    # user = current_user
-    # binding.pry
-    p current_user
     attributes = order_params.merge(user_id: current_user.id) if current_user
     @order = Order.create(attributes)
     order_items_params.each { |item| add_order_item(item[:menu_id], item[:menu_item], item[:quantity]) }
@@ -34,7 +31,7 @@ class Api::V1::OrdersController < ApiController
   private
 
   def invalid_request
-    render json: {message: 'Error'}, status: 401
+    render json: { message: 'Error' }, status: 401
   end
 
   def convert_json_to_params
@@ -42,15 +39,11 @@ class Api::V1::OrdersController < ApiController
   end
 
   def order_params
-    @json_params.require(:order).permit(:user_id, :status, :order_time, :pickup_time) # , :menu_items)
+    @json_params.require(:order).permit(:status, :order_time, :pickup_time)
   end
 
   def order_items_params
     @json_params[:order_items]
-  end
-
-  def menu_params
-    @json_params[:order][:menu_id]
   end
 
   def add_order_item(menu_id, menu_item_id, qty)
@@ -62,12 +55,10 @@ class Api::V1::OrdersController < ApiController
 
   def purge_order_items
     @order.order_items.each do |item|
-      # binding.pry
       stock_service(item.menu_id, item.menu_item_id, item.quantity)
     end
     @order.order_items.delete_all
   end
-
 
   def stock_service(menu_id, menu_item_id, qty)
     menu_item = MenuItem.find(menu_item_id)
@@ -88,5 +79,4 @@ class Api::V1::OrdersController < ApiController
       true
     end
   end
-
 end
