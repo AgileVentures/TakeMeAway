@@ -42,7 +42,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 3.1.0'
-  # gem 'email_spec'  # Rspec matchers and Cucumber steps for testing email 
   gem 'timecop'
   gem 'faker'
   gem 'jc-validates_timeliness' #Date and time validation plugin for ActiveModel and Rails

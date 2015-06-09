@@ -16,11 +16,6 @@ class Order < ActiveRecord::Base
   scope :canceled, lambda { where(status: 'canceled') }
   scope :pending, lambda { where(status: 'pending') }
   scope :processed, lambda { where(status: 'processed') }
-  
-  after_create do
-    OrderNotifier.kitchen(self).deliver_now
-    OrderNotifier.customer(self).deliver_now
-  end
 
 
   def total
