@@ -19,6 +19,7 @@ ActiveAdmin.register MenuItem, as: 'Products' do
       f.input :price
       f.input :description
       f.input :ingredients
+      f.input :receive_notifications
       f.input :image, :as => :formtastic_attachinary
     end
     f.actions

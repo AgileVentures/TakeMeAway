@@ -17,4 +17,6 @@ SMTP_PASSWORD: '38LjEPStn-'  # password for sendgrid account
 SMTP_DOMAIN:  'herokuapp.com'
 SMTP_ADDRESS: 'smtp.sendgrid.net'
 
+order_receipt_from_email: 'tma_kitchen@gmail.org'
+
 

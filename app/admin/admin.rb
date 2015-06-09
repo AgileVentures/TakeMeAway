@@ -4,7 +4,8 @@ ActiveAdmin.register User, as: 'Admins' do
   scope_to do
     User.admins
   end
-  permit_params :email, :password, :password_confirmation
+  permit_params :email, :password, :password_confirmation, 
+                :name, :receive_notifications, :is_admin
 
 
   index do
@@ -12,6 +13,7 @@ ActiveAdmin.register User, as: 'Admins' do
     #id_column
     column :name
     column :email
+    column :receive_notifications
     column 'Member since', :created_at
     actions
   end
@@ -24,9 +26,12 @@ ActiveAdmin.register User, as: 'Admins' do
 
   form do |f|
     f.inputs "User Details" do
+      f.semantic_errors *f.object.errors.keys
+      f.input :name
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :receive_notifications
       f.input :is_admin
     end
     f.actions

@@ -17,4 +17,9 @@ class User < ActiveRecord::Base
   def admin?
     self.is_admin
   end
+  
+  def self.notification_email_list
+    User.where(is_admin: true, receive_notifications: true).pluck(:email)
+  end
+  
 end

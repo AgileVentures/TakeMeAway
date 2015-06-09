@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"  # CHANGE TO PRODUCTION SETTING
+  default from: ENV['order_receipt_from_email']
   layout 'mailer'
 end
