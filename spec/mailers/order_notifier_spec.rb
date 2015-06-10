@@ -40,7 +40,7 @@ RSpec.describe OrderNotifier, :type => :mailer do
     let(:mail)  { OrderNotifier.kitchen(order) }
     
     it 'should specify delivery to admin address(es)' do
-      expect(mail).to deliver_to(ENV['order_receipt_from_email'])
+      expect(mail).to deliver_to(User.notification_email_list)
     end
     
     it 'should specify correct subject' do

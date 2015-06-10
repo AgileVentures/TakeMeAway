@@ -12,13 +12,8 @@ class OrderNotifier < ApplicationMailer
 
   def kitchen(order)
     @order = order
-    if Rails.env.test?
-      to_email = ENV['order_receipt_from_email']
-    else
-      to_email = User.notification_email_list || ENV['order_receipt_from_email']
-    end
-        
-    mail to: to_email, subject: 'Order Received' do |format|
+
+    mail to: User.notification_email_list, subject: 'Order Received' do |format|
       format.html
       format.text
     end

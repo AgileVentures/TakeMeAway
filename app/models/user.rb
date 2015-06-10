@@ -22,8 +22,12 @@ class User < ActiveRecord::Base
   end
   
   def self.notification_email_list
-    # Returns Array of email address(es)
-    User.where(is_admin: true, receive_notifications: true).pluck(:email)
+    if (email_list = User.where(is_admin: true, receive_notifications: true).pluck(:email))
+      email_list
+    else
+      ENV['order_receipt_from_email']
+    end
+       
   end
   
   def self.order_acknowledge_email_address
