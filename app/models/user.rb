@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
          :token_authenticatable
   has_many :orders
   validates :name, presence: true
+  
+  validates_uniqueness_of :order_acknowledge_email,
+            conditions: -> { where.not(order_acknowledge_email: false) }
 
   after_create :ensure_authentication_token
 
@@ -19,7 +22,17 @@ class User < ActiveRecord::Base
   end
   
   def self.notification_email_list
+    # Returns Array of email address(es)
     User.where(is_admin: true, receive_notifications: true).pluck(:email)
+  end
+  
+  def self.order_acknowledge_email_address
+    # Returns email address (string)
+    if (user = User.find_by(is_admin: true, order_acknowledge_email: true))
+      user.email
+    else
+      ENV['order_receipt_from_email']
+    end
   end
   
 end

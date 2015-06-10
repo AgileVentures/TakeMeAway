@@ -4,13 +4,10 @@ RSpec.describe OrderNotifier, :type => :mailer do
   include EmailSpec::Helpers
   include EmailSpec::Matchers
   
-  before(:each) do
-    FactoryGirl.create(:kitchen_user)
-  end
-  
   let(:order) { FactoryGirl.create(:order_with_items) }
   
   describe 'customer' do
+
     let(:mail) { OrderNotifier.customer(order) }
 
     it 'should specify delivery to customer email address' do
@@ -22,7 +19,7 @@ RSpec.describe OrderNotifier, :type => :mailer do
     end
     
     it 'should specify correct from address' do
-      expect(mail).to deliver_from(ENV['order_receipt_from_email'])
+      expect(mail).to deliver_from(User.order_acknowledge_email_address)
     end
 
     it 'should indicate receipt of customer order' do

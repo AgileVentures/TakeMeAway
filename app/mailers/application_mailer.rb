@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV['order_receipt_from_email']
+  default from: User.order_acknowledge_email_address
   layout 'mailer'
 end

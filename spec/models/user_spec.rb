@@ -37,7 +37,8 @@ RSpec.describe User, type: :model do
     before do
       3.times { FactoryGirl.create(:user) }
       @clients = User.where.not(is_admin: true)
-      @admin = FactoryGirl.create(:user, is_admin: true)
+      @admin = FactoryGirl.create(:user, is_admin: true, receive_notifications: true)
+      @kitchen_user = FactoryGirl.create(:kitchen_user)
     end
 
     context 'admin?' do
@@ -54,13 +55,23 @@ RSpec.describe User, type: :model do
 
     context ':admins scope' do
       it 'returns an array of admins' do
-        expect(User.admins).to match_array @admin
+        expect(User.admins).to match_array [@admin, @kitchen_user]
+      end
+      
+      it 'sends order notification to all admins' do
+        expect(User.notification_email_list).to match_array [@admin.email,    
+                                              @kitchen_user.email]
+      end
+      
+      it 'sends order receipt confirmation from kitchen admin' do
+        expect(User.order_acknowledge_email_address).to eq(@kitchen_user.email)
       end
 
       it 'excludes non admins' do
         expect(User.admins).to_not include @clients
       end
     end
+    
 
     context ':clients scope' do
       it 'returns an array of clients' do
