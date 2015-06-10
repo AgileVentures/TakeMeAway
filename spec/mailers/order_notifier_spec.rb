@@ -48,7 +48,7 @@ RSpec.describe OrderNotifier, :type => :mailer do
     end
     
     it 'should specify correct from address' do
-      expect(mail).to deliver_from(ENV['order_receipt_from_email'])
+      expect(mail).to deliver_from(User.order_acknowledge_email_address)
     end
 
     it 'should indicate receipt of customer order' do
