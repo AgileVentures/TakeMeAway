@@ -16,7 +16,12 @@ class Api::V1::OrdersController < ApiController
     attributes = order_params.merge(user_id: current_user.id) if current_user
     @order = Order.create(attributes)
     order_items_params.each { |item| add_order_item(item[:menu_id], item[:menu_item], item[:quantity]) }
-    invalid_request unless @order.save
+    if @order.save
+      OrderNotifier.kitchen(@order).deliver_now
+      OrderNotifier.customer(@order).deliver_now
+    else
+      invalid_request
+    end
   end
 
   def update

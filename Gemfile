@@ -29,6 +29,7 @@ gem 'date_validator'
 gem 'jbuilder'
 gem 'attachinary'
 gem 'cloudinary'
+gem 'figaro'
 
 group :development do
   gem 'web-console'
@@ -58,6 +59,7 @@ group :test do
   gem 'webmock'
   gem 'capybara'
   gem 'coveralls', '~> 0.7.9', require: false
+  gem 'email_spec'  # Rspec matchers and Cucumber steps for testing email 
 end
 
 group :staging, :production do
