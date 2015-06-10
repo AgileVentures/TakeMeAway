@@ -7,8 +7,20 @@ ActiveAdmin.register User, as: 'Admins' do
   permit_params :email, :password, :password_confirmation, 
                 :name, :is_admin, :receive_notifications, 
                 :order_acknowledge_email
-
-
+  
+  # the following controller override allows user to edit admin resources
+  # without re-entering the password (and confirmation) for every update
+  # http://stackoverflow.com/questions/15292247/activeadmin-how-to-leave-user-password-unchanged
+  controller do
+    def update
+      if params[:user][:password].blank?
+        params[:user].delete("password")
+        params[:user].delete("password_confirmation")
+      end
+      super
+    end
+  end
+                  
   index do
     selectable_column
     #id_column
