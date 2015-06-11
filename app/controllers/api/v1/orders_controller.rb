@@ -13,9 +13,9 @@ class Api::V1::OrdersController < ApiController
   # t.datetime "updated_at",       null: false
 
   def create
-    attributes = order_params.merge(user_id: current_user.id) if current_user
-    @order = Order.create(attributes)
-    order_items_params.each { |item| add_order_item(item[:menu_id], item[:menu_item], item[:quantity]) }
+    @order = Order.create(order_params.merge(user_id: current_user.id))
+    process_order_items
+
     if @order.save
       OrderNotifier.kitchen(@order).deliver_now
       OrderNotifier.customer(@order).deliver_now
@@ -36,7 +36,8 @@ class Api::V1::OrdersController < ApiController
   private
 
   def invalid_request
-    render json: { message: 'Error' }, status: 401
+    render json: { message: 'Something went wrong', errors: @order.errors },
+           status: :unprocessable_entity
   end
 
   def convert_json_to_params
@@ -49,6 +50,12 @@ class Api::V1::OrdersController < ApiController
 
   def order_items_params
     @json_params[:order_items]
+  end
+
+  def process_order_items
+    order_items_params.each do |item|
+      add_order_item(item[:menu_id], item[:menu_item], item[:quantity])
+    end
   end
 
   def add_order_item(menu_id, menu_item_id, qty)
@@ -79,7 +86,7 @@ class Api::V1::OrdersController < ApiController
     @order.update_attributes(order_params)
     purge_order_items
     if order_items_params
-      order_items_params.each { |item| add_order_item(item[:menu_id], item[:menu_item], item[:quantity]) }
+      process_order_items
     else
       true
     end

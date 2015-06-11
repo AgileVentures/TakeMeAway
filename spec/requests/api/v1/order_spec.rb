@@ -42,7 +42,7 @@ describe Api::V1::OrdersController do
     context 'Receives valid query parameters' do
       include EmailSpec::Helpers
       include EmailSpec::Matchers
-      
+
       it 'creates an Order instance' do
         expect { post '/v1/orders', params.to_json }.to change(Order, :count).by 1
       end
@@ -67,11 +67,11 @@ describe Api::V1::OrdersController do
         menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: menu_item.id)
         expect(menu_item_instance.daily_stock).to eq 19
       end
-      
+
       it 'send notification emails to kitchen and to customer' do
         expect{ post '/v1/orders', params.to_json}.to change(all_emails, :count).by(+2)
       end
-      
+
     end
 
     context 'Receives invalid parameters' do
@@ -81,8 +81,8 @@ describe Api::V1::OrdersController do
           order_items: []
         }.to_json
 
-        expect(response_json).to eq('message' => 'Error')
-        expect(response.status).to eq 401
+        expect(response_json).to include('message' => 'Something went wrong')
+        expect(response.status).to eq 422
       end
     end
   end
