@@ -4,9 +4,9 @@ Feature: As an admin
 
   Background:
     Given the following users exist:
-      | name     | email          | password | is_admin |
-      | Admin    | admin@tma.org  | password | true     |
-      | Client 1 | client@tma.org | password | false    |
+      | name     | email          | password | is_admin | receive_notifications | order_acknowledge_email|
+      | Admin    | admin@tma.org  | password | true     | true                  | true                   |
+      | Client 1 | client@tma.org | password | false    | false                 | false                  |
 
 
   Scenario: Access the sign in page
