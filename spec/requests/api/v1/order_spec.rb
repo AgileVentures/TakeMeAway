@@ -15,19 +15,21 @@ describe Api::V1::OrdersController do
     {
       order: {
         user_id: user.id,
-        menu_id: menu.id,
+        # menu_id: menu.id,
         order_time: Time.zone.now,
         pickup_time: Time.zone.now + 1.hour
       },
-      order_items: [{ menu_item: menu_item.id, quantity: 1 }]
+      order_items: [{ menu_id: menu.id, menu_item: menu_item.id, quantity: 1 }]
     }
   end
 
   let(:menu_item) { FactoryGirl.create(:menu_item) }
   let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item', price: 50) }
   let(:menu) { FactoryGirl.create(:menu) }
-
+  let(:user) { FactoryGirl.create(:user) }
   before(:each) do
+    authenticate_user user
+
     menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
     menu.menu_items_menus.create(menu_item: menu_item2, daily_stock: 20)
   end
@@ -40,7 +42,7 @@ describe Api::V1::OrdersController do
     context 'Receives valid query parameters' do
       include EmailSpec::Helpers
       include EmailSpec::Matchers
-      
+
       it 'creates an Order instance' do
         expect { post '/v1/orders', params.to_json }.to change(Order, :count).by 1
       end
@@ -65,11 +67,11 @@ describe Api::V1::OrdersController do
         menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: menu_item.id)
         expect(menu_item_instance.daily_stock).to eq 19
       end
-      
+
       it 'send notification emails to kitchen and to customer' do
         expect{ post '/v1/orders', params.to_json}.to change(all_emails, :count).by(+2)
       end
-      
+
     end
 
     context 'Receives invalid parameters' do
@@ -79,8 +81,8 @@ describe Api::V1::OrdersController do
           order_items: []
         }.to_json
 
-        expect(response_json).to eq('message' => 'Error')
-        expect(response.status).to eq 401
+        expect(response_json).to include('message' => 'Something went wrong')
+        expect(response.status).to eq 422
       end
     end
   end
@@ -90,7 +92,7 @@ describe Api::V1::OrdersController do
       @order = FactoryGirl.create(:order, user_id: user.id, status: 'pending',
                                           order_time: Time.zone.now,
                                           pickup_time: Time.zone.now + 1.hour)
-      @order.order_items.create(menu_item: menu_item, quantity: 1)
+      @order.order_items.create(menu_id: menu.id, menu_item: menu_item, quantity: 1)
     end
 
     it 'returns Order by id' do
@@ -113,9 +115,9 @@ describe Api::V1::OrdersController do
 
     it 'changing an item' do
       patch "/v1/orders/#{@order.id}", {
-        order: { user_id: user.id, menu_id: menu.id },
-        order_items: [{ menu_item: menu_item.id, quantity: 1 },
-                      { menu_item: menu_item2.id, quantity: 1 }]
+        order: { user_id: user.id }, # , menu_id: menu.id },
+        order_items: [{ menu_id: menu.id, menu_item: menu_item.id, quantity: 1 },
+                      { menu_id: menu.id, menu_item: menu_item2.id, quantity: 1 }]
       }.to_json
 
       expect(response_json.except('pickup_time')).to eq('user' => user.id,
@@ -134,9 +136,9 @@ describe Api::V1::OrdersController do
 
     it 'decrements MenuItemMenu by quantity' do
       patch "/v1/orders/#{@order.id}", {
-        order: { user_id: user.id, menu_id: menu.id },
-        order_items: [{ menu_item: menu_item.id, quantity: 1 },
-                      { menu_item: menu_item2.id, quantity: 1 }]
+        order: { user_id: user.id }, # , menu_id: menu.id },
+        order_items: [{ menu_id: menu.id, menu_item: menu_item.id, quantity: 1 },
+                      { menu_id: menu.id, menu_item: menu_item2.id, quantity: 1 }]
       }.to_json
 
       @order.order_items.each do |item|
@@ -147,9 +149,9 @@ describe Api::V1::OrdersController do
 
     it 'adding order_item creates new instance of OrderItem' do
       patch "/v1/orders/#{@order.id}", {
-        order: { user_id: user.id, menu_id: menu.id },
-        order_items: [{ menu_item: menu_item.id, quantity: 1 },
-                      { menu_item: menu_item2.id, quantity: 1 }]
+        order: { user_id: user.id }, # , menu_id: menu.id },
+        order_items: [{ menu_id: menu.id, menu_item: menu_item.id, quantity: 1 },
+                      { menu_id: menu.id, menu_item: menu_item2.id, quantity: 1 }]
       }.to_json
 
       expect { post '/v1/orders', params.to_json }.to change(OrderItem, :count).by 1
@@ -159,7 +161,7 @@ describe Api::V1::OrdersController do
       time = (Time.zone.now + 2.hours).strftime('%H:%M:%S')
       json_data = {
         order: { user_id: user.id, menu_id: menu.id, pickup_time: time },
-        order_items: [{ menu_item: menu_item.id, quantity: 1 }]
+        order_items: [{ menu_id: menu.id, menu_item: menu_item.id, quantity: 1 }]
       }.to_json
 
       patch "/v1/orders/#{@order.id}", json_data
