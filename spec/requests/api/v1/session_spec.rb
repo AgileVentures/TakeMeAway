@@ -12,7 +12,6 @@ describe Api::V1::SessionsController do
         post '/v1/sessions', "email=#{@admin.email}&password=#{@admin.password}"
 
         expect(response_json).to eq('user' => {
-                                      'id' => @admin.id,
                                       'name' => @admin.name,
                                       'email' => @admin.email,
                                       'is_admin' => "#{@admin.is_admin}"
@@ -41,7 +40,6 @@ describe Api::V1::SessionsController do
         post '/v1/sessions', "email=#{@user.email}&password=#{@user.password}"
 
         expect(response_json).to eq('user' => {
-                                      'id' => @user.id,
                                       'name' => @user.name,
                                       'email' => @user.email
                                     },

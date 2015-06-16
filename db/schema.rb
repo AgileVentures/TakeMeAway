@@ -96,8 +96,10 @@ ActiveRecord::Schema.define(version: 20150609222343) do
     t.integer "menu_item_id"
     t.integer "order_id"
     t.integer "quantity"
+    t.integer "menu_id"
   end
 
+  add_index "order_items", ["menu_id"], name: "index_order_items_on_menu_id", using: :btree
   add_index "order_items", ["menu_item_id"], name: "index_order_items_on_menu_item_id", using: :btree
   add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
 
@@ -137,5 +139,6 @@ ActiveRecord::Schema.define(version: 20150609222343) do
   add_foreign_key "menu_items_menus", "menu_items"
   add_foreign_key "menu_items_menus", "menus"
   add_foreign_key "order_items", "menu_items"
+  add_foreign_key "order_items", "menus"
   add_foreign_key "order_items", "orders"
 end

@@ -95,7 +95,6 @@ Response valid:
 ```javascript
 {
   "user": {
-    "id":"1",
     "name":"User Name",
     "email":"user@tma.org"
   },
@@ -124,7 +123,6 @@ Response valid:
 ```javascript
 {
   "user":{
-    "id" => "2"
     "name"=>"User Name",
     "email":"user@tma.org"
   },
