@@ -65,17 +65,16 @@ Feature:
    And I select "second Menu Item" to "Beef"
    And I fill in "second Daily stock" with "10"
    And I click "Update Menu" button
-   Then "Chicken" should be added as an MenuItem to "Monday"
-   Then "Beef" should be added as an MenuItem to "Monday"
+   Then "Chicken" should be added as a MenuItem to "Monday"
+   Then "Beef" should be added as a MenuItem to "Monday"
 
- @tag1
  Scenario: Remove MenuItem from menu
    Given "Chicken" has been added as an MenuItem to "Monday"
    And  "Beef" has been added as an MenuItem to "Monday"
    And I click the "edit" link for "Monday"
-   And I uncheck "first Delete"
+   And I check "first Delete"
    And I click "Update Menu" button
-   Then "Chicken" should not be an MenuItem to "Monday"
+   Then "Chicken" should not be a MenuItem to "Monday"
 
 
 

@@ -67,6 +67,5 @@ group :staging, :production do
 end
 
 group :development, :staging, :production do
-  # gem 'rack-timeout'
+  gem 'rack-timeout'
 end
-

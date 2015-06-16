@@ -22,11 +22,12 @@ RSpec.describe MenuItemsMenu, type: :model do
   describe 'instance methods' do
     let(:menu) { FactoryGirl.create(:menu) }
     let(:menu_item) { FactoryGirl.create(:menu_item) }
-    before(:each) do
 
+    before(:each) do
       menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
       @menu_item_instance = menu.menu_items_menus.first
     end
+
     describe '#decrement_stock' do
       it 'reduces daily stock' do
         expect{@menu_item_instance.decrement_stock(1)}.to change{@menu_item_instance.daily_stock}.from(20).to(19)

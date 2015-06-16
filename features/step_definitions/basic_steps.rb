@@ -35,6 +35,16 @@ When(/^I uncheck "([^"]*)"$/) do |checkbox|
   uncheck checkbox
 end
 
+When(/^I check "([^"]*)"$/) do |checkbox|
+  case checkbox
+    when 'first Delete' then
+      checkbox_field = 'menu_menu_items_menus_attributes_0__destroy'
+    else
+      checkbox_field = checkbox
+  end
+  check checkbox_field
+end
+
 When(/^I focus on input field with id "([^"]*)"$/) do |element|
   id = element.downcase.tr!(' ', '_')
   page.execute_script "$('##{id}').focus();"
