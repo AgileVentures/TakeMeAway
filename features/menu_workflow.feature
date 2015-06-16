@@ -55,28 +55,27 @@ Feature:
     Then I should see an index of "Menus"
     And I should see 1 record rows
 
-#  @javascript
-#  Scenario: Add MenuItem to menu
-#    When I click the "edit" link for "Monday"
-#    And I click "Add New Menu items menu"
-#    And I select "first Menu Item" to "Chicken"
-#    And I fill in "Daily stock" with "20"
-#    Then show me the page
-#    And I click "Add New Menu items menu"
-#    And I select "second Menu Item" to "Beef"
-#    And I fill in "Daily stock" with "10"
-#    Then show me the page
-#    And I click "Update Menu" button
-#    Then "Chicken" should be added as an MenuItem to "Monday"
-#    Then "Beef" should be added as an MenuItem to "Monday"
-#
-#  Scenario: Remove MenuItem from menu
-#    Given "Chicken" has been added as an MenuItem to "Monday"
-#    And  "Beef" has been added as an MenuItem to "Monday"
-#    And I click the "edit" link for "Monday"
-#    And I unselect "Chicken" from "Menu Item"
-#    And I click "Update Menu" button
-#    Then "Chicken" should not be an MenuItem to "Monday"
+ @javascript
+ Scenario: Add MenuItem to menu
+   When I click the "edit" link for "Monday"
+   And I click "Add New Menu items menu"
+   And I select "first Menu Item" to "Chicken"
+   And I fill in "first Daily stock" with "20"
+   And I click "Add New Menu items menu"
+   And I select "second Menu Item" to "Beef"
+   And I fill in "second Daily stock" with "10"
+   And I click "Update Menu" button
+   Then "Chicken" should be added as an MenuItem to "Monday"
+   Then "Beef" should be added as an MenuItem to "Monday"
+
+ @tag1
+ Scenario: Remove MenuItem from menu
+   Given "Chicken" has been added as an MenuItem to "Monday"
+   And  "Beef" has been added as an MenuItem to "Monday"
+   And I click the "edit" link for "Monday"
+   And I uncheck "first Delete"
+   And I click "Update Menu" button
+   Then "Chicken" should not be an MenuItem to "Monday"
 
 
 

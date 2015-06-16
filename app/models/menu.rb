@@ -10,4 +10,15 @@ class Menu < ActiveRecord::Base
   validates :end_date, presence: true
 
   scope :this_week, lambda { where(start_date:Date.today.all_week).order('start_date') }
+
+  # before_create :do_this
+  # before_validation :do_this
+  # after_save :do_this
+
+  def do_this
+    puts "--------debug---------"
+    _self = self
+    binding.pry
+    puts
+  end
 end

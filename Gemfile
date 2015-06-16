@@ -59,7 +59,7 @@ group :test do
   gem 'webmock'
   gem 'capybara'
   gem 'coveralls', '~> 0.7.9', require: false
-  gem 'email_spec'  # Rspec matchers and Cucumber steps for testing email 
+  gem 'email_spec'  # Rspec matchers and Cucumber steps for testing email
 end
 
 group :staging, :production do
@@ -67,6 +67,6 @@ group :staging, :production do
 end
 
 group :development, :staging, :production do
-  gem 'rack-timeout'
+  # gem 'rack-timeout'
 end
 

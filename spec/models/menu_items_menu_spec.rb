@@ -16,7 +16,6 @@ RSpec.describe MenuItemsMenu, type: :model do
   describe 'Validations' do
     it { is_expected.to validate_presence_of :daily_stock }
     it { is_expected.to validate_numericality_of(:daily_stock).is_greater_than_or_equal_to(0) }
-    it { is_expected.to validate_presence_of :menu }
     it { is_expected.to validate_presence_of :menu_item }
   end
 

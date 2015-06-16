@@ -7,7 +7,16 @@ Given(/^I (?:visit|am on) the site$/) do
 end
 
 When(/^I fill in "([^"]*)" with "([^"]*)"$/) do |field, value|
-  fill_in field, with: value
+  case field
+    when 'first Daily stock' then
+      select_field = 'menu_menu_items_menus_attributes_0_daily_stock'
+    when 'second Daily stock' then
+      select_field = 'menu_menu_items_menus_attributes_1_daily_stock'
+    else
+      select_field = field
+  end
+
+  fill_in select_field, with: value
 end
 
 When(/^(?:when I|I) click "([^"]*)"$/) do |text|
@@ -58,6 +67,10 @@ When(/^I select "([^"]*)" to "([^"]*)"$/) do |field, option|
       id = 'menu_menu_item_ids'
     when 'Order Item' then
       id = 'order_item_menu_item_id'
+    when 'first Menu Item' then
+      id = 'menu_menu_items_menus_attributes_0_menu_item_id'
+    when 'second Menu Item' then
+      id = 'menu_menu_items_menus_attributes_1_menu_item_id'
   end
   find(:select, id).find(:option, option).select_option
 end
