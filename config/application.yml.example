@@ -1,7 +1,7 @@
 # This file is used by Figaro (gem) to set and get ENV vars.
 
-SMTP_USERNAME: 'account_username'  # username for sendgrid account 
-SMTP_PASSWORD: 'account_password'  # password for sendgrid account
+SMTP_USERNAME: 'account_username' 
+SMTP_PASSWORD: 'account_password'
 SMTP_DOMAIN:  'herokuapp.com'
 SMTP_ADDRESS: 'smtp.email_service.net'
 
