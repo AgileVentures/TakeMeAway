@@ -2,9 +2,7 @@ json.cache! user do
   json.user do
     json.name user.name
     json.email user.email
-    if user.admin?
-      json.is_admin 'true'
-    end
+    json.is_admin 'true' if user.admin?
   end
 
   json.authentication_token do

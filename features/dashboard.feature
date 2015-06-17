@@ -4,9 +4,9 @@ Feature: As an admin
 
   Background:
     Given the following users exist:
-      | name     | email          | password | is_admin |
-      | Admin    | admin@tma.org  | password | true     |
-      | Client 1 | client@tma.org | password | false    |
+      | name     | email          | password | is_admin | receive_notifications | order_acknowledge_email|
+      | Admin    | admin@tma.org  | password | true     | true                  | true                   |
+      | Client 1 | client@tma.org | password | false    | false                 | false                  |
 
 
   Scenario: Access the sign in page
@@ -23,6 +23,30 @@ Feature: As an admin
     When I click the "Dashboard" link
     And I should see link "Clients"
     And I should see link "Admins"
+    
+  Scenario: Change password
+    Given I am logged in as admin
+    And I am on the "Admins" page
+    And I click the "Edit" link for "Admin"
+    Then I should be on the edit page for user "Admin"
+    And I fill in "user_password" with "new_password"
+    And I fill in "user_password_confirmation" with "new_password"
+    And I click "Update User" button
+    Then I should be on the view page for user "Admin"
+    And I should see "User was successfully updated."
+    
+  Scenario: Change email settings
+    Given I am logged in as admin
+    And I am on the "Admins" page
+    And I click the "Edit" link for "Admin"
+    Then I should be on the edit page for user "Admin"
+    And I uncheck "Receive notifications"
+    And I uncheck "Use this email address to send order acknowledgement to the customer"
+    And I click "Update User" button
+    Then I should be on the view page for user "Admin"
+    And I should see "User was successfully updated."
+    And I should see "Receive Notifications false"
+    And I should see "Order Acknowledge Email false"
 
   Scenario: Login as Client
     Given I am on the "login" page

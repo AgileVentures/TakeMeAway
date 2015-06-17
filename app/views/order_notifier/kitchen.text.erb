@@ -1,0 +1,10 @@
+Order Received for Take Me Away
+
+Order Time : <%= @order.order_time %>
+Pickup Time: <%= @order.pickup_time %>
+Customer   : <%= @order.user.name %>
+  Email    : <%= @order.user.email %>
+  
+Ordered Items:
+
+<%= render @order.order_items -%>

@@ -2,6 +2,7 @@ class Api::V1::OrdersController < ApiController
   require 'stock_inventory'
 
   before_action :convert_json_to_params, only: [:create, :update]
+  before_action :authenticate_api_user
 
   # t.integer  "user_id"
   # t.string   "status"
@@ -12,10 +13,15 @@ class Api::V1::OrdersController < ApiController
   # t.datetime "updated_at",       null: false
 
   def create
-    attributes = order_params
-    @order = Order.create(attributes)
-    order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
-    invalid_request unless @order.save
+    @order = Order.create(order_params.merge(user_id: current_user.id))
+    process_order_items
+
+    if @order.save
+      OrderNotifier.kitchen(@order).deliver_now
+      OrderNotifier.customer(@order).deliver_now
+    else
+      invalid_request
+    end
   end
 
   def update
@@ -30,7 +36,8 @@ class Api::V1::OrdersController < ApiController
   private
 
   def invalid_request
-    render json: {message: 'Error'}, status: 401
+    render json: { message: 'Something went wrong', errors: @order.errors },
+           status: :unprocessable_entity
   end
 
   def convert_json_to_params
@@ -38,33 +45,36 @@ class Api::V1::OrdersController < ApiController
   end
 
   def order_params
-    @json_params.require(:order).permit(:user_id, :status, :order_time, :pickup_time, :menu_items)
+    @json_params.require(:order).permit(:status, :order_time, :pickup_time)
   end
 
   def order_items_params
     @json_params[:order_items]
   end
 
-  def menu_params
-    @json_params[:order][:menu_id]
+  def process_order_items
+    order_items_params.each do |item|
+      add_order_item(item[:menu_id], item[:menu_item], item[:quantity])
+    end
   end
 
-  def add_order_item(id, qty)
-    @order.order_items.create(menu_item: MenuItem.find(id), quantity: qty)
-    stock_service(id, -qty)
+  def add_order_item(menu_id, menu_item_id, qty)
+    @order.order_items.build(menu: Menu.find(menu_id),
+                             menu_item: MenuItem.find(menu_item_id),
+                             quantity: qty)
+    stock_service(menu_id, menu_item_id, -qty)
   end
 
   def purge_order_items
     @order.order_items.each do |item|
-      stock_service(item.menu_item_id, item.quantity)
+      stock_service(item.menu_id, item.menu_item_id, item.quantity)
     end
     @order.order_items.delete_all
   end
 
-
-  def stock_service(menu_item_id, qty)
+  def stock_service(menu_id, menu_item_id, qty)
     menu_item = MenuItem.find(menu_item_id)
-    resource = menu_item.menus.find(menu_params).menu_items_menus.find_by(menu_item_id: menu_item_id)
+    resource = menu_item.menus.find(menu_id).menu_items_menus.find_by(menu_item_id: menu_item_id)
     if qty < 0
       StockInventory.decrement_inventory(resource, -qty)
     else
@@ -76,10 +86,9 @@ class Api::V1::OrdersController < ApiController
     @order.update_attributes(order_params)
     purge_order_items
     if order_items_params
-      order_items_params.each { |item| add_order_item(item[:menu_item], item[:quantity]) }
+      process_order_items
     else
       true
     end
   end
-
 end

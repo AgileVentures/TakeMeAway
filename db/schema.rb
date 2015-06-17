@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527185325) do
+ActiveRecord::Schema.define(version: 20150609222343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,10 +64,14 @@ ActiveRecord::Schema.define(version: 20150527185325) do
   create_table "menu_items", force: :cascade do |t|
     t.string   "name"
     t.decimal  "price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.text     "description"
     t.string   "ingredients"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   create_table "menu_items_menus", force: :cascade do |t|
@@ -92,8 +96,10 @@ ActiveRecord::Schema.define(version: 20150527185325) do
     t.integer "menu_item_id"
     t.integer "order_id"
     t.integer "quantity"
+    t.integer "menu_id"
   end
 
+  add_index "order_items", ["menu_id"], name: "index_order_items_on_menu_id", using: :btree
   add_index "order_items", ["menu_item_id"], name: "index_order_items_on_menu_item_id", using: :btree
   add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
 
@@ -109,20 +115,22 @@ ActiveRecord::Schema.define(version: 20150527185325) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.boolean  "is_admin",               default: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.boolean  "is_admin",                default: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "email",                   default: "",    null: false
+    t.string   "encrypted_password",      default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",           default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.string   "authentication_token"
+    t.boolean  "receive_notifications",   default: false
+    t.boolean  "order_acknowledge_email", default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -131,5 +139,6 @@ ActiveRecord::Schema.define(version: 20150527185325) do
   add_foreign_key "menu_items_menus", "menu_items"
   add_foreign_key "menu_items_menus", "menus"
   add_foreign_key "order_items", "menu_items"
+  add_foreign_key "order_items", "menus"
   add_foreign_key "order_items", "orders"
 end

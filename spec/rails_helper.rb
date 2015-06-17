@@ -1,5 +1,7 @@
 require 'simplecov'
 require 'coveralls'
+require 'action_mailer'
+require 'email_spec'
 
 SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
