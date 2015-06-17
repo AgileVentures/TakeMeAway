@@ -32,6 +32,7 @@ describe Api::V1::OrdersController do
 
     menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
     menu.menu_items_menus.create(menu_item: menu_item2, daily_stock: 20)
+    FactoryGirl.create(:kitchen_user)
   end
 
   describe 'menu.menu_items_menus' do

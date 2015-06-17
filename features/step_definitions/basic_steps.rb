@@ -22,6 +22,10 @@ When(/^I click the "([^"]*)" link$/) do |link|
   click_link link
 end
 
+When(/^I uncheck "([^"]*)"$/) do |checkbox|
+  uncheck checkbox
+end
+
 When(/^I focus on input field with id "([^"]*)"$/) do |element|
   id = element.downcase.tr!(' ', '_')
   page.execute_script "$('##{id}').focus();"

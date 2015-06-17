@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"  # CHANGE TO PRODUCTION SETTING
+  default from: User.order_acknowledge_email_address
   layout 'mailer'
 end
