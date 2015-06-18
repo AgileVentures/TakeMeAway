@@ -32,7 +32,7 @@ And(/^the following Orders exits:$/) do |table|
 end
 
 
-And(/^"([^"]*)" should( not)? be (?:an|added as an) MenuItem to "([^"]*)"$/) do |child, negative, parent|
+And(/^"([^"]*)" should( not)? be (?:a|added as a) MenuItem to "([^"]*)"$/) do |child, negative, parent|
   menu = Menu.find_by(title: parent)
   menu_item = MenuItem.find_by(name: child)
   unless negative
@@ -44,9 +44,8 @@ And(/^"([^"]*)" should( not)? be (?:an|added as an) MenuItem to "([^"]*)"$/) do 
 end
 
 Given(/^"([^"]*)" has been added as an MenuItem to "([^"]*)"$/) do |child, parent|
-  #binding.pry
   menu = Menu.find_by(title: parent)
   menu_item = MenuItem.find_by(name: child)
-  menu.menu_items << menu_item
+  MenuItemsMenu.create(daily_stock: 10, menu_item: menu_item, menu: menu)
 end
 

@@ -9,7 +9,6 @@ ActiveAdmin.register Menu do
     def show
       params[:menu] = Menu.find(params[:id])
     end
-
   end
 
   index do
@@ -29,8 +28,6 @@ ActiveAdmin.register Menu do
       f.input :title
       f.input :start_date, as: :date_time_picker, datepicker_options: {timepicker: false, format: 'Y-m-d'}
       f.input :end_date, as: :date_time_picker, datepicker_options: {timepicker: false, format: 'Y-m-d'}
-
-
     end
     f.has_many :menu_items_menus, allow_destroy: true do |item_form|
       item_form.input :menu_item, collection: MenuItem.all
