@@ -20,7 +20,7 @@ class Order < ActiveRecord::Base
   before_save :calculate_amount
 
   def calculate_amount
-    self.amount = order_items.reduce(0) { |total, item| total += item.menu_item.price }
+    self.amount = order_items.reduce(0) { |total, item| total += item.menu_item.price * item.quantity }
   end
 
   def set_status(state)

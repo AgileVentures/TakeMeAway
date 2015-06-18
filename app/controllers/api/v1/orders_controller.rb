@@ -38,8 +38,8 @@ class Api::V1::OrdersController < ApiController
 
     begin
       charge = Stripe::Charge.create(
-        :amount => @order.amount * 100,
-        :currency => "sek",
+        :amount => (@order.amount * 100).to_i,
+        :currency => "usd",
         :source => params[:stripeToken],
         :description => "Charge for Order ##{@order.id} by #{@order.user.name} ( #{@order.user.email} )",
         :metadata => {
@@ -50,7 +50,7 @@ class Api::V1::OrdersController < ApiController
         :receipt_email => @order.user.email
       )
 
-      if charge.status == "succeeded" && paid
+      if charge.status == "succeeded" && charge.paid
         @order.update(stripe_charge_id: charge.id)
       else
         unsuccesful_payment
