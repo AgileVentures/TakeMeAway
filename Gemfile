@@ -30,6 +30,7 @@ gem 'jbuilder'
 gem 'attachinary'
 gem 'cloudinary'
 gem 'figaro'
+gem 'stripe'
 
 group :development do
   gem 'web-console'

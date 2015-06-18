@@ -1,3 +1,4 @@
+json.id @order.id
 json.user @order.user_id
 json.status @order.status
 
