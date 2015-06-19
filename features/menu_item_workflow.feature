@@ -4,9 +4,10 @@ Feature: As Admin,
 
   Background:
     Given the following MenuItems exits:
-      | name    | price | description | ingredients |
-      | Chicken | 20    |             |             |
-      | Beef    | 30    | tasty       | salt        |
+      | name    | price | description | ingredients | status |
+      | Chicken | 20    |             |             | active |
+      | Beef    | 30    | tasty       | salt        | active |
+      | Pork    | 15    | spicy       | spices      | inactive |
 
     And I am logged in as admin
     And I am on the "Products" page

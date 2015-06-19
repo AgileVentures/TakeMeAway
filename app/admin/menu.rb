@@ -26,6 +26,7 @@ ActiveAdmin.register Menu do
 
   form do |f|
     f.inputs 'Menu Details' do
+      f.semantic_errors *f.object.errors.keys
       f.input :title
       f.input :start_date, as: :date_time_picker, datepicker_options: {timepicker: false, format: 'Y-m-d'}
       f.input :end_date, as: :date_time_picker, datepicker_options: {timepicker: false, format: 'Y-m-d'}
@@ -33,7 +34,8 @@ ActiveAdmin.register Menu do
 
     end
     f.has_many :menu_items_menus, allow_destroy: true do |item_form|
-      item_form.input :menu_item, collection: MenuItem.all
+      item_form.input :menu_item, collection: MenuItem.active_menu_items,
+                                  include_blank: false
       item_form.input :daily_stock, as: :number
     end
     f.actions

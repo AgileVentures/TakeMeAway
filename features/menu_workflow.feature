@@ -10,9 +10,10 @@ Feature:
       | Tuesday | 2015-01-02 | 2015-01-11 |
 
     And the following MenuItems exits:
-      | name    | price |
-      | Chicken | 20    |
-      | Beef    | 30    |
+      | name    | price | status |
+      | Chicken | 20    | active |
+      | Beef    | 30    | active |
+      | Pork    | 15    | inactive |
 
     And I am logged in as admin
     And I am on the "Menus" page
@@ -35,7 +36,7 @@ Feature:
   @javascript
   Scenario: Edit existing menu
     When I click the "edit" link for "Monday"
-    And I fill in "Title" with "Wedensday"
+    And I fill in "Title" with "Wednesday"
     And I select the date "2015-05-08" in datepicker for Menu Start Date
     And I select the date "2015-05-08" in datepicker for Menu End Date
     And I click "Update Menu" button
@@ -78,6 +79,8 @@ Feature:
 #    And I click "Update Menu" button
 #    Then "Chicken" should not be an MenuItem to "Monday"
 
+# add to scenario: Add MenuItem to menu:
+#   1) select list for items to add does NOT include 'Pork'
 
 
 

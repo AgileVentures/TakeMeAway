@@ -23,6 +23,7 @@ RSpec.describe MenuItem, type: :model do
       it { is_expected.to have_db_column :price }
       it { is_expected.to have_db_column :description }
       it { is_expected.to have_db_column :ingredients }
+      it { is_expected.to have_db_column :status }
       # Timestamps
       it { is_expected.to have_db_column :created_at }
       it { is_expected.to have_db_column :updated_at }
@@ -31,6 +32,9 @@ RSpec.describe MenuItem, type: :model do
     describe 'Validations' do
       it { is_expected.to validate_presence_of :name }
       it { is_expected.to validate_presence_of :price }
+      it { is_expected.to validate_presence_of :status }
+      it { is_expected.to validate_inclusion_of(:status).
+                          in_array(MenuItem.status_values) }
     end
 
 end
