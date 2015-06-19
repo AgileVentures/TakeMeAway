@@ -47,28 +47,30 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  describe 'class methods' do
-    context '#total' do
+  describe 'callbacks' do
+    context 'before_save :calculate_amount' do
       let(:menu_item1) { FactoryGirl.create(:menu_item, price: 50) }
       let(:menu_item2) { FactoryGirl.create(:menu_item, price: 60) }
+      let(:menu) { FactoryGirl.create(:menu) }
 
-      before(:each) do
+      it 'returns sum of all order_items if present' do
         m_items = [menu_item1, menu_item2]
         m_items.each do |item|
-          order.order_items.create(menu_item: item, quantity: 1)
+          order.order_items.create(menu_item: item, quantity: 2, menu: menu)
         end
+        order.save
+
+        expect(order.amount).to eq 220
       end
 
-      it '#total returns sum of all order_items if present' do
-        expect(order.total).to eq 110
-      end
-
-      it '#total returns nil if no order_items present' do
+      it 'returns 0 if no order_items present' do
         new_order = FactoryGirl.create(:order)
-        expect(new_order.total).to eq nil
+        expect(new_order.amount).to eq 0
       end
     end
+  end
 
+  describe 'class methods' do
     context '#set_status' do
       it 'assigns a status to an order' do
         expect(order.status).to eq 'pending'

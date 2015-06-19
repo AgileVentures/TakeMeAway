@@ -51,7 +51,7 @@ class Api::V1::OrdersController < ApiController
       )
 
       if charge.status == "succeeded" && charge.paid
-        @order.update(stripe_charge_id: charge.id)
+        @order.update(stripe_charge_id: charge.id, status: "processed")
       else
         unsuccesful_payment
       end
