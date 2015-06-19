@@ -56,6 +56,14 @@ class Api::V1::OrdersController < ApiController
         unsuccesful_payment
       end
     rescue Stripe::CardError => e
+      unsuccesful_payment e.json_body[:error]
+    rescue Stripe::InvalidRequestError => e
+      unsuccesful_payment e.json_body[:error]
+    rescue Stripe::AuthenticationError => e
+      Rails.logger.error e.json_body[:error]
+      raise
+    rescue Stripe::StripeError => e
+      unsuccesful_payment
     end
   end
 
