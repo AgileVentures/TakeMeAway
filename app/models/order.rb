@@ -23,7 +23,7 @@ class Order < ActiveRecord::Base
     self.update_attribute(:status, state)
   end
 
-private
+  private
 
   def calculate_amount
     self.amount = order_items.reduce(0) { |total, item| total += item.menu_item.price * item.quantity }

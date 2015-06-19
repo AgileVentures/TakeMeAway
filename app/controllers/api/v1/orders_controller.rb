@@ -37,6 +37,7 @@ class Api::V1::OrdersController < ApiController
     @order = Order.find(params[:id])
 
     begin
+
       charge = Stripe::Charge.create(
         :amount => (@order.amount * 100).to_i,
         :currency => "usd",
@@ -55,12 +56,13 @@ class Api::V1::OrdersController < ApiController
       else
         unsuccesful_payment
       end
+
     rescue Stripe::CardError => e
       unsuccesful_payment e.json_body[:error]
     rescue Stripe::InvalidRequestError => e
       unsuccesful_payment e.json_body[:error]
     rescue Stripe::AuthenticationError => e
-      Rails.logger.error e.json_body[:error]
+      unsuccesful_payment e.json_body[:error]
       raise
     rescue Stripe::StripeError => e
       unsuccesful_payment
@@ -70,12 +72,13 @@ class Api::V1::OrdersController < ApiController
   private
 
   def invalid_request
-    render json: { message: 'Something went wrong', errors: @order.errors },
+    render json: { message: 'Something went wrong.', errors: @order.errors },
            status: :unprocessable_entity
   end
 
   def unsuccesful_payment(errors={})
-    render json: { message: 'Unsuccesful Payment', errors: errors }
+    render json: { message: 'Unsuccesful Payment.', errors: errors },
+           status: :unprocessable_entity
   end
 
   def convert_json_to_params
