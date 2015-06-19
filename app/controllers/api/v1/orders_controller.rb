@@ -34,7 +34,7 @@ class Api::V1::OrdersController < ApiController
   end
 
   def pay
-    @order = Order.find(params[:id])
+    @order = current_user.orders.find(params[:id])
 
     begin
       charge = Stripe::Charge.create(
@@ -65,7 +65,6 @@ class Api::V1::OrdersController < ApiController
     rescue Stripe::AuthenticationError => e
       error = e.json_body[:error] if e.json_body
       unsuccesful_payment error
-      raise
     rescue Stripe::StripeError => e
       error = e.json_body[:error] if e.json_body
       unsuccesful_payment error

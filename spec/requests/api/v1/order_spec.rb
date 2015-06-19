@@ -218,7 +218,7 @@ describe Api::V1::OrdersController do
     let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item', price: 50) }
 
     let(:order_with_menu_items) do
-      order_with_mi = FactoryGirl.create(:order)
+      order_with_mi = FactoryGirl.create(:order, user: user)
       order_with_mi.order_items.create(menu_item: menu_item1, quantity: 2, menu: menu)
       order_with_mi.order_items.create(menu_item: menu_item2, quantity: 2, menu: menu)
       order_with_mi.save
