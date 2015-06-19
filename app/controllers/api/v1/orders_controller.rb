@@ -37,7 +37,6 @@ class Api::V1::OrdersController < ApiController
     @order = Order.find(params[:id])
 
     begin
-
       charge = Stripe::Charge.create(
         :amount => (@order.amount * 100).to_i,
         :currency => "usd",
@@ -51,8 +50,6 @@ class Api::V1::OrdersController < ApiController
         :receipt_email => @order.user.email
       )
 
-
-
       if charge.status == "succeeded" && charge.paid
         @order.update(stripe_charge_id: charge.id, status: "processed")
       else
@@ -60,14 +57,18 @@ class Api::V1::OrdersController < ApiController
       end
 
     rescue Stripe::CardError => e
-      unsuccesful_payment e.json_body[:error]
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     rescue Stripe::InvalidRequestError => e
-      unsuccesful_payment e.json_body[:error]
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     rescue Stripe::AuthenticationError => e
-      unsuccesful_payment e.json_body[:error]
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
       raise
     rescue Stripe::StripeError => e
-      unsuccesful_payment
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     end
   end
 

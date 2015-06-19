@@ -254,8 +254,32 @@ describe Api::V1::OrdersController do
                                         { 'id' => menu_item2.id,
                                           'item' => menu_item2.name,
                                           'price' => menu_item2.price.to_f }])
+
+      processed_order = Order.find_by(id: order_with_menu_items.id)
+      expect(processed_order.status).to eq 'processed'
+      expect(processed_order.stripe_charge_id).to_not be_nil
     end
 
+    describe "does an unsuccessfull payment process" do
+      specify "card error" do
+        StripeMock.prepare_card_error(:card_declined)
+        json_data = { stripeToken: customer.card }
+        post "/v1/orders/#{order_with_menu_items.id}/pay", json_data
+
+        expect(response.status).to eq 422
+        expect(response_json).to eq({"message"=>"Unsuccesful Payment.", "errors"=>nil})
+      end
+
+      specify "processing error" do
+        StripeMock.prepare_card_error(:processing_error)
+        json_data = { stripeToken: customer.card }
+        post "/v1/orders/#{order_with_menu_items.id}/pay", json_data
+
+        expect(response.status).to eq 422
+        expect(response_json).to eq({"message"=>"Unsuccesful Payment.", "errors"=>nil})
+      end
+
+    end
   end
 
 end
