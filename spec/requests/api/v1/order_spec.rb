@@ -54,8 +54,13 @@ describe Api::V1::OrdersController do
 
       it 'returns a response' do
         post '/v1/orders', params.to_json
-        expect(response_json).to eq('user' => user.id,
+        order = Order.first
+
+        expect(response_json).to eq('id' => order.id,
+                                    'user' => user.id,
                                     'status' => 'pending',
+                                    "pickup_time"=> clean_time(params[:order][:pickup_time]),
+                                    "amount" => order.amount.to_s,
                                     'items' =>
                                          [{ 'id' => menu_item.id,
                                             'item' => menu_item.name,
@@ -98,13 +103,17 @@ describe Api::V1::OrdersController do
 
     it 'returns Order by id' do
       get "/v1/orders/#{@order.id}"
-      expect(response_json).to eq('user' => user.id,
+      order = @order
+
+      expect(response_json).to eq('id' => order.id,
+                                  'user' => user.id,
                                   'status' => 'pending',
-                                  'items' => [{
-                                    'id' => menu_item.id,
-                                    'item' => menu_item.name,
-                                    'price' => menu_item.price.to_f
-                                  }])
+                                  "pickup_time"=> clean_time(params[:order][:pickup_time]),
+                                  "amount" => order.amount.to_s,
+                                  'items' =>
+                                       [{ 'id' => menu_item.id,
+                                          'item' => menu_item.name,
+                                          'price' => menu_item.price.to_f }])
     end
   end
 
@@ -120,19 +129,22 @@ describe Api::V1::OrdersController do
         order_items: [{ menu_id: menu.id, menu_item: menu_item.id, quantity: 1 },
                       { menu_id: menu.id, menu_item: menu_item2.id, quantity: 1 }]
       }.to_json
+      order = @order
 
-      expect(response_json.except('pickup_time')).to eq('user' => user.id,
-                                                        'status' => 'pending',
-                                                        'items' => [{
-                                                          'id' => menu_item.id,
-                                                          'item' => menu_item.name,
-                                                          'price' => menu_item.price.to_f
-                                                        }, {
-                                                          'id' => menu_item2.id,
-                                                          'item' => 'Second Item',
-                                                          'price' => 50.0
-                                                        }]
-                                                       )
+      expect(response_json).to eq('id' => order.id,
+                                  'user' => user.id,
+                                  'status' => 'pending',
+                                  "pickup_time"=> clean_time(params[:order][:pickup_time]),
+                                  "amount" => order.amount.to_s,
+                                  'items' => [{
+                                              'id' => menu_item.id,
+                                              'item' => menu_item.name,
+                                              'price' => menu_item.price.to_f
+                                            }, {
+                                              'id' => menu_item2.id,
+                                              'item' => 'Second Item',
+                                              'price' => 50.0
+                                            }])
     end
 
     it 'decrements MenuItemMenu by quantity' do
@@ -166,14 +178,17 @@ describe Api::V1::OrdersController do
       }.to_json
 
       patch "/v1/orders/#{@order.id}", json_data
-      expect(response_json).to eq('user' => user.id,
+      order = @order
+
+      expect(response_json).to eq('id' => order.id,
+                                  'user' => user.id,
                                   'status' => 'pending',
-                                  'pickup_time' => "#{time}",
-                                  'items' => [{
-                                    'id' => menu_item.id,
-                                    'item' => menu_item.name,
-                                    'price' => menu_item.price.to_f
-                                  }])
+                                  "pickup_time"=> clean_time(time),
+                                  "amount" => order.amount.to_s,
+                                  'items' =>
+                                       [{ 'id' => menu_item.id,
+                                          'item' => menu_item.name,
+                                          'price' => menu_item.price.to_f }])
     end
 
     context 'DELETE - Cancel an Order' do
