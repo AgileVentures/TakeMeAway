@@ -16,18 +16,18 @@ RSpec.describe MenuItemsMenu, type: :model do
   describe 'Validations' do
     it { is_expected.to validate_presence_of :daily_stock }
     it { is_expected.to validate_numericality_of(:daily_stock).is_greater_than_or_equal_to(0) }
-    it { is_expected.to validate_presence_of :menu }
     it { is_expected.to validate_presence_of :menu_item }
   end
 
   describe 'instance methods' do
     let(:menu) { FactoryGirl.create(:menu) }
     let(:menu_item) { FactoryGirl.create(:menu_item) }
-    before(:each) do
 
+    before(:each) do
       menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
       @menu_item_instance = menu.menu_items_menus.first
     end
+
     describe '#decrement_stock' do
       it 'reduces daily stock' do
         expect{@menu_item_instance.decrement_stock(1)}.to change{@menu_item_instance.daily_stock}.from(20).to(19)
