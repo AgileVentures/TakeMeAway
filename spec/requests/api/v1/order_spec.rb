@@ -211,4 +211,64 @@ describe Api::V1::OrdersController do
       end
     end
   end
+
+  describe 'POST /v1/order/:id/pay' do
+    let(:menu) { FactoryGirl.create(:menu) }
+    let(:menu_item1) { FactoryGirl.create(:menu_item, name: 'First Item', price: 60) }
+    let(:menu_item2) { FactoryGirl.create(:menu_item, name: 'Second Item', price: 50) }
+    let(:order_with_menu_items) do
+      order_with_mi = FactoryGirl.create(:order)
+      order_with_mi.order_items.create(menu_item: menu_item1, quantity: 2, menu: menu)
+      order_with_mi.order_items.create(menu_item: menu_item2, quantity: 2, menu: menu)
+      order_with_mi.save
+      order_with_mi
+    end
+
+    it "processes payment for an order" do
+      stub_request(:post, "https://api.stripe.com/v1/charges").
+         with(:body => {"amount"=>"22000",
+                        "currency"=>"usd",
+                        "description"=>"Charge for Order #4 by Theresia Rippin ( skylar@bahringerborer.com )",
+                        "metadata"=>{ "order_id"=>"4",
+                                      "customer_name"=>"Theresia Rippin",
+                                      "customer_email"=>"skylar@bahringerborer.com"},
+                        "receipt_email"=>"skylar@bahringerborer.com"},
+              :headers => {'Accept'=>'*/*; q=0.5, application/xml',
+                           'Accept-Encoding'=>'gzip, deflate',
+                           'Authorization'=>'Bearer sk_test_01CPObYrf4nxZSeeSMkrdAdn',
+                           'Content-Length'=>'286',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'=>'Stripe/v1 RubyBindings/1.22.0',
+                           'X-Stripe-Client-User-Agent'=>'{"bindings_version":"1.22.0","lang":"ruby","lang_version":"2.2.1 p85 (2015-02-26)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux version 3.13.0-32-generic (buildd@kissel) (gcc version 4.8.2 (Ubuntu 4.8.2-19ubuntu1) ) #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014","hostname":"razor-VM"}'}).
+         to_return(:status => 200, :body => "", :headers => {})
+
+      # expect(Stripe::Charge).to receive(:create)
+      #   .with(:amount => 22000,
+      #         :currency => "usd",
+      #         :source => "stripe_card_processing_token",
+      #         :description => "Charge for Order ##{order_with_menu_items.id} by #{order_with_menu_items.user.name} ( #{order_with_menu_items.user.email} )",
+      #         :metadata => {
+      #           'order_id' => order_with_menu_items.id,
+      #           'customer_name' => order_with_menu_items.user.name,
+      #           'customer_email' => order_with_menu_items.user.email
+      #         },
+      #         :receipt_email => order_with_menu_items.user.email)
+      #   .and_return( Stripe::Charge.new({ id: "0000000000000", status: "succeeded", paid: true }) )
+
+      json_data = {
+        stripeToken: "stripe_card_processing_token"
+      }
+
+      post "/v1/orders/#{order_with_menu_items.id}/pay", json_data
+
+      expect(response.status).to eq 200
+      # expect(response_json).to include()
+
+        binding.pry
+        puts
+
+
+    end
+  end
+
 end

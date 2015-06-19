@@ -51,6 +51,8 @@ class Api::V1::OrdersController < ApiController
         :receipt_email => @order.user.email
       )
 
+
+
       if charge.status == "succeeded" && charge.paid
         @order.update(stripe_charge_id: charge.id, status: "processed")
       else
