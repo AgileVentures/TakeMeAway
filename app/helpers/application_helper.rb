@@ -6,4 +6,10 @@ module ApplicationHelper
     nil
   end
 
+  def clean_time datetime
+    datetime.to_datetime.strftime("%H:%M")
+  rescue
+    nil
+  end
+
 end
