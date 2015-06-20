@@ -57,17 +57,13 @@ class Api::V1::OrdersController < ApiController
       end
 
     rescue Stripe::CardError => e
-      error = e.json_body[:error] if e.json_body
-      unsuccesful_payment error
+      unsuccesful_payment e
     rescue Stripe::InvalidRequestError => e
-      error = e.json_body[:error] if e.json_body
-      unsuccesful_payment error
+      unsuccesful_payment e
     rescue Stripe::AuthenticationError => e
-      error = e.json_body[:error] if e.json_body
-      unsuccesful_payment error
+      raise
     rescue Stripe::StripeError => e
-      error = e.json_body[:error] if e.json_body
-      unsuccesful_payment error
+      unsuccesful_payment e
     end
   end
 
@@ -78,7 +74,8 @@ class Api::V1::OrdersController < ApiController
            status: :unprocessable_entity
   end
 
-  def unsuccesful_payment(errors={})
+  def unsuccesful_payment(error)
+    errors = error.json_body[:error] if error.json_body
     render json: { message: 'Unsuccesful Payment.', errors: errors },
            status: :unprocessable_entity
   end
