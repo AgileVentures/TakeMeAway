@@ -61,6 +61,7 @@ group :test do
   gem 'capybara'
   gem 'coveralls', '~> 0.7.9', require: false
   gem 'email_spec'  # Rspec matchers and Cucumber steps for testing email
+  gem 'stripe-ruby-mock', :require => 'stripe_mock' #mocks Stripe api to skip any http requests.
 end
 
 group :staging, :production do

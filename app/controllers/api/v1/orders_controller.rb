@@ -34,7 +34,7 @@ class Api::V1::OrdersController < ApiController
   end
 
   def pay
-    @order = Order.find(params[:id])
+    @order = current_user.orders.find(params[:id])
 
     begin
       charge = Stripe::Charge.create(
@@ -51,31 +51,36 @@ class Api::V1::OrdersController < ApiController
       )
 
       if charge.status == "succeeded" && charge.paid
-        @order.update(stripe_charge_id: charge.id)
+        @order.update(stripe_charge_id: charge.id, status: "processed")
       else
         unsuccesful_payment
       end
+
     rescue Stripe::CardError => e
-      unsuccesful_payment e.json_body[:error]
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     rescue Stripe::InvalidRequestError => e
-      unsuccesful_payment e.json_body[:error]
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     rescue Stripe::AuthenticationError => e
-      Rails.logger.error e.json_body[:error]
-      raise
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     rescue Stripe::StripeError => e
-      unsuccesful_payment
+      error = e.json_body[:error] if e.json_body
+      unsuccesful_payment error
     end
   end
 
   private
 
   def invalid_request
-    render json: { message: 'Something went wrong', errors: @order.errors },
+    render json: { message: 'Something went wrong.', errors: @order.errors },
            status: :unprocessable_entity
   end
 
   def unsuccesful_payment(errors={})
-    render json: { message: 'Unsuccesful Payment', errors: errors }
+    render json: { message: 'Unsuccesful Payment.', errors: errors },
+           status: :unprocessable_entity
   end
 
   def convert_json_to_params
