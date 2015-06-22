@@ -4,16 +4,15 @@ Feature:
   I would like be able to access an interface for creating, populating, updating and deleting Menus
 
   Background:
-    Given the following Menus exits:
+    Given the following Menus exist:
       | title   | start_date | end_date   |
       | Monday  | 2015-01-01 | 2015-01-05 |
       | Tuesday | 2015-01-02 | 2015-01-11 |
 
-    And the following MenuItems exits:
+    And the following MenuItems exist:
       | name    | price | status |
       | Chicken | 20    | active |
       | Beef    | 30    | active |
-      | Pork    | 15    | inactive |
 
     And I am logged in as admin
     And I am on the "Menus" page
@@ -40,7 +39,7 @@ Feature:
     And I select the date "2015-05-08" in datepicker for Menu Start Date
     And I select the date "2015-05-08" in datepicker for Menu End Date
     And I click "Update Menu" button
-    Then I should be on the view page for Menu "Wedensday"
+    Then I should be on the view page for Menu "Wednesday"
     And I should see "Menu was successfully updated"
 
   Scenario: View existing Menu
@@ -49,7 +48,7 @@ Feature:
     And I should see "Monday"
     And I should see "Monday 2015-01-01"
 
-  Scenario: Delete exiting Menu
+  Scenario: Delete existing Menu
     When I click the "delete" link for "Tuesday"
     And I should see "Menu was successfully destroyed."
     And I click the "All" link
@@ -70,15 +69,13 @@ Feature:
    Then "Beef" should be added as a MenuItem to "Monday"
 
  Scenario: Remove MenuItem from menu
-   Given "Chicken" has been added as an MenuItem to "Monday"
-   And  "Beef" has been added as an MenuItem to "Monday"
+   Given "Chicken" has been added as a MenuItem to "Monday"
+   And  "Beef" has been added as a MenuItem to "Monday"
    And I click the "edit" link for "Monday"
    And I check "first Delete"
    And I click "Update Menu" button
    Then "Chicken" should not be a MenuItem to "Monday"
 
-# add to scenario: Add MenuItem to menu:
-#   1) select list for items to add does NOT include 'Pork'
 
 
 

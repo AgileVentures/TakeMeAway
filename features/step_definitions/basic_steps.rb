@@ -81,6 +81,8 @@ When(/^I select "([^"]*)" to "([^"]*)"$/) do |field, option|
       id = 'menu_menu_items_menus_attributes_0_menu_item_id'
     when 'second Menu Item' then
       id = 'menu_menu_items_menus_attributes_1_menu_item_id'
+    when 'Menu Item Status' then
+      id = 'menu_item_status'
   end
   find(:select, id).find(:option, option).select_option
 end

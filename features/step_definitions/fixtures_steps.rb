@@ -1,11 +1,12 @@
-Given(/^the following MenuItems exits:$/) do |table|
+Given(/^the following MenuItems exist:$/) do |table|
   table.hashes.each do |hash|
     MenuItem.create!(hash)
   end
 end
 
-Given(/^the following Menus exits:$/) do |table|
+Given(/^the following Menus exist:$/) do |table|
   table.hashes.each do |hash|
+    hash['end_date'] = Date.today if hash['end_date'].empty?
     Menu.create!(hash)
   end
 end
@@ -16,7 +17,7 @@ Given(/^the following users exist:$/) do |table|
   end
 end
 
-And(/^the following Orders exits:$/) do |table|
+And(/^the following Orders exist:$/) do |table|
   table.hashes.each do |hash|
     params = Rack::Utils.parse_nested_query(hash.to_query)
     order_params = params['order']
@@ -43,7 +44,7 @@ And(/^"([^"]*)" should( not)? be (?:a|added as a) MenuItem to "([^"]*)"$/) do |c
 
 end
 
-Given(/^"([^"]*)" has been added as an MenuItem to "([^"]*)"$/) do |child, parent|
+Given(/^"([^"]*)" has been added as a MenuItem to "([^"]*)"$/) do |child, parent|
   menu = Menu.find_by(title: parent)
   menu_item = MenuItem.find_by(name: child)
   MenuItemsMenu.create(daily_stock: 10, menu_item: menu_item, menu: menu)

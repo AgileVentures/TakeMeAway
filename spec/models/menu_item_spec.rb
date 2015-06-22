@@ -34,7 +34,7 @@ RSpec.describe MenuItem, type: :model do
       it { is_expected.to validate_presence_of :price }
       it { is_expected.to validate_presence_of :status }
       it { is_expected.to validate_inclusion_of(:status).
-                          in_array(MenuItem.status_values) }
+                          in_array(MenuItem::STATUS) }
     end
 
 end

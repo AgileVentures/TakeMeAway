@@ -10,4 +10,12 @@ class Menu < ActiveRecord::Base
   validates :end_date, presence: true
 
   scope :this_week, lambda { where(start_date:Date.today.all_week).order('start_date') }
+  
+  def self.item_in_menu?(item_to_check)
+    # Checks whether the input menu_item is included in any current or future menu.
+    
+    menus = Menu.where(["end_date >= ?", Date.today])
+    menus.each {|menu| return true if menu.menu_items.include?(item_to_check)}
+    false
+  end
 end
