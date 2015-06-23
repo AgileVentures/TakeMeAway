@@ -50,7 +50,7 @@ When(/^I focus on input field with id "([^"]*)"$/) do |element|
   page.execute_script "$('##{id}').focus();"
 end
 
-Then /^I should( not)? see "([^"]*)"$/ do |negative, string|
+Then /^I should( not)? (?:see|be able to select) "([^"]*)"$/ do |negative, string|
   unless negative
     expect(page).to have_text string
   else

@@ -13,6 +13,7 @@ Feature:
       | name    | price | status |
       | Chicken | 20    | active |
       | Beef    | 30    | active |
+      | Pasta   | 10    | inactive |
 
     And I am logged in as admin
     And I am on the "Menus" page
@@ -59,6 +60,7 @@ Feature:
  Scenario: Add MenuItem to menu
    When I click the "edit" link for "Monday"
    And I click "Add New Menu items menu"
+   And I should not be able to select "Pasta"
    And I select "first Menu Item" to "Chicken"
    And I fill in "first Daily stock" with "20"
    And I click "Add New Menu items menu"
