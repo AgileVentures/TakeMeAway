@@ -59,11 +59,11 @@ Feature:
  @javascript
  Scenario: Add MenuItem to menu
    When I click the "edit" link for "Monday"
-   And I click "Add New Menu items menu"
+   And I click "Add Item"
    And I should not be able to select "Pasta"
    And I select "first Menu Item" to "Chicken"
    And I fill in "first Daily stock" with "20"
-   And I click "Add New Menu items menu"
+   And I click "Add Item"
    And I select "second Menu Item" to "Beef"
    And I fill in "second Daily stock" with "10"
    And I click "Update Menu" button

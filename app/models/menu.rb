@@ -13,9 +13,10 @@ class Menu < ActiveRecord::Base
   
   def self.item_in_menu?(item_to_check)
     # Checks whether the input menu_item is included in any current or future menu.
-    
-    menus = Menu.where(["end_date >= ?", Date.today])
-    menus.each {|menu| return true if menu.menu_items.include?(item_to_check)}
+
+    item_to_check.menus.each do |menu|
+      return true if menu.end_date >= Date.today
+    end
     false
   end
 end

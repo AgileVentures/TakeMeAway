@@ -29,11 +29,14 @@ ActiveAdmin.register Menu do
       f.input :title
       f.input :start_date, as: :date_time_picker, datepicker_options: {timepicker: false, format: 'Y-m-d'}
       f.input :end_date, as: :date_time_picker, datepicker_options: {timepicker: false, format: 'Y-m-d'}
-    end
-    f.has_many :menu_items_menus, allow_destroy: true do |item_form|
-      item_form.input :menu_item, collection: MenuItem.active_menu_items,
-                                  include_blank: false
-      item_form.input :daily_stock, as: :number
+      f.has_many :menu_items_menus, 
+                      heading: 'Items in this Menu:',
+                      new_record: 'Add Item',
+                      allow_destroy: true do |item_form|
+          item_form.input :menu_item, collection: MenuItem.active_menu_items,
+                                      include_blank: false
+          item_form.input :daily_stock, as: :number
+      end
     end
     f.actions
   end
