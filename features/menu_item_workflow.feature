@@ -3,10 +3,17 @@ Feature: As Admin,
   I would like be able to access an interface for Creating, updating and deleting MenuItems
 
   Background:
-    Given the following MenuItems exits:
-      | name    | price | description | ingredients |
-      | Chicken | 20    |             |             |
-      | Beef    | 30    | tasty       | salt        |
+    Given the following MenuItems exist:
+      | name    | price | description | ingredients | status |
+      | Chicken | 20    |             |             | active |
+      | Beef    | 30    | tasty       | salt        | active |
+      
+    And the following Menus exist:
+      | title   | start_date | end_date   |
+      | Monday  | 2015-01-01 |            |
+      | Tuesday | 2015-01-02 | 2015-01-11 |
+      
+    And "Chicken" has been added as a MenuItem to "Monday"
 
     And I am logged in as admin
     And I am on the "Products" page
@@ -25,12 +32,14 @@ Feature: As Admin,
     And I fill in "Description" with "Lorem ipsum..."
     And I fill in "Ingredients" with "pork, onions..."
     And I attach "pork.jpg" to field "menu_item[image]"
+    And I select "Menu Item Status" to "inactive"
     And I click "Create Menu item" button
     Then I should be on the view page for Menu Item "Pork"
     And I should see "25"
     And I should see "Lorem ipsum..."
     And I should see "pork, onions..."
     And I should see the image for Menu Item "Pork"
+    And I should see "inactive"
     And I should see "Menu item was successfully created."
 
   @cloudinary
@@ -57,7 +66,7 @@ Feature: As Admin,
     And I should see "salt"
     Then I should be on the view page for Menu Item "Beef"
 
-  Scenario: Delete exiting MenuItem
+  Scenario: Delete existing MenuItem
     When I click the "delete" link for "Beef"
     Then I should see an index of "Products"
     And I should see "Menu item was successfully destroyed."
@@ -75,3 +84,9 @@ Feature: As Admin,
     And I should see "Lorem ipsum..."
     And I should see "pork, onions..."
 
+  Scenario: Attempt to set MenuItem to 'inactive' status
+    When I click the "edit" link for "Chicken"
+    Then I should be on the edit page for Menu Item "Chicken"
+    And I select "Menu Item Status" to "inactive"
+    And I click "Update Menu item" button
+    Then I should see "Status cannot be inactive since product is included in one or more menus"

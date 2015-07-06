@@ -4,15 +4,16 @@ Feature:
   I would like be able to access an interface for creating, populating, updating and deleting Menus
 
   Background:
-    Given the following Menus exits:
+    Given the following Menus exist:
       | title   | start_date | end_date   |
       | Monday  | 2015-01-01 | 2015-01-05 |
       | Tuesday | 2015-01-02 | 2015-01-11 |
 
-    And the following MenuItems exits:
-      | name    | price |
-      | Chicken | 20    |
-      | Beef    | 30    |
+    And the following MenuItems exist:
+      | name    | price | status |
+      | Chicken | 20    | active |
+      | Beef    | 30    | active |
+      | Pasta   | 10    | inactive |
 
     And I am logged in as admin
     And I am on the "Menus" page
@@ -35,11 +36,11 @@ Feature:
   @javascript
   Scenario: Edit existing menu
     When I click the "edit" link for "Monday"
-    And I fill in "Title" with "Wedensday"
+    And I fill in "Title" with "Wednesday"
     And I select the date "2015-05-08" in datepicker for Menu Start Date
     And I select the date "2015-05-08" in datepicker for Menu End Date
     And I click "Update Menu" button
-    Then I should be on the view page for Menu "Wedensday"
+    Then I should be on the view page for Menu "Wednesday"
     And I should see "Menu was successfully updated"
 
   Scenario: View existing Menu
@@ -48,7 +49,7 @@ Feature:
     And I should see "Monday"
     And I should see "Monday 2015-01-01"
 
-  Scenario: Delete exiting Menu
+  Scenario: Delete existing Menu
     When I click the "delete" link for "Tuesday"
     And I should see "Menu was successfully destroyed."
     And I click the "All" link
@@ -58,10 +59,11 @@ Feature:
  @javascript
  Scenario: Add MenuItem to menu
    When I click the "edit" link for "Monday"
-   And I click "Add New Menu items menu"
+   And I click "Add Item"
+   And I should not be able to select "Pasta"
    And I select "first Menu Item" to "Chicken"
    And I fill in "first Daily stock" with "20"
-   And I click "Add New Menu items menu"
+   And I click "Add Item"
    And I select "second Menu Item" to "Beef"
    And I fill in "second Daily stock" with "10"
    And I click "Update Menu" button
@@ -69,8 +71,8 @@ Feature:
    Then "Beef" should be added as a MenuItem to "Monday"
 
  Scenario: Remove MenuItem from menu
-   Given "Chicken" has been added as an MenuItem to "Monday"
-   And  "Beef" has been added as an MenuItem to "Monday"
+   Given "Chicken" has been added as a MenuItem to "Monday"
+   And  "Beef" has been added as a MenuItem to "Monday"
    And I click the "edit" link for "Monday"
    And I check "first Delete"
    And I click "Update Menu" button

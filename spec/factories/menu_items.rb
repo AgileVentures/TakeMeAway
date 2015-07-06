@@ -5,5 +5,6 @@ FactoryGirl.define do
     description { Faker::Lorem.sentence(3) }
     ingredients { Faker::Lorem.sentence(3) }
     image factory: :file
+    status 'active'
   end
 end

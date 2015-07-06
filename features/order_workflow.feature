@@ -10,12 +10,12 @@ Feature: As an admin
       | Client1 | client@tma.org  | password | false    |
       | Client2 | client2@tma.org | password | false    |
 
-    And the following MenuItems exits:
+    And the following MenuItems exist:
       | id | name    | price |
       | 1  | Chicken | 20    |
       | 2  | Beef    | 30    |
 
-    And the following Orders exits:
+    And the following Orders exist:
       | order[id] | user[user] | order[pickup_time] | order[order_time] | order_items[menu_item_id] |
       | 1         | Client1    | 2015-01-01         | 2015-01-01        | 1                        |
       | 2         | Client2    | 2015-01-02         | 2015-01-02        | 2                        |
