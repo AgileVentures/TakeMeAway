@@ -17,16 +17,16 @@ class Order < ActiveRecord::Base
   scope :pending, lambda { where(status: 'pending') }
   scope :processed, lambda { where(status: 'processed') }
 
-
-  def total
-    if self.order_items.any?
-      @total = 0
-      self.order_items.each {|item| @total += item.menu_item.price.to_f }
-      @total
-    end
-  end
+  before_save :calculate_amount
 
   def set_status(state)
     self.update_attribute(:status, state)
   end
+
+  private
+
+  def calculate_amount
+    self.amount = order_items.reduce(0) { |total, item| total += item.menu_item.price * item.quantity }
+  end
+
 end

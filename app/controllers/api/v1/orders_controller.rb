@@ -33,10 +33,50 @@ class Api::V1::OrdersController < ApiController
     @order = Order.find(params[:id])
   end
 
+  def pay
+    @order = current_user.orders.find(params[:id])
+
+    begin
+      charge = Stripe::Charge.create(
+        :amount => (@order.amount * 100).to_i,
+        :currency => "usd",
+        :source => params[:stripeToken],
+        :description => "Charge for Order ##{@order.id} by #{@order.user.name} ( #{@order.user.email} )",
+        :metadata => {
+          'order_id' => @order.id,
+          'customer_name' => @order.user.name,
+          'customer_email' => @order.user.email
+        },
+        :receipt_email => @order.user.email
+      )
+
+      if charge.status == "succeeded" && charge.paid
+        @order.update(stripe_charge_id: charge.id, status: "processed")
+      else
+        unsuccesful_payment
+      end
+
+    rescue Stripe::CardError => e
+      unsuccesful_payment e
+    rescue Stripe::InvalidRequestError => e
+      unsuccesful_payment e
+    rescue Stripe::AuthenticationError => e
+      raise
+    rescue Stripe::StripeError => e
+      unsuccesful_payment e
+    end
+  end
+
   private
 
   def invalid_request
-    render json: { message: 'Something went wrong', errors: @order.errors },
+    render json: { message: 'Something went wrong.', errors: @order.errors },
+           status: :unprocessable_entity
+  end
+
+  def unsuccesful_payment(error)
+    errors = error.json_body[:error] if error.json_body
+    render json: { message: 'Unsuccesful Payment.', errors: errors },
            status: :unprocessable_entity
   end
 

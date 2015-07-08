@@ -9,4 +9,4 @@ SMTP_ADDRESS: 'smtp.email_service.net'
 
 order_receipt_from_email: 'tma_kitchen@gmail.org'
 
-
+STRIPE_API_KEY: 'sk_test_apikey'
