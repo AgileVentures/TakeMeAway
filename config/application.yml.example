@@ -9,4 +9,5 @@ SMTP_ADDRESS: 'smtp.email_service.net'
 
 order_receipt_from_email: 'tma_kitchen@gmail.org'
 
-
+# Set a fix Timezone to ensure all tests using Timecop pass for everyone
+TZ: 'UTC'
