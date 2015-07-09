@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 20150618181851) do
     t.datetime "fulfillment_time"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.decimal  "amount"
+    t.string   "stripe_charge_id"
   end
 
   create_table "users", force: :cascade do |t|
