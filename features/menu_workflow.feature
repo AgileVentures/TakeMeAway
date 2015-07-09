@@ -5,9 +5,12 @@ Feature:
 
   Background:
     Given the following Menus exist:
-      | title   | start_date | end_date   |
-      | Monday  | 2015-01-01 | 2015-01-05 |
-      | Tuesday | 2015-01-02 | 2015-01-11 |
+      | title    | start_date | end_date   |
+      | Monday   | 2015-01-01 | 2015-01-05 |
+      | Tuesday  | 2015-01-02 | 2015-01-11 |
+      | Thursday | 2015-01-03 | 2015-01-11 |
+      | Friday   | 2015-01-04 | 2015-01-11 |
+      | Saturday | 2015-01-05 | 2015-01-11 |
 
     And the following MenuItems exist:
       | name    | price | status |
@@ -21,7 +24,7 @@ Feature:
 
   Scenario: View index
     Then I should see an index of "Menus"
-    And I should see 2 record rows
+    And I should see 5 record rows
 
   @javascript
   Scenario: Create a menu
@@ -54,7 +57,7 @@ Feature:
     And I should see "Menu was successfully destroyed."
     And I click the "All" link
     Then I should see an index of "Menus"
-    And I should see 1 record rows
+    And I should see 4 record rows
 
  @javascript
  Scenario: Add MenuItem to menu
@@ -77,6 +80,31 @@ Feature:
    And I check "first Delete"
    And I click "Update Menu" button
    Then "Chicken" should not be a MenuItem to "Monday"
+
+ @javascript
+ Scenario: Add conflicting MenuItem to menu
+   Given "Chicken" has been added as a MenuItem to "Thursday"
+   And "Beef" has been added as a MenuItem to "Friday"
+   When I click the "edit" link for "Friday"
+   And I click "Add Item"
+   And I select "first Menu Item" to "Chicken"
+   And I fill in "first Daily stock" with "10"
+   And I click "Update Menu" button
+   Then I should see "Item 'Chicken' is included in overlapping menu 'Thursday'"
+   
+ @javascript
+ Scenario: Add conflicting MenuItem(s) to menu
+    Given "Chicken" has been added as a MenuItem to "Friday"
+    And "Beef" has been added as a MenuItem to "Thursday"
+    When I click the "edit" link for "Saturday"
+    And I click "Add Item"
+    And I select "first Menu Item" to "Chicken"
+    And I fill in "first Daily stock" with "10"
+    And I click "Add Item"
+    And I select "second Menu Item" to "Beef"
+    And I fill in "second Daily stock" with "5"
+    And I click "Update Menu" button
+    Then I should see "Item 'Chicken' is included in overlapping menu 'Friday' and 'Beef' is included in overlapping menu 'Thursday'"
 
 
 
