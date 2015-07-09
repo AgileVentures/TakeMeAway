@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Menu, :type => :model do
+RSpec.describe Menu, type: :model do
   let(:menu) { FactoryGirl.create(:menu) }
 
   describe 'Fixtures' do
@@ -26,7 +26,6 @@ RSpec.describe Menu, :type => :model do
     # Timestamps
     it { is_expected.to have_db_column :created_at }
     it { is_expected.to have_db_column :updated_at }
-
   end
 
   describe 'Validations' do
@@ -37,12 +36,7 @@ RSpec.describe Menu, :type => :model do
 
   describe 'Class methods' do
     before(:each) do
-      # Note: converting date to time in call to Timecop.freeze() in order
-      # to bypass obscure bug related to timezones and assumptions made by
-      # Timecop - see discussion here:
-      # https://github.com/travisjeffery/timecop/issues/100
-      
-      Timecop.freeze(Date.today.at_beginning_of_week.to_time)
+      Timecop.freeze(Time.zone.now.at_beginning_of_week)
       @menu1 = FactoryGirl.create(:menu, start_date: 1.week.ago.to_date)
       @menu2 = FactoryGirl.create(:menu, start_date: 2.weeks.ago.to_date)
       @menu3 = FactoryGirl.create(:menu, start_date: Date.today)
@@ -65,17 +59,17 @@ RSpec.describe Menu, :type => :model do
     end
 
     it 'includes current weeks menus on #this_week' do
-      expect(Menu.this_week).to include @menu3, @menu4
+      expect(Menu.this_week).to include @menu3, @menu4, @menu6
     end
 
     it 'excludes other weeks menus on #this_week' do
       expect(Menu.this_week).to_not include @menu1, @menu2, @menu5
     end
-    
+
     it 'identifies menu_item as included in menu(s)' do
       expect(Menu.item_in_menu?(@menu6.menu_items[0])).to be true
     end
-    
+
     it 'identifies menu_item as not included in menu(s)' do
       expect(Menu.item_in_menu?(@menu_item1)).to be false
     end

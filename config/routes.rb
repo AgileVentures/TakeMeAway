@@ -8,7 +8,11 @@ Rails.application.routes.draw do
       post :sessions, controller: :sessions, action: :get_token
       delete :sessions, controller: :sessions, action: :clear_token
       resources :menus, only: [:show, :index]
-      resources :orders
+      resources :orders do
+        member do
+          post :pay
+        end
+      end
       resources :users, only: [:create]
     end
   end

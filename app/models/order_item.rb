@@ -7,5 +7,4 @@ class OrderItem < ActiveRecord::Base
   validates :menu_item, presence: true
   validates :menu, presence: true
   validates :order, presence: true
-
 end
