@@ -53,6 +53,8 @@ Feature:
     And I should see "Monday 2015-01-01"
 
   Scenario: Delete existing Menu
+    Given "Chicken" has been added as a MenuItem to "Tuesday"
+    And  "Beef" has been added as a MenuItem to "Tuesday"
     When I click the "delete" link for "Tuesday"
     And I should see "Menu was successfully destroyed."
     And I click the "All" link
