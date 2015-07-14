@@ -36,5 +36,45 @@ RSpec.describe MenuItem, type: :model do
       it { is_expected.to validate_inclusion_of(:status).
                           in_array(MenuItem::STATUS) }
     end
+    
+    describe 'validate menu_item destroy' do
+      before(:each) do
+        Timecop.freeze(Time.zone.now.at_beginning_of_week)
+        @old_menu = FactoryGirl.create(:menu_with_item, start_date: 2.weeks.ago.to_date, 
+                                        end_date: 1.week.ago.to_date)
+        @current_menu = FactoryGirl.create(:menu_with_item, start_date: Date.today, 
+                                        end_date: 1.week.from_now)
+        @future_menu = FactoryGirl.create(:menu_with_item, start_date: 1.week.from_now, 
+                                        end_date: 2.weeks.from_now)
+                                        
+        @menu_item = FactoryGirl.create(:menu_item)
+                                        
+        @processed_order = FactoryGirl.create(:order_with_items, status: 'processed')
+        @pending_order   = FactoryGirl.create(:order_with_items, status: 'pending')
+        @canceled_order  = FactoryGirl.create(:order_with_items, status: 'canceled')
+      end
+                
+      it 'can be destroyed if not in current menu' do
+        expect(@old_menu.menu_items[0].can_menu_item_be_destroyed?).to be true
+      end
+      it 'can NOT be destroyed if in current menu' do
+        expect(@current_menu.menu_items[0].can_menu_item_be_destroyed?).to be false
+      end
+      it 'can NOT be destroyed if in future menu' do
+        expect(@future_menu.menu_items[0].can_menu_item_be_destroyed?).to be false
+      end
+      it 'can be destroyed if not in any order' do
+        expect(@menu_item.can_menu_item_be_destroyed?).to be true
+      end
+      it 'can NOT be destroyed if in canceled order' do
+        expect(@canceled_order.menu_items[0].can_menu_item_be_destroyed?).to be false
+      end
+      it 'can NOT be destroyed if in processed order' do
+        expect(@processed_order.menu_items[0].can_menu_item_be_destroyed?).to be false
+      end
+      it 'can NOT be destroyed if in pending order' do
+        expect(@pending_order.menu_items[0].can_menu_item_be_destroyed?).to be false
+      end
+    end
 
 end

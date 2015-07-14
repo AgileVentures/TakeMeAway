@@ -7,11 +7,26 @@ Feature: As Admin,
       | name    | price | description | ingredients | status |
       | Chicken | 20    |             |             | active |
       | Beef    | 30    | tasty       | salt        | active |
+      | Pasta   | 10    | homemade    | wheat       | active |
+      | Ramen   | 25    | spicy       | noodles     | active |
       
     And the following Menus exist:
-      | title   | start_date | end_date   |
-      | Monday  | 2015-01-01 |            |
-      | Tuesday | 2015-01-02 | 2015-01-11 |
+      | id | title   | start_date | end_date   |
+      | 1  | Monday  | 2015-01-01 |            |
+      | 2  | Tuesday | 2015-01-02 | 2015-01-11 |
+      | 3  | Future  | future     | future     |
+      
+    And the following users exist:
+      | name    | email           | password | is_admin |
+      | Admin   | admin@tma.org   | password | true     |
+      | Client1 | client@tma.org  | password | false    |
+      | Client2 | client2@tma.org | password | false    |
+      
+    And the following Orders exist:
+      | order[id] | user[user] | order[status] | menu_item[name] | menu[id] |
+      | 1         | Client1    | processed     | Chicken         | 1        |
+      | 2         | Client2    | pending       | Chicken         | 2        |
+      | 3         | Client1    | canceled      | Pasta           | 2        |
       
     And "Chicken" has been added as a MenuItem to "Monday"
 
@@ -22,7 +37,7 @@ Feature: As Admin,
     Then I should see an index of "Products"
     And I should see "Chicken"
     And I should see "20"
-    And I should see 2 record rows
+    And I should see 4 record rows
 
   @cloudinary
   Scenario: Create a new MenuItem
@@ -70,7 +85,7 @@ Feature: As Admin,
     When I click the "delete" link for "Beef"
     Then I should see an index of "Products"
     And I should see "Menu item was successfully destroyed."
-    And I should see 1 record rows
+    And I should see 3 record rows
 
   Scenario: Update the MenuItem description
     When I click the "edit" link for "Beef"
@@ -90,3 +105,32 @@ Feature: As Admin,
     And I select "Menu Item Status" to "inactive"
     And I click "Update Menu item" button
     Then I should see "Status cannot be inactive since product is included in one or more menus"
+    
+  Scenario: Attempt to delete MenuItem that is in a pending order
+    Given "Beef" has been added as a MenuItem to "Monday"
+    When I click the "delete" link for "Beef"
+    Then I should see "Menu item could not be destroyed."
+    
+  Scenario: Attempt to delete MenuItem that is in a completed order
+    Given "Beef" has been added as a MenuItem to "Monday"
+    And "Beef" has been added to order 1 from Menu "Monday"
+    When I click the "delete" link for "Beef"
+    Then I should see "Menu item could not be destroyed."
+    
+  Scenario: Delete MenuItem that is included in canceled order
+    Given "Beef" has been added as a MenuItem to "Monday"
+    And "Beef" has been added to order 3 from Menu "Monday"
+    When I click the "delete" link for "Beef"
+    Then I should see "Menu item could not be destroyed."
+    
+  Scenario: Attempt to delete MenuItem that is included in a current menu
+    Given "Ramen" has been added as a MenuItem to "Monday"
+    When I click the "delete" link for "Ramen"
+    Then I should see "Menu item could not be destroyed."
+    
+  Scenario: Attempt to delete MenuItem that is included in a future menu
+    Given "Ramen" has been added as a MenuItem to "Future"
+    When I click the "delete" link for "Ramen"
+    Then I should see "Menu item could not be destroyed."
+  
+  

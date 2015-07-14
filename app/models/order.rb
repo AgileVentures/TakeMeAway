@@ -23,6 +23,12 @@ class Order < ActiveRecord::Base
     self.update_attribute(:status, state)
   end
 
+  def self.item_in_order?(item_to_check)
+    # Checks whether the input menu_item is included in any order.
+    return true if item_to_check.orders && item_to_check.orders.count > 0
+    false
+  end
+  
   private
 
   def calculate_amount
