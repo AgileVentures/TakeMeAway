@@ -83,6 +83,9 @@ RSpec.describe Menu, type: :model do
         expect(@menu8.menu_items_menus[0].overlapping_menu).to be nil
       end
     end
+    it 'destroys associated menu_items_menu records on menu delete' do
+      expect{ @menu6.destroy }.to change(MenuItemsMenu, :count).by(-2)
+    end
 
   end
 end

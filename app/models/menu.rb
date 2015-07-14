@@ -1,5 +1,5 @@
 class Menu < ActiveRecord::Base
-  has_many :menu_items_menus, inverse_of: :menu
+  has_many :menu_items_menus, inverse_of: :menu, dependent: :destroy
   # 'inverse_of' allows access to in-memory representation of menu object for
   # validation of menu_items_menu object (before either are saved and hence access
   # via DB is not possible)
