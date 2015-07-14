@@ -42,8 +42,16 @@ RSpec.describe Menu, type: :model do
       @menu3 = FactoryGirl.create(:menu, start_date: Date.today)
       @menu4 = FactoryGirl.create(:menu, start_date: 2.days.from_now)
       @menu5 = FactoryGirl.create(:menu, start_date: 1.week.from_now)
-      @menu6 = FactoryGirl.create(:menu_with_item, start_date: 1.day.from_now)
+      @menu6 = FactoryGirl.create(:menu_with_item, 
+              start_date: 1.day.from_now, end_date: 1.week.from_now)
       @menu_item1 = FactoryGirl.create(:menu_item)
+      @menu7 = FactoryGirl.create(:menu, 
+              start_date: Date.today, end_date: 1.week.from_now)
+      @menu7.menu_items_menus << 
+        MenuItemsMenu.create(menu_item_id: @menu6.menu_items_menus[0].menu_item_id,
+                             daily_stock: @menu6.menu_items_menus[0].daily_stock) 
+      @menu8 = FactoryGirl.create(:menu_with_item, 
+              start_date: 1.day.from_now, end_date: 1.week.from_now)
     end
 
     after(:each) do
@@ -65,5 +73,16 @@ RSpec.describe Menu, type: :model do
     it 'identifies menu_item as not included in menu(s)' do
       expect(Menu.item_in_menu?(@menu_item1)).to be false
     end
+    
+    context 'Checking menu_item overlap in other menu' do
+      it 'confirms menu_item is in an overlapping menu' do
+        expect(@menu7.menu_items_menus[0].overlapping_menu).to_not be nil
+      end
+      
+      it 'confirms menu_item is NOT in an overlapping menu' do
+        expect(@menu8.menu_items_menus[0].overlapping_menu).to be nil
+      end
+    end
+
   end
 end

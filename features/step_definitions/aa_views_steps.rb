@@ -15,5 +15,6 @@ When(/^I click the "([^"]*)" link for "([^"]*)"$/) do |link, item|
     within(tr) do
       find(:link, "#{link.humanize}").click
     end
+    break
   end
 end
