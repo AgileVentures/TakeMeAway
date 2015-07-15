@@ -1,4 +1,7 @@
 class MenuItem < ActiveRecord::Base
+  
+  before_destroy :can_destroy?
+  
   has_many :order_items
   has_many :orders, through: :order_items
   has_many :menu_items_menus
@@ -14,7 +17,6 @@ class MenuItem < ActiveRecord::Base
     MenuItem.where(status: 'active')
   end
     
-    
   validates :name, presence: true
   validates :price, presence: true
   validates :status, presence: true
@@ -28,5 +30,19 @@ class MenuItem < ActiveRecord::Base
       errors[:status] << 'cannot be inactive since product is included in one or more menus'
     end
   end
-
+  
+  def can_menu_item_be_destroyed?
+    not (Menu.item_in_menu?(self) || Order.item_in_order?(self))
+  end
+  
+  private
+  
+  def can_destroy?
+    return true if can_menu_item_be_destroyed?
+    # ActiveAdmin is not displaying errors hash upon attempted delete.  However, we have to
+    # add a record to the hash in order to have the callback cease execution upon returning false
+    errors[:item] << 'Item cannot be destroyed'
+    return false
+  end
+  
 end
