@@ -11,12 +11,19 @@ class Menu < ActiveRecord::Base
   validates :title, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
+  validate  :end_date_not_earlier_than_start_date
+  
+  def end_date_not_earlier_than_start_date
+    if end_date && (end_date < start_date)
+      errors[:end_date] << 'must be not be earlier than start date'
+    end 
+  end
 
-  scope :this_week, -> { where(start_date: Date.today.all_week).order('start_date') }
+  scope :this_week, -> { where("start_date <= ? AND end_date >= ?", 
+                            Date.today.end_of_week, Date.today) }
 
   def self.item_in_menu?(item_to_check)
     # Checks whether the input menu_item is included in any current or future menu.
-
     item_to_check.menus.each do |menu|
       return true if menu.end_date >= Date.today
     end

@@ -32,26 +32,35 @@ RSpec.describe Menu, type: :model do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :start_date }
     it { is_expected.to validate_presence_of :end_date }
+    it 'invalidates end_date earlier than start_date' do
+      expect(FactoryGirl.build(:menu, start_date: Date.today, 
+          end_date: Date.yesterday)).to_not be_valid
+    end
   end
 
   describe 'Class methods' do
     before(:each) do
       Timecop.freeze(Time.zone.now.at_beginning_of_week)
-      @menu1 = FactoryGirl.create(:menu, start_date: 1.week.ago.to_date)
-      @menu2 = FactoryGirl.create(:menu, start_date: 2.weeks.ago.to_date)
-      @menu3 = FactoryGirl.create(:menu, start_date: Date.today)
-      @menu4 = FactoryGirl.create(:menu, start_date: 2.days.from_now)
-      @menu5 = FactoryGirl.create(:menu, start_date: 1.week.from_now)
-      @menu6 = FactoryGirl.create(:menu_with_item, 
-              start_date: 1.day.from_now, end_date: 1.week.from_now)
+      @menu1 = FactoryGirl.create(:menu, start_date: 1.week.ago.to_date,
+                                         end_date: 1.week.ago.end_of_week.to_date)
+      @menu2 = FactoryGirl.create(:menu, start_date: 2.weeks.ago.to_date,
+                                         end_date: 1.week.ago.to_date)
+      @menu3 = FactoryGirl.create(:menu, start_date: Date.today, 
+                                         end_date: Date.today)
+      @menu4 = FactoryGirl.create(:menu, start_date: 2.days.from_now, 
+                                         end_date: 3.days.from_now)
+      @menu5 = FactoryGirl.create(:menu, start_date: 1.week.from_now,
+                                         end_date: 1.week.from_now.end_of_week.to_date)
+      @menu6 = FactoryGirl.create(:menu_with_item, start_date: 1.day.from_now, 
+                                                   end_date: 1.week.from_now)
       @menu_item1 = FactoryGirl.create(:menu_item)
-      @menu7 = FactoryGirl.create(:menu, 
-              start_date: Date.today, end_date: 1.week.from_now)
+      @menu7 = FactoryGirl.create(:menu, start_date: Date.today, 
+                                         end_date: 1.week.from_now)
       @menu7.menu_items_menus << 
         MenuItemsMenu.create(menu_item_id: @menu6.menu_items_menus[0].menu_item_id,
                              daily_stock: @menu6.menu_items_menus[0].daily_stock) 
-      @menu8 = FactoryGirl.create(:menu_with_item, 
-              start_date: 1.day.from_now, end_date: 1.week.from_now)
+      @menu8 = FactoryGirl.create(:menu_with_item, start_date: 1.day.from_now, 
+                                                   end_date: 1.week.from_now)
     end
 
     after(:each) do
