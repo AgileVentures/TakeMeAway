@@ -3,6 +3,18 @@ ActiveAdmin.register MenuItem, as: 'Products' do
   controller do
     helper :menu_item
   end
+  
+  batch_action :destroy, confirm: 'Delete selected items (that can be deleted)?' do |items|
+    delete_count = 0
+    MenuItem.find(items).each do |item|
+      if item.can_menu_item_be_destroyed?
+        delete_count += 1
+        MenuItem.destroy(item)
+      end
+    end
+    flash[:notice] = "Deleted #{delete_count.to_s} #{'product'.pluralize(delete_count)}."
+    redirect_to admin_products_path
+  end
 
   permit_params :name, :price, :description, :ingredients, :image, :status
 
@@ -10,13 +22,19 @@ ActiveAdmin.register MenuItem, as: 'Products' do
   
   index do
     selectable_column
-    #id_column
     column :name
     column :price
-    column :status do |menu_item|
-      status_tag(menu_item.status, menu_item_status_color(menu_item))
+    column :status do |item|
+      status_tag(item.status, menu_item_status_color(item))
     end
-    actions
+    column :actions do |item| 
+      links = link_to I18n.t('active_admin.view'), admin_product_path(item)
+      if item.can_menu_item_be_destroyed?
+        links += link_to "Delete", admin_product_path(item), :method => :delete, 
+                data: {confirm: 'Are you sure?'}
+      end
+      links += link_to I18n.t('active_admin.edit'), edit_admin_product_path(item)
+    end
   end
 
   filter :name

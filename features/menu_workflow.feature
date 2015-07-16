@@ -11,6 +11,8 @@ Feature:
       | Thursday | 2015-01-03 | 2015-01-11 |
       | Friday   | 2015-01-04 | 2015-01-11 |
       | Saturday | 2015-01-05 | 2015-01-11 |
+      | Today    | today      | today      |
+      | Future   | future     | future     |
 
     And the following MenuItems exist:
       | name    | price | status |
@@ -24,7 +26,15 @@ Feature:
 
   Scenario: View index
     Then I should see an index of "Menus"
-    And I should see 5 record rows
+    And I should see 7 record rows
+    
+  Scenario: View index for this week
+    When I click the "Current week" link
+    Then I should see an index of "Menus"
+    And I should see 1 record row
+    And I should see "Today"
+    And I should not see "Monday"
+    And I should not see "Future"
 
   @javascript
   Scenario: Create a menu
@@ -35,6 +45,15 @@ Feature:
     And I click "Create Menu" button
     Then I should be on the view page for Menu "Monday menu"
     And I should see "Menu was successfully created"
+    
+  @javascript
+  Scenario: Attempt to create menu with end_date earlier than start_date
+    When I click the "New Menu" link
+    And I fill in "Title" with "Monday menu"
+    And I select the date "2015-05-08" in datepicker for Menu Start Date
+    And I select the date "2015-05-07" in datepicker for Menu End Date
+    And I click "Create Menu" button
+    Then I should see "End date must be not be earlier than start date"
 
   @javascript
   Scenario: Edit existing menu
@@ -59,7 +78,7 @@ Feature:
     And I should see "Menu was successfully destroyed."
     And I click the "All" link
     Then I should see an index of "Menus"
-    And I should see 4 record rows
+    And I should see 6 record rows
 
  @javascript
  Scenario: Add MenuItem to menu

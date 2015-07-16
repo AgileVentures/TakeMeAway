@@ -14,11 +14,16 @@ Feature: As an admin
       | id | name    | price |
       | 1  | Chicken | 20    |
       | 2  | Beef    | 30    |
+      
+    And the following Menus exist:
+      | id | title   | start_date | end_date   |
+      | 1  | Monday  | 2015-01-01 |            |
+      | 2  | Tuesday | 2015-01-02 | 2015-01-11 |
 
     And the following Orders exist:
-      | order[id] | user[user] | order[pickup_time] | order[order_time] | order_items[menu_item_id] |
-      | 1         | Client1    | 2015-01-01         | 2015-01-01        | 1                        |
-      | 2         | Client2    | 2015-01-02         | 2015-01-02        | 2                        |
+      | order[id] | user[user] | order[pickup_time] | order[order_time] | menu_item[name] | menu[id] |
+      | 1         | Client1    | 2015-01-01         | 2015-01-01        | Monday          | 1        |
+      | 2         | Client2    | 2015-01-02         | 2015-01-02        | Tuesday         | 2        |
 
     And I am logged in as admin
     And I am on the "Orders" page
