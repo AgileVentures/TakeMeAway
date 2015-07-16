@@ -35,6 +35,15 @@ Feature:
     And I click "Create Menu" button
     Then I should be on the view page for Menu "Monday menu"
     And I should see "Menu was successfully created"
+    
+  @javascript
+  Scenario: Attempt to create menu with end_date earlier than start_date
+    When I click the "New Menu" link
+    And I fill in "Title" with "Monday menu"
+    And I select the date "2015-05-08" in datepicker for Menu Start Date
+    And I select the date "2015-05-07" in datepicker for Menu End Date
+    And I click "Create Menu" button
+    Then I should see "End date must be not be earlier than start date"
 
   @javascript
   Scenario: Edit existing menu
