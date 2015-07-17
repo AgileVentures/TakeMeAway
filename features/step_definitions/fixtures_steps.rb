@@ -6,9 +6,12 @@ end
 
 Given(/^the following Menus exist:$/) do |table|
   table.hashes.each do |hash|
-    hash['end_date'] = Date.today if hash['end_date'].empty?
-    hash['start_date'] = 1.week.from_now  if hash['start_date'] == 'future'
-    hash['end_date']   = 2.weeks.from_now if hash['end_date']   == 'future'
+    hash['start_date'] = Date.today if hash['start_date'] == 'today'
+    hash['end_date']   = Date.today if hash['end_date']   == 'today'
+    hash['start_date'] = Date.today.beginning_of_week  if hash['start_date'] == 'this_week'
+    hash['end_date']   = Date.today.end_of_week        if hash['end_date']   == 'this_week'
+    hash['start_date'] = 1.week.from_now  if hash['start_date'] == 'next_week'
+    hash['end_date']   = 2.weeks.from_now if hash['end_date']   == 'next_week'
     Menu.create!(hash)
   end
 end

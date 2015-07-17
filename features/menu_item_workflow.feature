@@ -11,10 +11,10 @@ Feature: As Admin,
       | Ramen   | 25    | spicy       | noodles     | active |
       
     And the following Menus exist:
-      | id | title   | start_date | end_date   |
-      | 1  | Monday  | 2015-01-01 |            |
-      | 2  | Tuesday | 2015-01-02 | 2015-01-11 |
-      | 3  | Future  | future     | future     |
+      | id | title    | start_date | end_date   |
+      | 1  | Monday   | 2015-01-01 | today      |
+      | 2  | Tuesday  | 2015-01-02 | 2015-01-11 |
+      | 3  | NextWeek | next_week  | next_week  |
       
     And the following users exist:
       | name    | email           | password | is_admin |
@@ -117,7 +117,7 @@ Feature: As Admin,
     When I click the "delete" link for "Beef"
     Then I should see "Menu item could not be destroyed."
     
-  Scenario: Delete MenuItem that is included in canceled order
+  Scenario: Attempt to delete MenuItem that is included in canceled order
     Given "Beef" has been added as a MenuItem to "Monday"
     And "Beef" has been added to order 3 from Menu "Monday"
     When I click the "delete" link for "Beef"
@@ -129,7 +129,7 @@ Feature: As Admin,
     Then I should see "Menu item could not be destroyed."
     
   Scenario: Attempt to delete MenuItem that is included in a future menu
-    Given "Ramen" has been added as a MenuItem to "Future"
+    Given "Ramen" has been added as a MenuItem to "NextWeek"
     When I click the "delete" link for "Ramen"
     Then I should see "Menu item could not be destroyed."
   
