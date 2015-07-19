@@ -17,7 +17,7 @@ Feature: As an admin
       
     And the following Menus exist:
       | id | title   | start_date | end_date   |
-      | 1  | Monday  | 2015-01-01 |            |
+      | 1  | Monday  | 2015-01-01 | today      |
       | 2  | Tuesday | 2015-01-02 | 2015-01-11 |
 
     And the following Orders exist:
