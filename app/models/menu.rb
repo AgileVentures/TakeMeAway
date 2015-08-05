@@ -20,8 +20,11 @@ class Menu < ActiveRecord::Base
     end 
   end
  
-  scope :this_week, -> { where("start_date <= ? AND end_date >= ?",                               
+  scope :this_week, -> { where("start_date <= ? AND end_date >= ?",
                           Date.today.end_of_week, Date.today) }
+                          
+  scope :today,     -> { where("start_date <= ? AND end_date >= ?",
+                          Date.today, Date.today).order(:end_date) }                        
                           
   def self.item_in_menu?(item_to_check)
     # Checks whether the input menu_item is included in any current or future menu.

@@ -19,6 +19,8 @@ def path_to(page_name, id = '')
       admin_admins_path
     when 'edit admin'then
       edit_admin_admin_path
+    when 'new order' then
+      new_admin_order_path
     else
       raise('path to specified is not listed in #path_to')
   end

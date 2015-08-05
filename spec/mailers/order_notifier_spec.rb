@@ -53,7 +53,7 @@ RSpec.describe OrderNotifier, :type => :mailer do
     end
 
     it 'should indicate receipt of customer order' do
-      expect(mail).to have_body_text('Order Recieved for Take Me Away')
+      expect(mail).to have_body_text('Order Received for Take Me Away')
     end
 
     it 'should contain customer name and email' do

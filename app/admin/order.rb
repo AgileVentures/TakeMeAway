@@ -5,7 +5,7 @@ ActiveAdmin.register Order do
   end
 
   permit_params :id, :user_id, :status, :order_time, :pickup_time, :fulfillment_time,
-    order_items_attributes: [:id, :menu_item_id, :quantity, :_destroy]
+    order_items_attributes: [:id, :menu_id, :menu_item_id, :quantity, :_destroy]
 
   scope 'Canceled', :canceled
   scope 'Pending', :pending, default: true
@@ -29,20 +29,6 @@ ActiveAdmin.register Order do
     resource.set_status('canceled')
     redirect_to admin_orders_path, notice: 'Canceled order'
   end
-
-  # create_table "orders", force: :cascade do |t|
-  #   t.integer  "user_id"
-  #   t.string   "status"
-  #   t.datetime "order_time"
-  #   t.datetime "pickup_time"
-  #   t.datetime "fulfillment_time"
-  #   t.datetime "created_at",       null: false
-  #   t.datetime "updated_at",       null: false
-  # end
-
-  #permit_params do
-  #  permitted = [:user_id, :status, :order_time, :pickup_time, :fulfillment_time, order_item: [:order_id, :menu_item_id, :quantity]]
-  #end
 
   index do
     selectable_column
@@ -72,13 +58,20 @@ ActiveAdmin.register Order do
       f.input :status, as: :select, collection: Order::STATUS
       f.input :order_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
       f.input :pickup_time, as: :date_time_picker, datepicker_options: {format: 'Y-m-d H:i'}
+      if not Menu.today.empty?
+        f.has_many :order_items, 
+                      heading: 'Items in this order:',
+                      new_record: 'Add Item',
+                      allow_destroy: true do |item_form|
+          item_form.input :menu, collection: Menu.today, include_blank: false
+          item_form.input :menu_item, collection: Menu.today[0].menu_items, 
+                          include_blank: false
+          item_form.input :quantity, as: :number
+        end
+      else
+        render inline: 'There are no menu items available today - add items to menu(s)'
+      end
     end
-
-    f.has_many :order_items, allow_destroy: true do |item_form|
-      item_form.input :menu_item, collection: MenuItem.all
-      item_form.input :quantity, as: :number
-    end
-
     f.actions
   end
 

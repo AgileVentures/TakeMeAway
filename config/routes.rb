@@ -18,4 +18,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'admin/dashboard#index'
+  
+  get 'menu_items/show/:order_item_id/:menu_id' => 'menu_items#show', as: 'menu_items'
+  
 end

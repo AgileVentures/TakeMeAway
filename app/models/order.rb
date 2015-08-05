@@ -1,5 +1,7 @@
 class Order < ActiveRecord::Base
-  has_many :order_items
+  # New order create will validate order_items before the latter are created, hence
+  # we need 'inverse_of' as part of the association (see note re 'inverse_of' in Menu model).
+  has_many :order_items, inverse_of: :order, dependent: :destroy
   has_many :menu_items, through: :order_items
   belongs_to :user
 
@@ -10,7 +12,9 @@ class Order < ActiveRecord::Base
 
   validates_presence_of :user
 
-  validates :pickup_time, date: { after: Proc.new { Time.now }, message: '%{value} didn\'t pass validation'}
+  validates :pickup_time, date: { after: Proc.new { Time.now }, 
+      message: 'Pickup time must be later than current time'}
+      
   validates :status, inclusion: Order::STATUS
 
   scope :canceled, lambda { where(status: 'canceled') }
