@@ -92,6 +92,20 @@ RSpec.describe Menu, type: :model do
         expect(@menu8.menu_items_menus[0].overlapping_menu).to be nil
       end
     end
+    context 'Checking scopes' do
+      it '#this_week includes correct menus for this week' do
+        expect(Menu.this_week).to include @menu3, @menu4, @menu6, @menu7, @menu8
+      end
+      it '#this_week excludes menus not active this week' do
+        expect(Menu.this_week).to_not include @menu1, @menu2, @menu5
+      end
+      it '#today includes menus active today' do
+        expect(Menu.today).to include @menu3, @menu7
+      end
+      it '#today excludes menus not active today' do
+        expect(Menu.today).to_not include @menu1, @menu2, @menu4, @menu5, @menu6, @menu8
+      end
+    end
     it 'destroys associated menu_items_menu records on menu delete' do
       expect{ @menu6.destroy }.to change(MenuItemsMenu, :count).by(-2)
     end

@@ -12,6 +12,10 @@ When(/^I fill in "([^"]*)" with "([^"]*)"$/) do |field, value|
       select_field = 'menu_menu_items_menus_attributes_0_daily_stock'
     when 'second Daily stock' then
       select_field = 'menu_menu_items_menus_attributes_1_daily_stock'
+    when 'first Order Item quantity'
+      select_field = 'order_order_items_attributes_0_quantity'
+    when 'second Order Item quantity'
+      select_field = 'order_order_items_attributes_1_quantity'
     else
       select_field = field
   end
@@ -52,9 +56,9 @@ end
 
 Then /^I should( not)? (?:see|be able to select) "([^"]*)"$/ do |negative, string|
   unless negative
-    expect(page).to have_text string
+    expect(page.body).to have_text string
   else
-    expect(page).to_not have_text string
+    expect(page.body).to_not have_text string
   end
 end
 
@@ -66,7 +70,7 @@ Then /^I should( not)? see link "([^"]*)"$/ do |negative, link|
   end
 end
 
-And(/^I select the date "([^"]*)" in datepicker for ([^"]*)$/) do |date, element|
+And(/^I select the (?:date|time) "([^"]*)" in datepicker for ([^"]*)$/) do |date, element|
   id = element.downcase.tr!(' ', '_')
   page.execute_script "$('input##{id}').val('#{date}');"
 end
@@ -83,6 +87,16 @@ When(/^I select "([^"]*)" to "([^"]*)"$/) do |field, option|
       id = 'menu_menu_items_menus_attributes_1_menu_item_id'
     when 'Menu Item Status' then
       id = 'menu_item_status'
+    when 'Client' then
+      id = 'order_user_id'
+    when 'first Order Menu'
+      id = 'order_order_items_attributes_0_menu_id'
+    when 'first Order Item'
+      id = 'order_order_items_attributes_0_menu_item_id'
+    when 'second Order Menu'
+      id = 'order_order_items_attributes_1_menu_id'
+    when 'second Order Item'
+      id = 'order_order_items_attributes_1_menu_item_id'
   end
   find(:select, id).find(:option, option).select_option
 end
