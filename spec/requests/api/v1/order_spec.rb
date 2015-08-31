@@ -67,11 +67,11 @@ describe Api::V1::OrdersController do
                                             'price' => menu_item.price.to_f }])
       end
 
-      it 'decrements MenuItemMenu by quantity after creating the order' do
+      it 'increments MenuItemMenu quantity_sold after creating the order' do
         post '/v1/orders', params.to_json
 
         menu_item_instance = menu.menu_items_menus.find_by(menu_item_id: menu_item.id)
-        expect(menu_item_instance.daily_stock).to eq 19
+        expect(menu_item_instance.quantity_sold).to eq 1
       end
 
       it 'send notification emails to kitchen and to customer' do

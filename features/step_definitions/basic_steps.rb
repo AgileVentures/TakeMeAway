@@ -72,6 +72,7 @@ end
 
 And(/^I select the (?:date|time) "([^"]*)" in datepicker for ([^"]*)$/) do |date, element|
   id = element.downcase.tr!(' ', '_')
+  date = date.sub('tomorrow', "#{Date.tomorrow}")
   page.execute_script "$('input##{id}').val('#{date}');"
 end
 
