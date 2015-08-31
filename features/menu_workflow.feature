@@ -12,6 +12,7 @@ Feature:
       | Friday   | 2015-01-04 | 2015-01-11 |
       | Saturday | 2015-01-05 | 2015-01-11 |
       | Today    | today      | today      |
+      | Today2   | today2     | today2     |
       | ThisWeek | this_week  | this_week  |
       | NextWeek | next_week  | next_week  |
 
@@ -27,12 +28,12 @@ Feature:
 
   Scenario: View index
     Then I should see an index of "Menus"
-    And I should see 8 record rows
+    And I should see 9 record rows
     
   Scenario: View index for this week
     When I click the "Current week" link
     Then I should see an index of "Menus"
-    And I should see 2 record rows
+    And I should see 3 record rows
     And I should see "Today"
     And I should see "ThisWeek"
     And I should not see "Monday"
@@ -80,7 +81,7 @@ Feature:
     And I should see "Menu was successfully destroyed."
     And I click the "All" link
     Then I should see an index of "Menus"
-    And I should see 7 record rows
+    And I should see 8 record rows
 
  @javascript
  Scenario: Add MenuItem to menu
@@ -106,20 +107,20 @@ Feature:
 
  @javascript
  Scenario: Add conflicting MenuItem to menu
-   Given "Chicken" has been added as a MenuItem to "Thursday"
-   And "Beef" has been added as a MenuItem to "Friday"
-   When I click the "edit" link for "Friday"
+   Given "Chicken" has been added as a MenuItem to "Today"
+   And "Beef" has been added as a MenuItem to "Today2"
+   When I click the "edit" link for "Today2"
    And I click "Add Item"
    And I select "first Menu Item" to "Chicken"
    And I fill in "first Daily stock" with "10"
    And I click "Update Menu" button
-   Then I should see "Item 'Chicken' is included in overlapping menu 'Thursday'"
+   Then I should see "Item 'Chicken' is included in overlapping menu 'Today'"
    
  @javascript
  Scenario: Add conflicting MenuItem(s) to menu
-    Given "Chicken" has been added as a MenuItem to "Friday"
-    And "Beef" has been added as a MenuItem to "Thursday"
-    When I click the "edit" link for "Saturday"
+    Given "Chicken" has been added as a MenuItem to "Today"
+    And "Beef" has been added as a MenuItem to "Today2"
+    When I click the "edit" link for "ThisWeek"
     And I click "Add Item"
     And I select "first Menu Item" to "Chicken"
     And I fill in "first Daily stock" with "10"
@@ -127,7 +128,7 @@ Feature:
     And I select "second Menu Item" to "Beef"
     And I fill in "second Daily stock" with "5"
     And I click "Update Menu" button
-    Then I should see "Item 'Chicken' is included in overlapping menu 'Friday' and 'Beef' is included in overlapping menu 'Thursday'"
+    Then I should see "Item 'Chicken' is included in overlapping menu 'Today' and 'Beef' is included in overlapping menu 'Today2'"
 
 
 

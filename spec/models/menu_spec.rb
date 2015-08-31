@@ -16,6 +16,7 @@ RSpec.describe Menu, type: :model do
     it 'join table should have unique index' do
       ActiveRecord::Migration.index_exists?(:menu_items_menus, [:menu_id, :menu_item_id], unique: true)
     end
+    it { should accept_nested_attributes_for(:menu_items_menus) }
   end
 
   describe 'Database schema' do
@@ -36,6 +37,18 @@ RSpec.describe Menu, type: :model do
       expect(FactoryGirl.build(:menu, start_date: Date.today, 
                                end_date: Date.yesterday)).to_not be_valid
     end
+    it 'invalidates same menu_item included in overlapping menus' do
+      item = FactoryGirl.create(:menu_item)
+      menu1 = FactoryGirl.build(:menu, start_date: Date.today, end_date: Date.tomorrow)
+      menu1.menu_items_menus << FactoryGirl.build(:menu_items_menu, 
+                                  menu_item: item, daily_stock: 1)
+      menu1.save!
+      expect(menu1).to be_valid
+      menu2 = FactoryGirl.build(:menu, start_date: Date.today, end_date: Date.tomorrow)
+      menu2.menu_items_menus << FactoryGirl.build(:menu_items_menu, 
+                                  menu_item_id: item.id, daily_stock: 1)
+      expect(menu2).to_not be_valid
+    end
   end
 
   describe 'Class methods' do
@@ -51,16 +64,21 @@ RSpec.describe Menu, type: :model do
                                          end_date: 3.days.from_now)
       @menu5 = FactoryGirl.create(:menu, start_date: 1.week.from_now,
                                          end_date: 1.week.from_now.end_of_week.to_date)
-      @menu6 = FactoryGirl.create(:menu_with_item, start_date: 1.day.from_now, 
-                                                   end_date: 1.week.from_now)
+      @menu6 = FactoryGirl.create(:menu, start_date: 1.day.from_now, 
+                                         end_date: 1.week.from_now)
+      @menu6.menu_items_menus << FactoryGirl.create(:menu_items_menu, menu: @menu6)
+      @menu6.menu_items_menus << FactoryGirl.create(:menu_items_menu, menu: @menu6)
+      
       @menu_item1 = FactoryGirl.create(:menu_item)
       @menu7 = FactoryGirl.create(:menu, start_date: Date.today, 
                                          end_date: 1.week.from_now)
       @menu7.menu_items_menus << 
         MenuItemsMenu.create(menu_item_id: @menu6.menu_items_menus[0].menu_item_id,
                              daily_stock: @menu6.menu_items_menus[0].daily_stock) 
-      @menu8 = FactoryGirl.create(:menu_with_item, start_date: 1.day.from_now, 
-                                                   end_date: 1.week.from_now)
+                             
+      @menu8 = FactoryGirl.create(:menu, start_date: 1.day.from_now, 
+                                         end_date: 1.week.from_now)
+      @menu8.menu_items_menus << FactoryGirl.create(:menu_items_menu, menu: @menu8)
     end
 
     after(:each) do
@@ -83,6 +101,10 @@ RSpec.describe Menu, type: :model do
       expect(Menu.item_in_menu?(@menu_item1)).to be false
     end
     
+    it 'destroys associated menu_items_menu records on menu delete' do
+      expect{ @menu6.destroy }.to change(MenuItemsMenu, :count).by(-2)
+    end
+    
     context 'Checking menu_item overlap in other menu' do
       it 'confirms menu_item is in an overlapping menu' do
         expect(@menu7.menu_items_menus[0].overlapping_menu).to_not be nil
@@ -92,6 +114,7 @@ RSpec.describe Menu, type: :model do
         expect(@menu8.menu_items_menus[0].overlapping_menu).to be nil
       end
     end
+    
     context 'Checking scopes' do
       it '#this_week includes correct menus for this week' do
         expect(Menu.this_week).to include @menu3, @menu4, @menu6, @menu7, @menu8
@@ -106,9 +129,5 @@ RSpec.describe Menu, type: :model do
         expect(Menu.today).to_not include @menu1, @menu2, @menu4, @menu5, @menu6, @menu8
       end
     end
-    it 'destroys associated menu_items_menu records on menu delete' do
-      expect{ @menu6.destroy }.to change(MenuItemsMenu, :count).by(-2)
-    end
-
   end
 end

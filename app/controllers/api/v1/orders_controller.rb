@@ -102,23 +102,23 @@ class Api::V1::OrdersController < ApiController
     @order.order_items.build(menu: Menu.find(menu_id),
                              menu_item: MenuItem.find(menu_item_id),
                              quantity: qty)
-    stock_service(menu_id, menu_item_id, -qty)
+    adjust_item_quantity_sold(menu_id, menu_item_id, qty)
   end
 
   def purge_order_items
     @order.order_items.each do |item|
-      stock_service(item.menu_id, item.menu_item_id, item.quantity)
+      adjust_item_quantity_sold(item.menu_id, item.menu_item_id, -item.quantity)
     end
     @order.order_items.delete_all
   end
 
-  def stock_service(menu_id, menu_item_id, qty)
+  def adjust_item_quantity_sold(menu_id, menu_item_id, qty)
     menu_item = MenuItem.find(menu_item_id)
     resource = menu_item.menus.find(menu_id).menu_items_menus.find_by(menu_item_id: menu_item_id)
     if qty < 0
-      StockInventory.decrement_inventory(resource, -qty)
+      StockInventory.decrement_sold(resource, -qty)
     else
-      StockInventory.increment_inventory(resource, qty)
+      StockInventory.increment_sold(resource, qty)
     end
   end
 

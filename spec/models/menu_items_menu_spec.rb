@@ -11,6 +11,8 @@ RSpec.describe MenuItemsMenu, type: :model do
     it { is_expected.to have_db_column :menu_id }
     it { is_expected.to have_db_column :menu_item_id }
     it { is_expected.to have_db_column :daily_stock }
+    it { is_expected.to have_db_column :quantity_sold }
+    it { is_expected.to have_db_column :quantity_sold_date }
   end
 
   describe 'Validations' do
@@ -24,30 +26,41 @@ RSpec.describe MenuItemsMenu, type: :model do
     let(:menu_item) { FactoryGirl.create(:menu_item) }
 
     before(:each) do
-      menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 20)
+      menu.menu_items_menus.create(menu_item: menu_item, daily_stock: 2)
       @menu_item_instance = menu.menu_items_menus.first
+      @menu_item_instance.increment_quantity_sold(1)
     end
 
-    describe '#decrement_stock' do
-      it 'reduces daily stock' do
-        expect{@menu_item_instance.decrement_stock(1)}.to change{@menu_item_instance.daily_stock}.from(20).to(19)
+    describe '#increment_quantity_sold' do
+      it 'increases quantity sold today' do
+        expect{@menu_item_instance.increment_quantity_sold(1)}.
+              to change{@menu_item_instance.quantity_sold}.by(1)
       end
     end
 
-    describe '#increment_stock' do
-      it 'increases daily stock' do
-        expect{@menu_item_instance.increment_stock(1)}.to change{@menu_item_instance.daily_stock}.by(1)
+    describe '#decrement_quantity_sold' do
+      it 'decreases quantity sold today' do
+        expect{@menu_item_instance.decrement_quantity_sold(1)}.
+              to change{@menu_item_instance.quantity_sold}.by(-1)
       end
     end
 
     describe '#active?' do
-      it 'returns true if positive stock' do
+      it 'returns true if qty sold < daily_stock' do
         expect(@menu_item_instance.active?).to be_truthy
       end
 
-      it 'returns true if 0 stock' do
-        @menu_item_instance.decrement_stock(20)
+      it 'returns false if qty sold >= daily_stock' do
+        @menu_item_instance.increment_quantity_sold(1)
+        expect(@menu_item_instance.quantity_sold).to eq @menu_item_instance.daily_stock
         expect(@menu_item_instance.active?).to_not be_truthy
+      end
+      it 'sets inactive item to active on next day' do
+        @menu_item_instance.increment_quantity_sold(1)
+        expect(@menu_item_instance.active?).to_not be_truthy
+        Timecop.freeze(Time.zone.tomorrow)
+        expect(@menu_item_instance.active?).to be_truthy
+        Timecop.return
       end
     end
   end
