@@ -81,8 +81,8 @@ Feature: As an admin
     When I click the "New Order" link
     Then I should be on the "New Order" page
     And I select "Client" to "Client1"
-    And I select the time "2015-08-20 10:00" in datepicker for Order Order Time
-    And I select the time "2015-08-20 13:00" in datepicker for Order Pickup Time
+    And I select the time "tomorrow 10:00" in datepicker for Order Order Time
+    And I select the time "tomorrow 13:00" in datepicker for Order Pickup Time
     Then I click "Add Item"
     And I should not be able to select "NextWeek"
     And I should be able to select "Today"
