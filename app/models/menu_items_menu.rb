@@ -34,8 +34,10 @@ class MenuItemsMenu < ActiveRecord::Base
     
     self.menu_item.menus.each do |other_menu|
       next if this_menu.id && this_menu.id == other_menu.id
+      # Check if other_menu overlaps this_menu and is not ended
       if this_menu.start_date <= other_menu.end_date && 
-         this_menu.end_date   >= other_menu.start_date
+         this_menu.end_date   >= other_menu.start_date &&
+         other_menu.end_date >= Date.today
         overlap_count += 1
         overlap += (overlap.empty? ? "'#{other_menu.title}'" : ", '#{other_menu.title}'")
       end
