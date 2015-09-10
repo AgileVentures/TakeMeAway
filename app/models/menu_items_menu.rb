@@ -61,5 +61,23 @@ class MenuItemsMenu < ActiveRecord::Base
     end
     nil
   end
-  
+
+  def decrement_quantity_sold(qty)
+    self.decrement!(:quantity_sold, qty)
+  end
+
+  def increment_quantity_sold(qty)
+    self.increment!(:quantity_sold, qty)
+  end
+
+  def active?
+    # If this is the first time today that this menu_items_menu is to be included in a menu,
+    # reset quantity_sold (for today) to zero
+    if self.quantity_sold_date != (date_today = Date.today)
+      self.quantity_sold = 0
+      self.quantity_sold_date = date_today
+    end
+    # 'daily_stock' is the maximum quantity of the item that can sold on any given day.
+    self.quantity_sold < self.daily_stock
+  end
 end
