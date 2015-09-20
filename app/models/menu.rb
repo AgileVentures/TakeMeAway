@@ -13,11 +13,23 @@ class Menu < ActiveRecord::Base
   validates :end_date, presence: true
   
   validate  :end_date_not_earlier_than_start_date
+  validate  :items_not_in_overlapping_menu
   
   def end_date_not_earlier_than_start_date
     if end_date && (end_date < start_date)
       errors[:end_date] << 'must be not be earlier than start date'
     end 
+  end
+  
+  validate  :items_not_in_overlapping_menu
+  def items_not_in_overlapping_menu
+    if self.menu_items_menus
+      self.menu_items_menus.each do |mim|
+        if (not mim.marked_for_destruction?) && (err_msg = mim.overlapping_menu)
+          errors[:item] << err_msg
+        end
+      end
+    end
   end
  
   scope :this_week, -> { where("start_date <= ? AND end_date >= ?",
